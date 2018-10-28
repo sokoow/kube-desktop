@@ -1,0 +1,35 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: firefox-kube
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: firefox-kube
+    spec:
+      containers:
+      - name: firefox-kube
+        image: firefox:kube-edition
+        env:
+         - name: DISPLAY
+           value: "unixXDISP"
+        imagePullPolicy: Never
+        volumeMounts:
+           - name: firefox-data
+             mountPath: /home/firefox
+           - name: xauthority
+             mountPath: /home/firefox/.Xauthority
+           - name: x11unix-dir
+             mountPath: /tmp/.X11-unix
+      volumes:
+       - name: firefox-data
+         hostPath:
+          path: /home/USER/.kube-volumes/firefox
+       - name: xauthority
+         hostPath:
+          path: /home/USER/.Xauthority
+       - name: x11unix-dir
+         hostPath:
+          path: /tmp/.X11-unix

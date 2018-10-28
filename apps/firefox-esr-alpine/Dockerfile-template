@@ -1,0 +1,12 @@
+FROM alpine:3.8
+RUN apk add firefox-esr
+
+RUN addgroup -g MY_GID -S firefox && adduser -u MY_UID -S -G firefox firefox
+ADD scripts/start-firefox.sh /opt/
+RUN chmod +x /opt/start-firefox.sh
+RUN chown firefox: /home/firefox
+RUN MACHINE_ID=$(tr -dc 'a-f0-9' < /dev/urandom | dd bs=1 count=32 2>/dev/null) && echo "$MACHINE_ID" > /etc/machine-id
+
+USER firefox
+WORKDIR /home/firefox
+ENTRYPOINT /opt/start-firefox.sh

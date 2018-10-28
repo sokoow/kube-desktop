@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ubuntu-test
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ubuntu-test
+    spec:
+      containers:
+      - name: ubuntu
+        image: ubuntu:16.04
+        imagePullPolicy: Always
+        command: [ "/bin/sleep" ]
+        args: [ "3600" ]
+        ports:
+        - containerPort: 22
