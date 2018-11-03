@@ -1,0 +1,31 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: drone-agent
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: drone-agent
+    spec:
+      containers:
+      - name: drone-agent
+        image: drone/agent:0.8.5
+        env:
+        - name: DRONE_SERVER
+          # this server value may be different depending on how you set up your kubernetes
+          # cluster.  Also if you put it in a different namespace you would use that instead of
+          # 'default'.
+          value: "drone-svc:9000"
+        - name: DRONE_SECRET
+          value: "bazinga"
+        volumeMounts:
+        - mountPath: /var/run/docker.sock
+          name: docker-sock
+        ports:
+        - containerPort: 8000
+      volumes:
+        - name: docker-sock
+          hostPath:
+            path: /var/run/docker.sock

@@ -1,0 +1,34 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: gogs
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: gogs
+    spec:
+      containers:
+      - name: gogs
+        image: gogs/gogs
+        env:
+          - name: SOCAT_LINK
+            value: "false"
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3000
+        - containerPort: 2222
+        volumeMounts:
+           - name: gogs-custom
+             mountPath: /data
+           - name: gogs-sshd
+             mountPath: /app/gogs/docker/sshd_config
+             subPath: sshd_config
+      volumes:
+       - name: gogs-custom
+         hostPath:
+          path: /home/USER/.kube-volumes/gogs
+       - name: gogs-sshd
+         configMap:
+            name: gogs-sshdconfig

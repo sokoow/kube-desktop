@@ -1,0 +1,30 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: registry
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: registry
+    spec:
+      containers:
+      - name: registry
+        image: registry:2
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5000
+        volumeMounts:
+        - mountPath: /certs
+          name: certs
+        - mountPath: /etc/docker/registry/config.yml
+          name: registry-config
+          subPath: config.yml
+      volumes:
+      - name: certs
+        hostPath:
+          path: /home/USER/.kube-volumes/registry/certs
+      - name: registry-config
+        configMap:
+          name: registry-config

@@ -1,0 +1,40 @@
+workspace:
+  base: /go/src
+  path: git.mykube.awesome/gitadmin/example-golang-app
+
+pipeline:
+  backend:
+    image: golang:1.11.1
+    commands:
+      - apt-get install curl -y
+      - curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+      - dep ensure
+      - go build
+      - sed -i "s/RELEASE/${DRONE_BUILD_NUMBER}/" ./example-deployment/deployment.yaml
+
+  publish_docker:
+     image: plugins/docker
+     repo: gitadmin/example-golang-app
+     registry: registry:5000
+     secrets: [ docker_username, docker_password ]
+     tags: [ "${DRONE_BUILD_NUMBER}", latest ]
+
+  get_pods:
+    image: sokoow/drone-kubectl-helm-clientcert
+    secrets: [ kubernetes_server, kubernetes_ca_cert, kubernetes_client_cert, kubernetes_client_key ]
+    kubectl: "get pods"
+
+  deploy_puczat:
+    image: sokoow/drone-kubectl-helm-clientcert
+    secrets: [ kubernetes_server, kubernetes_ca_cert, kubernetes_client_cert, kubernetes_client_key ]
+    kubectl: "apply -f deploy/oppanel-backend-deployment.yaml"
+
+  deploy_ingress:
+    image: sokoow/drone-kubectl-helm-clientcert
+    secrets: [ kubernetes_server, kubernetes_ca_cert, kubernetes_client_cert, kubernetes_client_key ]
+    kubectl: "apply -f deploy/oppanel-backend-service.yaml"
+
+  get_pods:
+    image: sokoow/drone-kubectl-helm-clientcert
+    secrets: [ kubernetes_server, kubernetes_ca_cert, kubernetes_client_cert, kubernetes_client_key ]
+    kubectl: "get pods"

@@ -1,0 +1,14 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: registry
+spec:
+  rules:
+  - host: registry.mykube.awesome
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: registry-svc
+          servicePort: 5000

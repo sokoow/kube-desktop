@@ -1,0 +1,44 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: drone
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: drone
+    spec:
+      containers:
+      - name: drone
+        image: drone/drone:0.8.5
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8000
+        env:
+          - name: DRONE_OPEN
+            value: "true"
+          - name: DRONE_GOGS
+            value: "true"
+          - name: DRONE_GOGS_URL
+            value: "http://gogs-svc.default:3000"
+          - name: DRONE_DATABASE_DRIVER
+            value: "postgres"
+          - name: "DRONE_HOST"
+            value: "http://drone.mykube.awesome"
+          - name: DRONE_DATABASE_DATASOURCE
+            value: "postgres://drone:drone@db-postgresql:5432/drone?sslmode=disable"
+          - name: DRONE_SECRET
+            value: "bazinga"
+        volumeMounts:
+        - mountPath: /var/lib/drone
+          name: drone-lib
+        - mountPath: /var/run/docker.sock
+          name: docker-sock
+      volumes:
+      - name: drone-lib
+        hostPath:
+          path: /home/USER/.kube-volumes/drone
+      - name: docker-sock
+        hostPath:
+          path: /var/run/docker.sock

@@ -1,0 +1,164 @@
+## Set default image, imageTag, and imagePullPolicy. mode is used to indicate the
+##
+image:
+  repository: minio/minio
+  tag: RELEASE.2018-10-18T00-28-58Z
+  pullPolicy: IfNotPresent
+
+## Set default image, imageTag, and imagePullPolicy for the `mc` (the minio
+## client used to create a default bucket).
+##
+mcImage:
+  repository: minio/mc
+  tag: RELEASE.2018-10-18T00-40-05Z
+  pullPolicy: IfNotPresent
+
+## minio server mode, i.e. standalone or distributed.
+## Distributed Minio ref: https://docs.minio.io/docs/distributed-minio-quickstart-guide
+##
+mode: standalone
+
+## Set default accesskey, secretkey, Minio config file path, volume mount path and
+## number of nodes (only used for Minio distributed mode)
+## Distributed Minio ref: https://docs.minio.io/docs/distributed-minio-quickstart-guide
+##
+accessKey: "AKIATHISISFORDEVEL"
+secretKey: "omgHOWsecretTHISis"
+configPath: "/root/.minio/"
+mountPath: "/export"
+replicas: 1
+
+service:
+  type: ClusterIP
+  clusterIP: ~
+  port: 9000
+  annotations: {}
+
+ingress:
+  enabled: true
+  annotations: {}
+  path: /
+  hosts:
+    - minio.mykube.awesome
+  tls: []
+
+## Liveness and Readiness probe values.
+## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
+livenessProbe:
+  initialDelaySeconds: 5
+  periodSeconds: 30
+  timeoutSeconds: 1
+  successThreshold: 1
+  failureThreshold: 3
+readinessProbe:
+  initialDelaySeconds: 5
+  periodSeconds: 15
+  timeoutSeconds: 1
+  successThreshold: 1
+  failureThreshold: 3
+
+## Create a bucket after minio install
+##
+defaultBucket:
+  enabled: true
+  ## If enabled, must be a string with length > 0
+  buckets:
+   - name: devbucket
+     ## Can be one of none|download|upload|public
+     policy: upload
+     ## Purge if bucket exists already
+     purge: true
+   - name: registry
+     ## Can be one of none|download|upload|public
+     policy: upload
+     ## Purge if bucket exists already
+     purge: true
+
+minioConfig:
+  region: "us-east-1"
+  browser: "on"
+  domain: ""
+  worm: "off"
+  storageClass:
+    standardStorageClass: ""
+    reducedRedundancyStorageClass: ""
+  cache:
+    drives: []
+    expiry: 90
+    maxuse: 80
+    exclude: []
+  aqmp:
+    enable: false
+    url: ""
+    exchange: ""
+    routingKey: ""
+    exchangeType: ""
+    deliveryMode: 0
+    mandatory: false
+    immediate: false
+    durable: false
+    internal: false
+    noWait: false
+    autoDeleted: false
+  nats:
+    enable: false
+    address: ""
+    subject: ""
+    username: ""
+    password: ""
+    token: ""
+    secure: false
+    pingInterval: 0
+    enableStreaming: false
+    clusterID: ""
+    clientID: ""
+    async: false
+    maxPubAcksInflight: 0
+  elasticsearch:
+    enable: false
+    format: "namespace"
+    url: ""
+    index: ""
+  redis:
+    enable: false
+    format: "namespace"
+    address: ""
+    password: ""
+    key: ""
+  postgresql:
+    enable: false
+    format: "namespace"
+    connectionString: ""
+    table: ""
+    host: ""
+    port: ""
+    user: ""
+    password: ""
+    database: ""
+  kafka:
+    enable: false
+    brokers: "null"
+    topic: ""
+  webhook:
+    enable: false
+    endpoint: ""
+  mysql:
+    enable: false
+    format: "namespace"
+    dsnString: ""
+    table: ""
+    host: ""
+    port: ""
+    user: ""
+    password: ""
+    database: ""
+  mqtt:
+    enable: false
+    broker: ""
+    topic: ""
+    qos: 0
+    clientId: ""
+    username: ""
+    password: ""
+    reconnectInterval: 0
+    keepAliveInterval: 0

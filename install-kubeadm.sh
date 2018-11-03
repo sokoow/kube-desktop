@@ -1,13 +1,21 @@
 #!/bin/bash
 
-# add a repo
+DISTRO_CODENAME=$(cat /etc/lsb-release | grep DISTRIB_CODENAME | cut -f2 -d"=")
+
+# hack for Mint 18
+if [ $DISTRO_CODENAME == "sonya" ]
+then
+  DISTRO_CODENAME="xenial"
+fi
+
+# add kube repo
 if [ ! -f /etc/apt/sources.list.d/kubernetes.list ]
 then
-  apt-get update && apt-get install -y apt-transport-https curl
-  curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
-  echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" > /etc/apt/sources.list.d/kubernetes.list
-  apt-get update
-  apt-get install -y kubelet kubeadm kubectl
+  sudo apt-get update && apt-get install -y apt-transport-https curl jq
+  sudo curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+  sudo echo "deb https://apt.kubernetes.io/ kubernetes-$DISTRO_CODENAME main" > /etc/apt/sources.list.d/kubernetes.list
+  sudo apt-get update
+  sudo apt-get install -y kubelet kubeadm kubectl
 fi
 
 # not needed yet
@@ -54,9 +62,15 @@ kubectl apply -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/
 kubectl taint nodes --all node-role.kubernetes.io/master-
 
 
+# install heapster
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/heapster/master/deploy/kube-config/standalone/heapster-controller.yaml
+
 # install traefik
 kubectl apply -f https://raw.githubusercontent.com/containous/traefik/master/examples/k8s/traefik-rbac.yaml
-kubectl apply -f https://raw.githubusercontent.com/containous/traefik/master/examples/k8s/traefik-ds.yaml
+
+wget https://raw.githubusercontent.com/containous/traefik/master/examples/k8s/traefik-ds.yaml -O /tmp/traefik-ds.yaml
+sed -i '/serviceAccountName/a\ \ \ \ \ \ hostNetwork: true' /tmp/traefik-ds.yaml
+kubectl apply -f /tmp/traefik-ds.yaml
 
 # patch traefik service to listen on nodeport 30000
 kubectl apply -f service/traefik-svc.yaml

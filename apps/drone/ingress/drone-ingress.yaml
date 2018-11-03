@@ -1,0 +1,14 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: drone
+spec:
+  rules:
+  - host: drone.mykube.awesome
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: drone-svc
+          servicePort: 8000

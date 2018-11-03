@@ -33,11 +33,11 @@ To launch semi-working version of Firefox on kube, go to apps directory.
 
 ### Launch a kube dashboard ?
 
-Traefik reverse proxy listens on a NodePort 30000/TCP in non-tls fashion, and ingress is being created to it at the script start (see **ingress** directory), so if all installed correctly, you just need to open up: ```http://dashboard.mykube.awesome:30000/```
+Traefik reverse proxy listens on a NodePort 30000/TCP in non-tls fashion, and ingress is being created to it at the script start (see **ingress** directory), so if all installed correctly, you just need to open up: ```http://dashboard.mykube.awesome/```
 
 ### Traefik dashboard ?
 
-NodePort 30001/TCP non-tls, so: ```http://localhost:30001/```
+NodePort 30001/TCP non-tls, or: ```http://traefik.mykube.awesome/```
 
 ### Deploy my own app ?
 

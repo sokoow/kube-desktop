@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: registry-config
+  namespace: default
+data:
+  config.yml: |
+    version: 0.1
+    log:
+      level: debug
+      formatter: text
+      fields:
+        service: registry
+        environment: staging
+    loglevel: debug
+    storage:
+      s3:
+        accesskey: AKIATHISISFORDEVEL
+        secretkey: omgHOWsecretTHISis
+        region: us-east-1
+        regionendpoint: http://minio:9000
+        # Make sure you've created the following bucket.
+        bucket: registry
+        encrypt: false
+        secure: false
+        v4auth: false
+        chunksize: 5242880
+        rootdirectory: /
+      delete:
+        enabled: true
+      redirect:
+        disable: true
+      maintenance:
+        uploadpurging:
+          enabled: true
+          age: 168h
+          interval: 24h
+          dryrun: false
+        readonly:
+          enabled: false
+    http:
+      headers:
+        X-Content-Type-Options: [nosniff]
+      http2:
+       disabled: false
+      addr: :5000
+      tls:
+          certificate: /certs/domain.crt
+          key: /certs/domain.key

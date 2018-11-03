@@ -1,10 +1,15 @@
 #!/bin/bash
 
-for manifest in $(find ./ingress -iname *.yaml); do
-  INGRESS_HOST=$(cat $manifest | grep host | cut -d":" -f2 | tr -d "[:space:]")
-  if ! grep -q "$INGRESS_HOST" /etc/hosts; then
-    echo "Adding ingress host $INGRESS_HOST to /etc/hosts"
-    kubectl apply -f $manifest
-    sudo sh -c "echo '127.0.0.1 $INGRESS_HOST' >> /etc/hosts"
+# deploy ingress manifests
+for manifest in $(find ./ -iname *-ingress.yaml); do
+  echo "Adding ingress manifest $INGRESS_HOST to kube"
+  kubectl apply -f $manifest
+done
+
+# add missing entries to hosts file
+for ingress_url in $(kubectl get ingress --all-namespaces | tail -n +2 | awk '{print $3}'); do
+  if ! grep -q "$ingress_url" /etc/hosts; then
+    echo "Adding ingress host $ingress_url to /etc/hosts"
+    sudo sh -c "echo '127.0.0.1 $ingress_url' >> /etc/hosts"
   fi
 done
