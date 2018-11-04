@@ -1,0 +1,14 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: example-golang-app
+spec:
+  rules:
+  - host: example-golang-app.mykube.awesome
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: example-golang-app-svc
+          servicePort: 5000

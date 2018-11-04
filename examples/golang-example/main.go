@@ -39,7 +39,7 @@ func init() {
 
 func main() {
 	serverCfg := Config{
-		Host:         "localhost:5000",
+		Host:         "0.0.0.0:5000",
 		ReadTimeout:  5 * time.Second,
 		WriteTimeout: 5 * time.Second,
 	}

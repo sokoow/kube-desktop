@@ -6,9 +6,7 @@ pipeline:
   backend:
     image: golang:1.11.1
     commands:
-      - apt-get install curl -y
-      - curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
-      - go get
+      - go get -v
       - go build
       - sed -i "s/RELEASE/${DRONE_BUILD_NUMBER}/" ./example-deployment/deployment.yaml
 
@@ -27,12 +25,17 @@ pipeline:
   deploy_puczat:
     image: sokoow/drone-kubectl-helm-clientcert
     secrets: [ kubernetes_server, kubernetes_ca_cert, kubernetes_client_cert, kubernetes_client_key ]
-    kubectl: "apply -f deploy/oppanel-backend-deployment.yaml"
+    kubectl: "apply -f example-deployment/deployment.yaml"
+
+  deploy_service:
+    image: sokoow/drone-kubectl-helm-clientcert
+    secrets: [ kubernetes_server, kubernetes_ca_cert, kubernetes_client_cert, kubernetes_client_key ]
+    kubectl: "apply -f example-deployment/service.yaml"
 
   deploy_ingress:
     image: sokoow/drone-kubectl-helm-clientcert
     secrets: [ kubernetes_server, kubernetes_ca_cert, kubernetes_client_cert, kubernetes_client_key ]
-    kubectl: "apply -f deploy/oppanel-backend-service.yaml"
+    kubectl: "apply -f example-deployment/ingress.yaml"
 
   get_pods:
     image: sokoow/drone-kubectl-helm-clientcert
