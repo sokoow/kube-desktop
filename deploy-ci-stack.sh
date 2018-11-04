@@ -14,3 +14,5 @@ cd ../gogs
 
 cd ../drone
 ./deploy-drone.sh
+
+echo -e "\nDONE! CI stack is deploying, at the moment you see anything at http://git.mykube.awesome/ you should be ready to use some examples. Have Fun!\n"

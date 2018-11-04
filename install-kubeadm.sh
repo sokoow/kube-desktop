@@ -48,7 +48,7 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
 sudo sysctl net.bridge.bridge-nf-call-iptables=1
 
-# let's fire up canal overlay network - FOR SOME REASON THAT DOESN"T WORK
+# let's fire up canal overlay network
 kubectl apply -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/installation/hosted/canal/rbac.yaml
 kubectl apply -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/installation/hosted/canal/canal.yaml
 
@@ -60,7 +60,6 @@ kubectl apply -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/
 
 # allows to run containers on the only node we have - master
 kubectl taint nodes --all node-role.kubernetes.io/master-
-
 
 # install heapster
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/heapster/master/deploy/kube-config/standalone/heapster-controller.yaml
@@ -96,3 +95,6 @@ kubectl create clusterrolebinding kubernetes-dashboard --clusterrole=cluster-adm
 ./deploy-ingresses.sh
 
 mkdir -p ~/.kube-volumes
+
+echo -e "\n ALL DONE! Cluster should be coming up, wait a moment and then you can run deploy-ci-stack.sh. HAVE FUN!\n"
+echo -e "\nWORK NOT HARD BUT SMART, HAVE FUN, DON'T DESTROY HISTORY! :D\n"

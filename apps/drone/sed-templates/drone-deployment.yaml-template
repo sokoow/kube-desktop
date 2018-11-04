@@ -15,7 +15,12 @@ spec:
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8000
+        - containerPort: 9000
         env:
+          - name: DRONE_DEBUG
+            value: "true"
+          - name: DRONE_GOGS_SKIP_VERIFY
+            value: "true"
           - name: DRONE_OPEN
             value: "true"
           - name: DRONE_GOGS

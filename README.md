@@ -13,7 +13,7 @@ Couple of reasons:
 - [x] kubeadm single node cluster on your desktop
 - [x] kubernetes dashboard
 - [x] canal overlay networking. other ones commented out in script
-- [x] working helm
+- [x] working helm + tiller (I know , sec...)
 - [x] traefik
 - [x] secrets store (Vault)
 - [x] some form of CI/CD : Drone
@@ -62,11 +62,15 @@ Next things that would be handy to run on this:
 
 - [ ] ark backups
 - [ ] more desktop apps
-- [ ] self-signed TLS ?
-- [ ] whatever else
+- [ ] self-signed TLS
+- [ ] bash code cleanup
 - [ ] templatize the whole lot using golang templates (https://github.com/VirtusLab/render, https://medium.com/virtuslab/helm-alternative-d6568aa9d40b)
-- [ ] some auth servers for development
-- [ ] more storage (druid, ES, cockroach, TiDB)
+- [ ] some auth servers for development (dex, keycloak)
+- [ ] more storage support (druid, ES, cockroach, TiDB)
+- [ ] bigdata/ML demos?
+- [ ] example projects in various languages
+- [ ] tracing/logging
+- [ ] whatever else
 
 ### What might be problematic ?
 
@@ -75,4 +79,18 @@ Next things that would be handy to run on this:
 
 ### What's next ?
 
-Well, here's an interesting concept maintaned by https://github.com/leblancd/Kube-in-the-Box
+Well, here's an interesting concept maintaned at https://github.com/leblancd/Kube-in-the-Box
+
+## Big thanks
+
+For all projects that are used in this repo:
+
+- Kubernetes (https://github.com/kubernetes/kubernetes)
+- Drone CI (https://github.com/drone/drone)
+- Minio (https://github.com/minio/minio)
+- Vault (https://github.com/hashicorp/vault)
+- Helm (https://github.com/kubernetes/helm)
+- Gogs (https://github.com/gogits/gogs)
+- Postgres
+
+and many more.

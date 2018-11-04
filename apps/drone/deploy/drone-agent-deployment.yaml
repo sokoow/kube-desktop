@@ -17,7 +17,7 @@ spec:
           # this server value may be different depending on how you set up your kubernetes
           # cluster.  Also if you put it in a different namespace you would use that instead of
           # 'default'.
-          value: "drone-svc:9000"
+          value: "drone-svc.default:9000"
         - name: DRONE_SECRET
           value: "bazinga"
         volumeMounts:
