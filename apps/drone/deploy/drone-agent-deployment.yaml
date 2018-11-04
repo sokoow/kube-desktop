@@ -3,21 +3,23 @@ kind: Deployment
 metadata:
   name: drone-agent
 spec:
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       labels:
         app: drone-agent
     spec:
+      hostNetwork: true
       containers:
       - name: drone-agent
-        image: drone/agent:0.8.5
+        image: sokoow/drone-agent-custom:0.8-alpine
+        imagePullPolicy: Always
         env:
         - name: DRONE_SERVER
           # this server value may be different depending on how you set up your kubernetes
           # cluster.  Also if you put it in a different namespace you would use that instead of
           # 'default'.
-          value: "drone-svc.default:9000"
+          value: "127.0.0.1:30100"
         - name: DRONE_SECRET
           value: "bazinga"
         volumeMounts:

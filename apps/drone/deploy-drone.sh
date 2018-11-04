@@ -7,6 +7,7 @@ fi
 sed "s/USER/$USER/g" sed-templates/drone-deployment.yaml-template > deploy/drone-deployment.yaml
 
 kubectl apply -f service/drone-service.yaml
+kubectl apply -f service/drone-websocket-service.yaml
 kubectl apply -f ingress/drone-ingress.yaml
 kubectl apply -f deploy/drone-deployment.yaml
 kubectl apply -f deploy/drone-agent-deployment.yaml

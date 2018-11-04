@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: drone-websocket-svc
+spec:
+  type: NodePort
+  selector:
+    name: drone
+  ports:
+  - name: websocket
+    port: 9000
+    nodePort: 30100

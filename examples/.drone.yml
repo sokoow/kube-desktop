@@ -8,14 +8,14 @@ pipeline:
     commands:
       - apt-get install curl -y
       - curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
-      - dep ensure
+      - go get
       - go build
       - sed -i "s/RELEASE/${DRONE_BUILD_NUMBER}/" ./example-deployment/deployment.yaml
 
   publish_docker:
      image: plugins/docker
-     repo: gitadmin/example-golang-app
-     registry: registry:5000
+     repo: registry.mykube.awesome:30040/gitadmin/example-golang-app
+     registry: registry.mykube.awesome:30040
      secrets: [ docker_username, docker_password ]
      tags: [ "${DRONE_BUILD_NUMBER}", latest ]
 

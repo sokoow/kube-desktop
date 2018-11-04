@@ -30,7 +30,7 @@ spec:
           - name: DRONE_DATABASE_DRIVER
             value: "postgres"
           - name: "DRONE_HOST"
-            value: "http://drone.mykube.awesome"
+            value: "http://drone-svc.default:8000"
           - name: DRONE_DATABASE_DATASOURCE
             value: "postgres://drone:drone@db-postgresql:5432/drone?sslmode=disable"
           - name: DRONE_SECRET
