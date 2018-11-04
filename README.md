@@ -15,6 +15,11 @@ Couple of reasons:
 - [x] canal overlay networking. other ones commented out in script
 - [x] working helm
 - [x] traefik
+- [x] secrets store (Vault)
+- [x] some form of CI/CD : Drone
+- [x] a DB/storage (Postgres)
+- [x] minio endpoint
+- [x] self-contained docker image registry
 
 ## Prerequisites
 
@@ -25,7 +30,9 @@ Couple of reasons:
 
 ## How do I start ?
 
-If you're a happy owner of a Xenial derivative of a Linux distro, clone the repo, and just do ```./install-kubeadm.sh```
+If you're a happy owner of a Xenial derivative of a Linux distro, clone the repo, and just do ```./install-kubeadm.sh``` - this will install basic one-node kubeadm cluster and needed prerequisites.
+
+To install full CI stack, fire up ```./deploy-ci-stack.sh``` afterwards and then do ```cat /etc/hosts``` to see what apps are available. For more details go to each app dir.
 
 To launch semi-working version of Firefox on kube, go to apps directory.
 
@@ -53,19 +60,17 @@ Look into **deploy* and **ingress** directories for examples, then ```kubectl -f
 
 Next things that would be handy to run on this:
 
-- [ ] self-contained image registry
-- [ ] some form of CI/CD : Jenkins or Drone
-- [ ] a DB/storage (Postgres/TiDB) ?
-- [ ] secrets store
 - [ ] ark backups
-- [ ] minio endpoint
 - [ ] more desktop apps
 - [ ] self-signed TLS ?
 - [ ] whatever else
+- [ ] templatize the whole lot using golang templates (https://github.com/VirtusLab/render, https://medium.com/virtuslab/helm-alternative-d6568aa9d40b)
+- [ ] some auth servers for development
+- [ ] more storage (druid, ES, cockroach, TiDB)
 
 ### What might be problematic ?
 
-- Running helm charts that use PV/PVCs - I'm using only hostpaths here
+- Running helm charts that use PV/PVCs - I'm using only hostpaths here so far
 - Running services that want loadbalancers
 
 ### What's next ?

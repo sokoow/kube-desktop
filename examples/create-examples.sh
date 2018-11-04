@@ -16,7 +16,6 @@ curl -H "Content-Type: application/json" -u $GIT_CREDS $GIT_SERVER/api/v1/user/r
 
 CLONE_URL=$(curl -H "Content-Type: application/json" -s -u gitadmin:gitadmin git.mykube.awesome/api/v1/user/repos | jq .[0].clone_url)
 
-
 if [ -d ./example-golang-app ]
 then
   rm -rf ./example-golang-app
