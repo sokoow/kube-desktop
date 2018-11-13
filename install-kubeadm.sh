@@ -1,5 +1,8 @@
 #!/bin/bash
 
+set -o nounset
+set -o errexit
+
 DISTRO_CODENAME=$(cat /etc/lsb-release | grep DISTRIB_CODENAME | cut -f2 -d"=")
 
 # hack for Mint 18
@@ -11,9 +14,9 @@ fi
 # add kube repo
 if [ ! -f /etc/apt/sources.list.d/kubernetes.list ]
 then
-  sudo apt-get update && apt-get install -y apt-transport-https curl jq
-  sudo curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
-  sudo echo "deb https://apt.kubernetes.io/ kubernetes-$DISTRO_CODENAME main" > /etc/apt/sources.list.d/kubernetes.list
+  sudo apt-get update && sudo apt-get install -y apt-transport-https curl jq
+  curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+  echo "deb https://apt.kubernetes.io/ kubernetes-$DISTRO_CODENAME main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
   sudo apt-get update
   sudo apt-get install -y kubelet kubeadm kubectl
 fi
@@ -35,7 +38,7 @@ networking:
   serviceSubnet: 10.96.0.0/12
 " > /tmp/config.yaml
 
-sudo kubeadm init --config /tmp/config.yaml --ignore-preflight-errors=Swap
+sudo kubeadm init --config /tmp/config.yaml --ignore-preflight-errors=Swap --ignore-preflight-errors=SystemVerification
 
 # delete old kube configs
 rm -rf $HOME/.kube
