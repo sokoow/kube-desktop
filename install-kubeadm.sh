@@ -74,7 +74,14 @@ wget https://raw.githubusercontent.com/containous/traefik/master/examples/k8s/tr
 sed -i '/serviceAccountName/a\ \ \ \ \ \ hostNetwork: true' /tmp/traefik-ds.yaml
 kubectl apply -f /tmp/traefik-ds.yaml
 
-# patch traefik service to listen on nodeport 30000
+CURRENT_HOMEDIR=$(pwd)
+
+if [ $CURRENT_HOMEDIR == "/home/vagrant" ]
+then
+  echo -e "\nRunning inside Vagrant\n"
+  cd /vagrant
+fi
+
 kubectl apply -f service/traefik-svc.yaml
 
 # delete old helm configs

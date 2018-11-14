@@ -1,5 +1,13 @@
 #!/bin/bash
 
+CURRENT_HOMEDIR=$(pwd)
+
+if [ $CURRENT_HOMEDIR == "/home/vagrant" ]
+then
+  echo -e "\nRunning inside Vagrant\n"
+  cd /vagrant
+fi
+
 cd apps/postgresql
 ./deploy-postgres.sh
 

@@ -1,2 +1,4 @@
 examples/example-golang-app
 examples/.psql_initialized
+*.log
+.vagrant
