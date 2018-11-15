@@ -8,6 +8,8 @@ Couple of reasons:
 
 - secondly, being iritated on how heavy minikube on amd64 is, I decided to rely only on a single node kubeadm cluster containers - this environment should give you enough kubernetes to start a cool project on your own
 
+- thirdly - it's just also a super easy way to stand up a full CI/CD stack in less than 20 minutes
+
 ## What's included:
 
 - [x] kubeadm single node cluster on your desktop
@@ -21,20 +23,35 @@ Couple of reasons:
 - [x] minio endpoint
 - [x] self-contained docker image registry
 
-## Prerequisites
+## Prerequisites/Requirements
 
+- 4GB of memory
+- 3 cores
+- 6 GB of disk space
 - Ubuntu Xenial
 - sudo password
 - docker installed
 - no fancy network setup
+- (optional) Vagrant installed
 
 ## How do I start ?
+
+### Running on localhost
 
 If you're a happy owner of a Xenial derivative of a Linux distro, clone the repo, and just do ```./install-kubeadm.sh``` - this will install basic one-node kubeadm cluster and needed prerequisites.
 
 To install full CI stack, fire up ```./deploy-ci-stack.sh``` afterwards and then do ```cat /etc/hosts``` to see what apps are available. For more details go to each app dir.
 
 To launch semi-working version of Firefox on kube, go to apps directory.
+
+### Running on Vagrant
+
+Should be as simple as:
+- Running ```vagrant up```, assuming you've latest Vagrant installed
+- Running ```deploy-localhost-ingresses.sh``` to add /etc/host aliases to localhost
+
+To connect to the VM, run ```vagrant ssh```, there should be kubectl already configured for you. To connect to any app with localhost web browser, check ```/etc/hosts``` file for alias name, and then open ```http://ALIAS:1080``` (as vagrant redirects port 80 VM -> port 1080 localhost for treafik ingress controller)
+
 
 ## How do I ..
 

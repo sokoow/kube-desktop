@@ -1,5 +1,13 @@
 #!/bin/bash
 
+CURRENT_HOMEDIR=$(pwd)
+
+if [ $CURRENT_HOMEDIR == "/home/vagrant" ]
+then
+  echo -e "\nRunning inside Vagrant\n"
+  cd /vagrant
+fi
+
 # deploy ingress manifests
 for manifest in $(find ./ -iname *-ingress.yaml); do
   echo "Adding ingress manifest $INGRESS_HOST to kube"

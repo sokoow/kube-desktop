@@ -82,6 +82,18 @@ then
   cd /vagrant
 fi
 
+# kubernetes tls certs hack
+sudo rm /etc/kubernetes/pki/apiserver.*
+sudo kubeadm alpha phase certs all --apiserver-advertise-address=0.0.0.0 --apiserver-cert-extra-sans=127.0.0.1
+sudo docker rm -f `sudo docker ps -q -f 'name=k8s_kube-apiserver*'`
+sudo systemctl restart kubelet
+
+echo -e "Waiting for API server to come up again\n"
+until $(curl --output /dev/null --silent --head -k https://localhost:6443); do
+    printf '.'
+    sleep 5
+done
+
 kubectl apply -f service/traefik-svc.yaml
 
 # delete old helm configs

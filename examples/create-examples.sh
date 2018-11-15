@@ -10,6 +10,9 @@ then
   touch .psql_initalized
 fi
 
+git config --global user.email "gitadmin@mykube.awesome"
+git config --global user.name "gitadmin"
+
 GIT_SERVER="git.mykube.awesome"
 GIT_CREDS="gitadmin:gitadmin"
 
@@ -18,7 +21,6 @@ curl -H "Content-Type: application/json" -X POST -u $GIT_CREDS -d '{ "name": "ex
 curl -H "Content-Type: application/json" -u $GIT_CREDS $GIT_SERVER/api/v1/user/repos
 
 CLONE_URL=$(curl -H "Content-Type: application/json" -s -u gitadmin:gitadmin $GIT_SERVER/api/v1/user/repos | jq .[0].clone_url | tr -d "\"")
-#EXTERNAL_CLONE_URL=$(echo $CLONE_URL | sed "s/gogs-svc:3000/$GIT_SERVER/")
 
 if [ -d ./example-golang-app ]
 then
@@ -62,6 +64,7 @@ export PGPASSWORD="drone"
 psql -h $POSTGRES_IP -U drone -d drone -A -F , -X -t -c "update users set user_admin='t' where user_login='gitadmin'"
 psql -h $POSTGRES_IP -U drone -d drone -A -F , -X -t -c "update users set user_active='t' where user_login='gitadmin'"
 
+
 curl -H "Authorization: Bearer $token" "$DRONE_SERVER_URL/api/user/repos?all=true&flush=true"
 curl -H "Authorization: Bearer $token" $DRONE_SERVER_URL/api/repos/gitadmin/example-golang-app -X POST -d '{}'
 
@@ -75,6 +78,26 @@ for hook in $(psql -h $POSTGRES_IP -U gogs -d gogs  -A -F , -X -t -c "select id,
   echo -e "\nNew hook: $new_hook\n"
   psql -h $POSTGRES_IP -U gogs -d gogs  -A -F , -X -t -c "update webhook set url='$hook_url' where id=$record_id;"
 done
+
+export PGPASSWORD="drone"
+psql -h $POSTGRES_IP -U drone -d drone -A -F , -X -t -c "insert into secrets(secret_repo_id, secret_name, secret_value, secret_skip_verify, secret_conceal, secret_events, secret_images) values (1, 'kubernetes_server', 'test', 'f', 'f','[\"push\", \"tag\", \"deployment\"]', 'null');"
+psql -h $POSTGRES_IP -U drone -d drone -A -F , -X -t -c "insert into secrets(secret_repo_id, secret_name, secret_value, secret_skip_verify, secret_conceal, secret_events, secret_images) values (1, 'kubernetes_ca_cert', 'test', 'f', 'f','[\"push\", \"tag\", \"deployment\"]', 'null');"
+psql -h $POSTGRES_IP -U drone -d drone -A -F , -X -t -c "insert into secrets(secret_repo_id, secret_name, secret_value, secret_skip_verify, secret_conceal, secret_events, secret_images) values (1, 'kubernetes_client_cert', 'test', 'f', 'f','[\"push\", \"tag\", \"deployment\"]', 'null');"
+psql -h $POSTGRES_IP -U drone -d drone -A -F , -X -t -c "insert into secrets(secret_repo_id, secret_name, secret_value, secret_skip_verify, secret_conceal, secret_events, secret_images) values (1, 'kubernetes_client_key', 'test', 'f', 'f','[\"push\", \"tag\", \"deployment\"]', 'null');"
+
+KUBE_CA_CERT=$(yq .clusters[0].cluster ~/.kube/config | jq .\"certificate-authority-data\")
+KUBE_CLIENT_CERT=$(yq .users[0] ~/.kube/config | jq .user.\"client-certificate-data\")
+KUBE_CLIENT_KEY=$(yq .users[0] ~/.kube/config | jq .user.\"client-key-data\")
+
+curl -H "Authorization: Bearer $token" $DRONE_SERVER_URL/api/repos/gitadmin/example-golang-app/secrets/kubernetes_server -X PATCH -d '{ "value": "https://10.96.0.1", "event": ["push", "tag", "deployment"] }'
+curl -H "Authorization: Bearer $token" $DRONE_SERVER_URL/api/repos/gitadmin/example-golang-app/secrets/kubernetes_ca_cert -X PATCH -d '{ "value": "$KUBE_CA_CERT", "event": ["push", "tag", "deployment"] }'
+curl -H "Authorization: Bearer $token" $DRONE_SERVER_URL/api/repos/gitadmin/example-golang-app/secrets/kubernetes_client_cert -X PATCH -d '{ "value": "$KUBE_CLIENT_CERT", "event": ["push", "tag", "deployment"] }'
+curl -H "Authorization: Bearer $token" $DRONE_SERVER_URL/api/repos/gitadmin/example-golang-app/secrets/kubernetes_client_key -X PATCH -d '{ "value": "$KUBE_CLIENT_KEY, "event": ["push", "tag", "deployment"] }'
+
+psql -h $POSTGRES_IP -U drone -d drone -A -F , -X -t -c "update secrets set secret_value='https://127.0.0.1:6443' where secret_name='kubernetes_server';"
+psql -h $POSTGRES_IP -U drone -d drone -A -F , -X -t -c "update secrets set secret_value='$KUBE_CA_CERT' where secret_name='kubernetes_ca_cert';"
+psql -h $POSTGRES_IP -U drone -d drone -A -F , -X -t -c "update secrets set secret_value='$KUBE_CLIENT_CERT' where secret_name='kubernetes_client_cert';"
+psql -h $POSTGRES_IP -U drone -d drone -A -F , -X -t -c "update secrets set secret_value='$KUBE_CLIENT_KEY' where secret_name='kubernetes_client_key';"
 
 git config --global push.default simple
 git push --repo $(echo $CLONE_URL | sed "s/git./${GIT_CREDS}@git./")
