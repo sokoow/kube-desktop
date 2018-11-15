@@ -44,6 +44,10 @@ To install full CI stack, fire up ```./deploy-ci-stack.sh``` afterwards and then
 
 To launch semi-working version of Firefox on kube, go to apps directory.
 
+#### Running example deployment on localhost (golang demo)
+
+Basically refresh the ```http://drone.mykube.awesome/``` till the frontend comes up, then grab a drone api token, go to examples dir in this repo and launch ```create-examples.sh``` script. This will build a golang example, push to internal registry, and then deploy on kube, creating an ingress with address ```http://example-golang-app.mykube.awesome``` after couple of minutes.
+
 ### Running on Vagrant
 
 Should be as simple as:
@@ -51,6 +55,10 @@ Should be as simple as:
 - Running ```deploy-localhost-ingresses.sh``` to add /etc/host aliases to localhost
 
 To connect to the VM, run ```vagrant ssh```, there should be kubectl already configured for you. To connect to any app with localhost web browser, check ```/etc/hosts``` file for alias name, and then open ```http://ALIAS:1080``` (as vagrant redirects port 80 VM -> port 1080 localhost for treafik ingress controller)
+
+#### Running example deployment on Vagrant (golang demo)
+
+Basically refresh the ```http://drone.mykube.awesome:1080``` till the frontend comes up, then grab a drone api token, vagrant ssh into the VM, then go to ```/vagrant/examples``` directory and launch ```create-examples.sh``` script. This will build a golang example, push to internal registry, and then deploy on kube, creating an ingress with address ```http://example-golang-app.mykube.awesome:1080``` after couple of minutes.
 
 
 ## How do I ..
