@@ -15,17 +15,20 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision "shell", inline: "\
     echo 'Installing dependencies...'
     sudo apt-get update
-    sudo apt-get install -y unzip curl git jq make docker.io"
+    sudo apt-get upgrade -y
+    sudo apt-get install -y unzip curl git jq make docker.io mc"
 
   config.vm.synced_folder ".", "/vagrant"
 
   config.vm.define "kube1" do |kube1|
     kube1.vm.hostname = "kube-desktop"
     kube1.vm.network "private_network", ip: "172.20.20.20"
-    kube1.vm.network "forwarded_port", guest: 80, host:80
+    kube1.vm.network "forwarded_port", guest: 80, host: 1080
+    kube1.vm.network "forwarded_port", guest: 6443, host: 6443
 
-    kube1.vm.provision :shell, path: "install-kubeadm.sh"
-    kube1.vm.provision :shell, path: "deploy-ci-stack.sh"
+    kube1.vm.provision :shell, path: "install-kubeadm.sh", privileged: false
+    kube1.vm.provision :shell, path: "deploy-ci-stack.sh", privileged: false
+    kube1.vm.provision :shell, inline: "mkdir -p /home/vagrant/.kube && cp /etc/kubernetes/admin.conf /home/vagrant/.kube/config && chown -R vagrant: /home/vagrant"
 
   end
 end

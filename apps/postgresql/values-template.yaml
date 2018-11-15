@@ -34,7 +34,7 @@ image:
 ##
 securityContext:
   enabled: true
-  fsGroup: 1001
+  fsGroup: MY_GID
   runAsUser: 1001
 
 replication:
