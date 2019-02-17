@@ -24,6 +24,8 @@ fi
 # not needed yet
 # apt-mark hold kubelet kubeadm kubectl
 
+
+# more docs on this here: https://godoc.org/k8s.io/kubernetes/cmd/kubeadm/app/apis/kubeadm/v1alpha3
 echo "
 kind: KubeletConfiguration
 apiVersion: kubelet.config.k8s.io/v1beta1
@@ -36,6 +38,9 @@ networking:
   podSubnet: 10.244.0.0/16
   dnsDomain: cluster.local
   serviceSubnet: 10.96.0.0/12
+apiServerCertSANs:
+  - "127.0.0.1"
+  - "kubeapi.mykube.awesome"
 " > /tmp/config.yaml
 
 sudo kubeadm init --config /tmp/config.yaml --ignore-preflight-errors=Swap --ignore-preflight-errors=SystemVerification
@@ -82,17 +87,6 @@ then
   cd /vagrant
 fi
 
-# kubernetes tls certs hack
-sudo rm /etc/kubernetes/pki/apiserver.*
-sudo kubeadm alpha phase certs all --apiserver-advertise-address=0.0.0.0 --apiserver-cert-extra-sans=127.0.0.1
-sudo docker rm -f `sudo docker ps -q -f 'name=k8s_kube-apiserver*'`
-sudo systemctl restart kubelet
-
-echo -e "Waiting for API server to come up again\n"
-until $(curl --output /dev/null --silent --head -k https://localhost:6443); do
-    printf '.'
-    sleep 5
-done
 
 kubectl apply -f service/traefik-svc.yaml
 
