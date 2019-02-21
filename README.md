@@ -46,7 +46,7 @@ To launch semi-working version of Firefox on kube, go to apps directory.
 
 #### Running example deployment on localhost (golang demo)
 
-Basically refresh the ```http://drone.mykube.awesome/``` till the frontend comes up, then grab a drone api token, go to examples dir in this repo and launch ```create-examples.sh``` script. This will build a golang example, push to internal registry, and then deploy on kube, creating an ingress with address ```http://example-golang-app.mykube.awesome``` after couple of minutes.
+Go to the `examples` directory, launch the `create-examples.sh` script, it will create the `gitadmin` user (password: `gitadmin`). When asked, go to [http://drone.mykube.awesome](http://drone.mykube.awesome), grab an API token and paste it in the terminal. The script will then build the example, push it to the internal registry, deploy it and create an ingress with the address [http://example-golang-app.mykube.awesome](http://example-golang-app.mykube.awesome) in a few minutes.
 
 ### Running on Vagrant
 
@@ -58,8 +58,7 @@ To connect to the VM, run ```vagrant ssh```, there should be kubectl already con
 
 #### Running example deployment on Vagrant (golang demo)
 
-Basically refresh the ```http://drone.mykube.awesome:1080``` till the frontend comes up, then grab a drone api token, vagrant ssh into the VM, then go to ```/vagrant/examples``` directory and launch ```create-examples.sh``` script. This will build a golang example, push to internal registry, and then deploy on kube, creating an ingress with address ```http://example-golang-app.mykube.awesome:1080``` after couple of minutes.
-
+The process is mostly identical to localhost, except the commands should be ran in a `vagrant ssh` session, and the URLs have `:1080` at the end of the hostname: [http://drone.mykube.awesome:1080](http://drone.mykube.awesome:1080) and [http://example-golang-app.mykube.awesome:1080](http://example-golang-app.mykube.awesome:1080).
 
 ## How do I ..
 
