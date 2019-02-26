@@ -3,11 +3,11 @@
 POSTGRES_IP=$(kubectl get svc | grep db-postgresql | awk '{ print $3}') || { echo -e '\nPreloading GIT user failed - might be too early to run this script\n' ; exit 1; }
 export PGPASSWORD="gogs"
 
-if [ ! -x ./psql_initalized ]
+if [ ! -x ./.psql_initialized ]
 then
   echo "Preloading gitadmin user to Gogs"
   psql -h "${POSTGRES_IP}" -U gogs -d gogs < preload-gogs.sql
-  touch .psql_initalized
+  touch .psql_initialized
 fi
 
 git config --global user.email "gitadmin@mykube.awesome"
@@ -15,12 +15,13 @@ git config --global user.name "gitadmin"
 
 GIT_SERVER="git.mykube.awesome"
 GIT_CREDS="gitadmin:gitadmin"
+GIT_TOKEN="c11a1bef30173da024c71ed82fcc517b76fb096d"
 
-curl -H "Content-Type: application/json" -X POST -u $GIT_CREDS -d '{ "name": "example-golang-app", "description": "Our first real app", "private": false, "owner": "gitadmin"}' $GIT_SERVER/api/v1/user/repos
+curl -H "Content-Type: application/json" -X POST -u $GIT_CREDS -d '{ "name": "example-golang-app", "description": "Our first real app", "private": false, "owner": "gitadmin"}' $GIT_SERVER/api/v1/user/repos\?token=$GIT_TOKEN
 
-curl -H "Content-Type: application/json" -u $GIT_CREDS $GIT_SERVER/api/v1/user/repos
+curl -H "Content-Type: application/json" -u $GIT_CREDS $GIT_SERVER/api/v1/user/repos\?token=$GIT_TOKEN
 
-CLONE_URL=$(curl -H "Content-Type: application/json" -s -u gitadmin:gitadmin $GIT_SERVER/api/v1/user/repos | jq .[0].clone_url | tr -d "\"")
+CLONE_URL=$(curl -H "Content-Type: application/json" -s -u gitadmin:gitadmin $GIT_SERVER/api/v1/user/repos\?token=$GIT_TOKEN | jq .[0].clone_url | tr -d "\"")
 
 if [ -d ./example-golang-app ]
 then
