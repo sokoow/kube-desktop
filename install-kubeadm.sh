@@ -16,7 +16,7 @@ if [ ! -f /etc/apt/sources.list.d/kubernetes.list ]
 then
   sudo apt-get update && sudo apt-get install -y apt-transport-https curl jq
   curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-  echo "deb https://apt.kubernetes.io/ kubernetes-$DISTRO_CODENAME main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+  echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
   sudo apt-get update
   sudo apt-get install -y kubelet kubeadm kubectl
 fi
@@ -26,22 +26,7 @@ fi
 
 
 # more docs on this here: https://godoc.org/k8s.io/kubernetes/cmd/kubeadm/app/apis/kubeadm/v1alpha3
-echo "
-kind: KubeletConfiguration
-apiVersion: kubelet.config.k8s.io/v1beta1
-failSwapOn: false
-clusterDomain: cluster.local
----
-kind: ClusterConfiguration
-apiVersion: kubeadm.k8s.io/v1alpha3
-networking:
-  podSubnet: 10.244.0.0/16
-  dnsDomain: cluster.local
-  serviceSubnet: 10.96.0.0/12
-apiServerCertSANs:
-  - "127.0.0.1"
-  - "kubeapi.mykube.awesome"
-" > /tmp/config.yaml
+cp kubeadm-config.yaml /tmp/config.yaml
 
 sudo kubeadm init --config /tmp/config.yaml --ignore-preflight-errors=Swap --ignore-preflight-errors=SystemVerification
 
@@ -57,8 +42,7 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 sudo sysctl net.bridge.bridge-nf-call-iptables=1
 
 # let's fire up canal overlay network
-kubectl apply -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/installation/hosted/canal/rbac.yaml
-kubectl apply -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/installation/hosted/canal/canal.yaml
+kubectl apply -f https://docs.projectcalico.org/v3.10/manifests/calico.yaml
 
 # so let's use weave overlay, that always works
 # kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
@@ -68,9 +52,6 @@ kubectl apply -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/
 
 # allows to run containers on the only node we have - master
 kubectl taint nodes --all node-role.kubernetes.io/master-
-
-# install heapster
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/heapster/master/deploy/kube-config/standalone/heapster-controller.yaml
 
 # install traefik
 kubectl apply -f https://raw.githubusercontent.com/containous/traefik/master/examples/k8s/traefik-rbac.yaml
