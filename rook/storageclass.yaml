@@ -10,7 +10,18 @@ metadata:
   namespace: rook-ceph
 spec:
   replicated:
-    size: 3
+    size: 1
+---
+# pool with EC enabled
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: ec-data-pool
+  namespace: rook-ceph
+spec:
+  erasureCoded:
+    dataChunks: 2
+    codingChunks: 1
 ---
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
@@ -23,3 +34,4 @@ parameters:
   blockPool: replicapool
   clusterNamespace: rook-ceph
   fstype: xfs
+

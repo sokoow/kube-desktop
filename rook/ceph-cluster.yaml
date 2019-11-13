@@ -20,7 +20,5 @@ spec:
     - path: /var/lib/rook2
   deviceFilter:
   nodes:
-   - name: "node1"
-   - name: "node2"
-   - name: "node3"
+   - name: "onodea-puczat"
 
