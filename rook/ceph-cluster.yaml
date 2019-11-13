@@ -1,0 +1,26 @@
+apiVersion: ceph.rook.io/v1
+kind: CephCluster
+metadata:
+  name: rook-ceph
+  namespace: rook-ceph
+spec:
+  cephVersion:
+    # For the latest ceph images, see https://hub.docker.com/r/ceph/ceph/tags
+    image: ceph/ceph:v14.2.4-20190917
+  dataDirHostPath: /var/lib/rook2
+  mon:
+    count: 3
+    allowMultiplePerNode: true
+  dashboard:
+    enabled: true
+  storage:
+    useAllNodes: true
+    useAllDevices: true
+    directories:
+    - path: /var/lib/rook2
+  deviceFilter:
+  nodes:
+   - name: "node1"
+   - name: "node2"
+   - name: "node3"
+
