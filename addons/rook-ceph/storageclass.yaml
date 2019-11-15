@@ -34,4 +34,4 @@ parameters:
   blockPool: replicapool
   clusterNamespace: rook-ceph
   fstype: xfs
-
+reclaimPolicy: Delete

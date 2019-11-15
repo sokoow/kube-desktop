@@ -4,6 +4,8 @@ KUBE_DESKTOP =  ENV['KUBE_DESKTOP'] || "ubuntu/bionic64"
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  # Need vagrant-disksize plugin: https://github.com/sprotheroe/vagrant-disksize
+  config.disksize.size = '50GB'
   config.vm.provider "virtualbox" do |v|
     v.customize ["modifyvm", :id, "--cpuexecutioncap", "70"]
     v.customize ["setextradata", :id, "VBoxInternal/Devices/VMMDev/0/Config/GetHostTimeDisabled", 1]
