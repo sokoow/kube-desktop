@@ -84,6 +84,16 @@ helm init --service-account tiller
 
 # install modified kube-dashboard - non-ssl endpoint enabled for the sake of traefik
 kubectl apply -f addons/dashboard.yaml
+kubectl delete clusterrolebinding kubernetes-dashboard
+kubectl create clusterrolebinding kubernetes-dashboard --clusterrole=cluster-admin --serviceaccount=kubernetes-dashboard:kubernetes-dashboard
+
+# Deploy small local rook-ceph instance
+kubectl apply -f addons/rook/common.yaml
+kubectl apply -f addons/rook/operator.yaml
+kubectl apply -f addons/rook/toolbox.yaml
+kubectl apply -f addons/rook/sample-cluster.yaml
+kubectl apply -f addons/rook/storageclass.yaml
+
 
 # deploy ingresses we want
 ./deploy-ingresses.sh

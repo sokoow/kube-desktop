@@ -195,7 +195,6 @@ spec:
             - containerPort: 9090
               protocol: TCP
           args:
-            - --auto-generate-certificates
             - --namespace=kubernetes-dashboard
             - --insecure-bind-address=0.0.0.0
             # Uncomment the following line to manually specify Kubernetes API server Host
