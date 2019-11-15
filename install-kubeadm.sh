@@ -54,9 +54,9 @@ kubectl apply -f https://docs.projectcalico.org/v3.10/manifests/calico.yaml
 kubectl taint nodes --all node-role.kubernetes.io/master-
 
 # install traefik
-kubectl apply -f https://raw.githubusercontent.com/containous/traefik/master/examples/k8s/traefik-rbac.yaml
+kubectl apply -f https://raw.githubusercontent.com/containous/traefik/v1.7.19/examples/k8s/traefik-rbac.yaml
 
-wget https://raw.githubusercontent.com/containous/traefik/master/examples/k8s/traefik-ds.yaml -O /tmp/traefik-ds.yaml
+wget https://raw.githubusercontent.com/containous/traefik/v1.7.19/examples/k8s/traefik-ds.yaml -O /tmp/traefik-ds.yaml
 sed -i '/serviceAccountName/a\ \ \ \ \ \ hostNetwork: true' /tmp/traefik-ds.yaml
 kubectl apply -f /tmp/traefik-ds.yaml
 
