@@ -1,5 +1,5 @@
 # Specify a custom Vagrant box for the demo
-DEMO_BOX_NAME =  ENV['DEMO_BOX_NAME'] || "ubuntu/xenial64"
+KUBE_DESKTOP =  ENV['KUBE_DESKTOP'] || "ubuntu/bionic64"
 
 VAGRANTFILE_API_VERSION = "2"
 
@@ -11,17 +11,24 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     v.cpus = 2
   end
 
-  config.vm.box = DEMO_BOX_NAME
+  config.vm.box = KUBE_DESKTOP
+
+  config.vm.provision "shell", inline: "\
+    echo 'Installing docker...'
+    sudo apt-get update
+    sudo curl -fsSL https://get.docker.com -o get-docker.sh
+    sudo sh get-docker.sh", run: "once"
+
   config.vm.provision "shell", inline: "\
     echo 'Installing dependencies...'
-    sudo apt-get update
-    sudo apt-get upgrade -y
-    sudo apt-get install -y unzip curl git jq make docker.io mc python-pip postgresql-client screen"
-  config.vm.provision "shell", inline: "pip install --upgrade pip"
-  config.vm.provision "shell", inline: "pip install yq"
-  config.vm.provision "shell", inline: "usermod -a -G docker vagrant"
+    sudo apt-get install -y python"
 
-  config.vm.synced_folder ".", "/vagrant"
+  config.vm.provision "ansible" do |ansible|
+    ansible.compatibility_mode = "2.0"
+    ansible.playbook = "ansible/main.yml"
+  end
+
+  #config.vm.synced_folder ".", "/vagrant"
   config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
 
   config.vm.define "kube1" do |kube1|
@@ -30,8 +37,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     kube1.vm.network "forwarded_port", guest: 80, host: 1080
     kube1.vm.network "forwarded_port", guest: 6443, host: 6443
 
-    kube1.vm.provision :shell, path: "install-kubeadm.sh", privileged: false
-    kube1.vm.provision :shell, path: "deploy-ci-stack.sh", privileged: false
+    kube1.vm.provision :shell, path: "vagrant-provisioner.sh", privileged: false
     kube1.vm.provision :shell, inline: "mkdir -p /home/vagrant/.kube && cp /etc/kubernetes/admin.conf /home/vagrant/.kube/config && chown -R vagrant: /home/vagrant"
   end
 end

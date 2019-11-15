@@ -9,11 +9,10 @@ bootstrapTokens:
   - authentication
 kind: InitConfiguration
 localAPIEndpoint:
-  advertiseAddress: 10.18.28.79
+  advertiseAddress: 0.0.0.0
   bindPort: 6443
 nodeRegistration:
   criSocket: /var/run/dockershim.sock
-  name: scw-infallible-jennings
   taints:
   - effect: NoSchedule
     key: node-role.kubernetes.io/master

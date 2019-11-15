@@ -1,0 +1,11 @@
+---
+- hosts: all
+  become: true
+
+  pre_tasks:
+    - name: Update apt cache if needed.
+      apt: update_cache=yes cache_valid_time=3600
+
+  tasks:
+    - import_tasks: setup.yml
+    - import_tasks: packages.yml
