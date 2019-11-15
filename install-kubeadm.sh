@@ -83,10 +83,7 @@ kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceac
 helm init --service-account tiller
 
 # install modified kube-dashboard - non-ssl endpoint enabled for the sake of traefik
-kubectl apply -f deploy/dashboard.yaml
-
-# allow the dashboard user to have access to everything - non recommended for prod, but here we own the cluster
-kubectl create clusterrolebinding kubernetes-dashboard --clusterrole=cluster-admin --serviceaccount=kube-system:kubernetes-dashboard
+kubectl apply -f addons/dashboard.yaml
 
 # deploy ingresses we want
 ./deploy-ingresses.sh
