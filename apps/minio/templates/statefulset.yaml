@@ -1,6 +1,6 @@
 {{- if eq .Values.mode "distributed" }}
 {{ $nodeCount := .Values.replicas | int }}
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: {{ template "minio.fullname" . }}
@@ -30,8 +30,8 @@ spec:
         - name: {{ .Chart.Name }}
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: [ "/bin/sh", 
-          "-ce", 
+          command: [ "/bin/sh",
+          "-ce",
           "cp /tmp/config.json {{ .Values.configPath }} &&
           /usr/bin/docker-entrypoint.sh minio -C {{ .Values.configPath }} server
           {{- range $i := until $nodeCount }}

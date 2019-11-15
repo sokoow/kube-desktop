@@ -1,6 +1,8 @@
 ---
 - hosts: all
   become: true
+  any_errors_fatal: true
+  gather_facts: true
 
   pre_tasks:
     - name: Update apt cache if needed.

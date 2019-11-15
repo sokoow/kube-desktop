@@ -2,14 +2,14 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: traefik-dashboard
-  namespace: kube-system
+  name: gogs
+  namespace: default
 spec:
   rules:
-  - host: traefik.mykube.awesome
+  - host: git.mykube.awesome
     http:
       paths:
       - path: /
         backend:
-          serviceName: traefik-ingress-service
-          servicePort: 8080
+          serviceName: gogs-svc
+          servicePort: 3000

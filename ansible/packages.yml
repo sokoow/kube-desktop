@@ -6,6 +6,8 @@
 # persisted connection state isn't aware of the addition of the 'docker' group.
 - name: Install packages.
   apt: name={{ item }} state=present
+  async: 45
+  poll: 5
   with_items:
     - mc
     - unzip
@@ -15,7 +17,6 @@
     - python-pip
     - postgresql-client
     - screen
-
 
 - name: Install Docker Python library.
   pip: name={{ item }} state=present
