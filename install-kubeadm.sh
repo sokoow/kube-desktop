@@ -78,6 +78,11 @@ rm -rf $HOME/.helm
 curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 > get_helm.sh
 bash get_helm.sh
 
+# Add helm repos
+helm repo add incubator https://kubernetes-charts-incubator.storage.googleapis.com/
+helm repo add stable https://kubernetes-charts.storage.googleapis.com/
+
+
 ## install helm
 #sudo curl https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash
 
