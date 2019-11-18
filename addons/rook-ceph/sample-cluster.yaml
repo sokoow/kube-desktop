@@ -9,7 +9,7 @@ spec:
     image: ceph/ceph:v14.2.4-20190917
   dataDirHostPath: /var/lib/rook
   mon:
-    count: 3
+    count: 1
     allowMultiplePerNode: true
   dashboard:
     enabled: true
@@ -21,4 +21,3 @@ spec:
   deviceFilter:
   nodes:
    - name: "kube-desktop"
-

@@ -74,13 +74,17 @@ kubectl apply -f service/traefik-svc.yaml
 # delete old helm configs
 rm -rf $HOME/.helm
 
-# install helm
-sudo curl https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash
+# install helm 3
+curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 > get_helm.sh
+sh get_helm.sh
+
+## install helm
+#sudo curl https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash
 
 # install tiller for helm
-kubectl -n kube-system create sa tiller
-kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
-helm init --service-account tiller
+#kubectl -n kube-system create sa tiller
+#kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
+#helm init --service-account tiller
 
 # install modified kube-dashboard - non-ssl endpoint enabled for the sake of traefik
 kubectl apply -f addons/dashboard.yaml
