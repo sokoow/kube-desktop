@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ template "gogs.fullname" . }}
+  name: gogs-svc
   labels:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
 {{- if .Values.service.annotations }}
