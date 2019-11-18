@@ -167,7 +167,7 @@ service:
 
     ## Database host.  Unused unless `postgresql.install` is false.
     ##
-    databaseHost: postgres-svc
+    databaseHost: postgres-svc-headless
 
     ## Database user.  Unused unless `postgresql.install` is false.
     ##
@@ -337,7 +337,7 @@ persistence:
   ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
   ##   GKE, AWS & OpenStack)
   ##
-  storageClass: "rook-ceph-block
+  storageClass: "rook-ceph-block"
 
   ## Persistent Volume Access Mode.
   ##
