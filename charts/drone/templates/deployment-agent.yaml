@@ -9,6 +9,10 @@ metadata:
     heritage: "{{ .Release.Service }}"
     component: agent
 spec:
+  selector:
+    matchLabels:
+      app: {{ template "docker-registry.name" . }}
+      release: {{ .Release.Name }}
   replicas: {{ .Values.agent.replicas }}
   template:
     metadata:
