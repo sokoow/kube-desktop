@@ -5,7 +5,7 @@ images:
   ## ref: https://hub.docker.com/r/drone/drone/tags/
   ##
   server:
-    repository: "docker.io/drone/drone"
+    repository: "docker.io/sokoow/drone"
     tag: v0.8.10
     pullPolicy: IfNotPresent
 

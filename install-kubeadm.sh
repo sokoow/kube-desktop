@@ -79,15 +79,6 @@ bash get_helm.sh
 helm repo add incubator https://kubernetes-charts-incubator.storage.googleapis.com/
 helm repo add stable https://kubernetes-charts.storage.googleapis.com/
 
-
-## install helm
-#sudo curl https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash
-
-# install tiller for helm
-#kubectl -n kube-system create sa tiller
-#kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
-#helm init --service-account tiller
-
 # install modified kube-dashboard - non-ssl endpoint enabled for the sake of traefik
 kubectl apply -f addons/dashboard.yaml
 kubectl delete clusterrolebinding kubernetes-dashboard
@@ -99,7 +90,6 @@ kubectl apply -f addons/rook-ceph/operator.yaml
 kubectl apply -f addons/rook-ceph/toolbox.yaml
 kubectl apply -f addons/rook-ceph/sample-cluster.yaml
 kubectl apply -f addons/rook-ceph/storageclass.yaml
-
 
 # deploy ingresses we want
 ./deploy-ingresses.sh
