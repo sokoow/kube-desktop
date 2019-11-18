@@ -12,9 +12,20 @@ fi
 echo "Installing postgresql"
 helm install charts/postgresql --generate-name
 
-# cd ../minio
-# ./deploy-minio.sh
-#
+echo "Installing minio"
+helm install charts/minio --generate-name
+
+echo "Installing docker-registry"
+pushd .
+cd charts/docker-registry/files
+
+openssl req -newkey rsa:4096 -nodes -sha256 -keyout domain.key -x509 -days 365 -out tls.crt -config openssl.conf -new -subj /C=EU
+kubectl create secret generic registry-tls-cert --from-file=./tls.key --from-file=./tls.crt
+popd
+helm install charts/docker-registry --generate-name
+
+
+
 # cd ../registry
 # ./deploy-registry.sh
 #
