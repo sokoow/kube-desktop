@@ -68,9 +68,6 @@ then
   cd /vagrant
 fi
 
-
-kubectl apply -f service/traefik-svc.yaml
-
 # delete old helm configs
 rm -rf $HOME/.helm
 
