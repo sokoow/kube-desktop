@@ -76,7 +76,7 @@ rm -rf $HOME/.helm
 
 # install helm 3
 curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 > get_helm.sh
-sh get_helm.sh
+bash get_helm.sh
 
 ## install helm
 #sudo curl https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash
