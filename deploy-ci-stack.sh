@@ -23,9 +23,9 @@ kubectl create secret generic registry-tls-cert --from-file=./tls.key --from-fil
 popd
 helm install charts/docker-registry --generate-name
 
-# cd ../gogs
-# ./deploy-gogs.sh
-#
+echo "Installing gogs"
+helm install incubator/gogs --generate-name
+
 # cd ../drone
 # ./deploy-drone.sh
 

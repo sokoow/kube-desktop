@@ -49,7 +49,7 @@ service:
 
     ## Application name, can be your company or team name.
     ##
-    appName: 'Gogs'
+    appName: 'kube-desktop'
 
     ## Either "dev", "prod" or "test".
     ##
@@ -167,19 +167,19 @@ service:
 
     ## Database host.  Unused unless `postgresql.install` is false.
     ##
-    databaseHost:
+    databaseHost: postgres-svc
 
     ## Database user.  Unused unless `postgresql.install` is false.
     ##
-    databaseUser:
+    databaseUser: gogs
 
     ## Database password.  Unused unless `postgresql.install` is false.
     ##
-    databasePassword:
+    databasePassword: gogs
 
     ## Database password.  Unused unless `postgresql.install` is false.
     ##
-    databaseName:
+    databaseName: gogs
 
     ## Database SSL Mode for Postgres.  Unused unless `postgresql.install` is false.
     ##
@@ -337,7 +337,7 @@ persistence:
   ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
   ##   GKE, AWS & OpenStack)
   ##
-  # storageClass: "-"
+  storageClass: "rook-ceph-block
 
   ## Persistent Volume Access Mode.
   ##
@@ -354,7 +354,7 @@ postgresql:
 
   ### Install PostgreSQL dependency
   ##
-  install: true
+  install: false
 
   ### PostgreSQL User to create.
   ##
