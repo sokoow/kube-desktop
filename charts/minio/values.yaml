@@ -28,11 +28,11 @@ priorityClassName: ""
 ## Distributed Minio ref: https://docs.minio.io/docs/distributed-minio-quickstart-guide
 ##
 existingSecret: ""
-accessKey: "AKIAIOSFODNN7EXAMPLE"
-secretKey: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
+accessKey: "AKIATHISISFORDEVEL"
+secretKey: "omgHOWsecretTHISis"
 configPath: "/root/.minio/"
 mountPath: "/export"
-replicas: 4
+replicas: 1
 
 ## Enable persistence using Persistent Volume Claims
 ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
@@ -54,7 +54,7 @@ persistence:
   ##
   ## Storage class of PV to bind. By default it looks for standard storage class.
   ## If the PV uses a different storage class, specify that here.
-  # storageClass: standard
+  storageClass: "rook-ceph-block"
   accessMode: ReadWriteOnce
   size: 10Gi
 
