@@ -167,7 +167,7 @@ service:
 
     ## Database host.  Unused unless `postgresql.install` is false.
     ##
-    databaseHost: postgres-svc-headless
+    databaseHost: postgresql-svc-headless
 
     ## Database user.  Unused unless `postgresql.install` is false.
     ##
