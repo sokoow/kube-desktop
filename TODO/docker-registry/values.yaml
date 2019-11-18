@@ -52,15 +52,15 @@ resources: {}
   #  memory: 128Mi
 persistence:
   accessMode: 'ReadWriteOnce'
-  enabled: false
+  enabled: true
   size: 10Gi
-  # storageClass: '-'
+  storageClass: "rook-ceph-block"
 
 # set the type of filesystem to use: filesystem, s3
 storage: filesystem
 
 # Set this to name of secret for tls certs
-# tlsSecretName: registry.docker.example.com
+tlsSecretName: registry-tls-cert
 secrets:
   haSharedSecret: ""
   htpasswd: ""
