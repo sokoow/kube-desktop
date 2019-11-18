@@ -1,4 +1,4 @@
-appVersion: "0.8.6"
+appVersion: "0.8.10"
 
 images:
   ## The official drone (server) image, change tag to use a different version.
@@ -6,15 +6,15 @@ images:
   ##
   server:
     repository: "docker.io/drone/drone"
-    tag: 0.8.6
+    tag: 0.8.10
     pullPolicy: IfNotPresent
 
   ## The official drone (agent) image, change tag to use a different version.
   ## ref: https://hub.docker.com/r/drone/agent/tags/
   ##
   agent:
-    repository: "docker.io/drone/agent"
-    tag: 0.8.6
+    repository: "docker.io/sokoow/drone-agent-custom"
+    tag: 0.8-alpine
     pullPolicy: IfNotPresent
 
   ## The official docker (dind) image, change tag to use a different version.
@@ -75,7 +75,15 @@ server:
     DRONE_DEBUG: "false"
     DRONE_DATABASE_DRIVER: "sqlite3"
     DRONE_DATABASE_DATASOURCE: "/var/lib/drone/drone.sqlite"
-
+    DRONE_PRIVATE_MODE: "false"
+    DRONE_SERVER_PROTO: "http"
+    DRONE_RUNNER_CAPACITY: "2"
+    DRONE_TLS_AUTOCERT: "false"
+    DRONE_GOGS_SERVER: "http://gogs-svc.default:3000"
+    DRONE_DATABASE_DRIVER: "postgres"
+    DRONE_DATABASE_DATASOURCE: "postgres://drone:drone@db-postgresql:5432/drone?sslmode=disable"
+    DRONE_USER_CREATE: "username:gitadmin,machine:true,admin:true,token:deadbeefdeadbeefdeadbeefdeadbeef"
+    DRONE_CRON_DISABLED: "false"
     ## Drone requires some environment variables to bootstrap the
     ## git service or it won't start up.
     ## Uncomment this and add your own custom configuration.
@@ -145,7 +153,7 @@ agent:
     DRONE_DEBUG: "false"
 
   ## Number of drone agent replicas
-  replicas: 1
+  replicas: 3
 
   ## Additional agent annotations.
   ## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
@@ -252,7 +260,7 @@ persistence:
   ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
   ##   GKE, AWS & OpenStack)
   ##
-  # storageClass: "-"
+  storageClass: "rook-ceph-block"
   accessMode: ReadWriteOnce
   size: 1Gi
 
