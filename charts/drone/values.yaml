@@ -73,8 +73,6 @@ server:
   ##
   env:
     DRONE_DEBUG: "false"
-    DRONE_DATABASE_DRIVER: "sqlite3"
-    DRONE_DATABASE_DATASOURCE: "/var/lib/drone/drone.sqlite"
     DRONE_PRIVATE_MODE: "false"
     DRONE_SERVER_PROTO: "http"
     DRONE_RUNNER_CAPACITY: "2"
@@ -84,6 +82,8 @@ server:
     DRONE_DATABASE_DATASOURCE: "postgres://drone:drone@db-postgresql:5432/drone?sslmode=disable"
     DRONE_USER_CREATE: "username:gitadmin,machine:true,admin:true,token:deadbeefdeadbeefdeadbeefdeadbeef"
     DRONE_CRON_DISABLED: "false"
+    DRONE_PROVIDER: "gogs"
+    DRONE_GOGS: "true" 
     ## Drone requires some environment variables to bootstrap the
     ## git service or it won't start up.
     ## Uncomment this and add your own custom configuration.
