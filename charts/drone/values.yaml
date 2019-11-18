@@ -1,4 +1,4 @@
-appVersion: "0.8.10"
+appVersion: "v0.8.10"
 
 images:
   ## The official drone (server) image, change tag to use a different version.
@@ -6,7 +6,7 @@ images:
   ##
   server:
     repository: "docker.io/drone/drone"
-    tag: 0.8.10
+    tag: v0.8.10
     pullPolicy: IfNotPresent
 
   ## The official drone (agent) image, change tag to use a different version.
@@ -83,7 +83,7 @@ server:
     DRONE_USER_CREATE: "username:gitadmin,machine:true,admin:true,token:deadbeefdeadbeefdeadbeefdeadbeef"
     DRONE_CRON_DISABLED: "false"
     DRONE_PROVIDER: "gogs"
-    DRONE_GOGS: "true" 
+    DRONE_GOGS: "true"
     ## Drone requires some environment variables to bootstrap the
     ## git service or it won't start up.
     ## Uncomment this and add your own custom configuration.
