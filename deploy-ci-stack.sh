@@ -24,9 +24,9 @@ popd
 helm install charts/docker-registry --generate-name
 
 echo "Installing gogs"
-helm install incubator/gogs --generate-name
+helm install charts/gogs --generate-name
 
-# cd ../drone
-# ./deploy-drone.sh
+echo "Installing drone"
+helm install charts/drone --generate-name
 
 echo -e "\nDONE! CI stack is deploying, at the moment you see anything at http://git.mykube.awesome/ you should be ready to use some examples. Have Fun!\n"
