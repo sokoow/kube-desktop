@@ -11,7 +11,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: {{ template "docker-registry.name" . }}
+      app: {{ template "drone.name" . }}
       release: {{ .Release.Name }}
   replicas: {{ .Values.agent.replicas }}
   template:
