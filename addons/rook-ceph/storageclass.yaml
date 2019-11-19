@@ -11,7 +11,7 @@ metadata:
 spec:
   replicated:
     size: 1
---ensja jak w UK?-
+---
 # pool with EC enabled
 apiVersion: ceph.rook.io/v1
 kind: CephBlockPool
