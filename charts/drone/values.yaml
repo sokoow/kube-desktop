@@ -84,6 +84,8 @@ server:
     DRONE_CRON_DISABLED: "false"
     DRONE_PROVIDER: "gogs"
     DRONE_GOGS: "true"
+    DRONE_OPEN: "true"
+    DRONE_ADMIN: "gitadmin"
     ## Drone requires some environment variables to bootstrap the
     ## git service or it won't start up.
     ## Uncomment this and add your own custom configuration.
