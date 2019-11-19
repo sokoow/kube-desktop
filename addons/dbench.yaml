@@ -1,0 +1,37 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: dbench-linstor
+spec:
+  storageClassName: rook-ceph-block
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: dbench-linstor
+spec:
+  template:
+    spec:
+      containers:
+      - name: dbench
+        image: sotoaster/dbench:latest
+        imagePullPolicy: IfNotPresent
+        env:
+          - name: DBENCH_MOUNTPOINT
+            value: /data
+          - name: FIO_SIZE
+            value: 1G
+        volumeMounts:
+        - name: dbench-pv
+          mountPath: /data
+      restartPolicy: Never
+      volumes:
+      - name: dbench-pv
+        persistentVolumeClaim:
+          claimName: dbench-linstor
+  backoffLimit: 4

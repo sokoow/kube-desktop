@@ -1,0 +1,15 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: minio
+  namespace: default
+spec:
+  rules:
+  - host: minio.mykube.awesome
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: minio-svc
+          servicePort: 9000
