@@ -28,7 +28,7 @@ fi
 # more docs on this here: https://godoc.org/k8s.io/kubernetes/cmd/kubeadm/app/apis/kubeadm/v1alpha3
 cp kubeadm-config.yaml /tmp/config.yaml
 
-sudo kubeadm init --config /tmp/config.yaml --ignore-preflight-errors=Swap --ignore-preflight-errors=SystemVerification
+sudo kubeadm init --config /tmp/config.yaml --ignore-preflight-errors=all
 
 # delete old kube configs
 rm -rf $HOME/.kube

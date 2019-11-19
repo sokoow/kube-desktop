@@ -122,7 +122,7 @@ spec:
             - name: POSTGRES_REPLICATION_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ template "postgresql.secretName" . }}
+                  name: postgres-admin-secret
                   key: postgresql-replication-password
             {{- end }}
             - name: POSTGRES_CLUSTER_APP_NAME
@@ -138,7 +138,7 @@ spec:
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ template "postgresql.secretName" . }}
+                  name: postgres-admin-secret
                   key: postgresql-password
             {{- end }}
           ports:
@@ -200,7 +200,7 @@ spec:
         {{- if .Values.usePasswordFile }}
         - name: postgresql-password
           secret:
-            secretName: {{ template "postgresql.secretName" . }}
+            secretName: postgres-admin-secret
         {{- end }}
         {{- if or (.Files.Glob "files/postgresql.conf") (.Files.Glob "files/pg_hba.conf") .Values.postgresqlConfiguration .Values.pgHbaConfiguration .Values.configurationConfigMap}}
         - name: postgresql-config
