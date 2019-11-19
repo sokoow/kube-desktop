@@ -2,14 +2,14 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: gogs
+  name: drone
   namespace: default
 spec:
   rules:
-  - host: git.mykube.awesome
+  - host: drone.mykube.awesome
     http:
       paths:
       - path: /
         backend:
-          serviceName: gogs-svc
+          serviceName: drone-svc
           servicePort: 80
