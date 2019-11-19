@@ -34,4 +34,4 @@ parameters:
   blockPool: replicapool
   clusterNamespace: rook-ceph
   fstype: ext4
-reclaimPolicy: Delete
+reclaimPolicy: Retain
