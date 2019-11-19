@@ -6,7 +6,7 @@ images:
   ##
   server:
     repository: "docker.io/sokoow/drone"
-    tag: v0.8.10
+    tag: v0.8-neo
     pullPolicy: IfNotPresent
 
   ## The official drone (agent) image, change tag to use a different version.
@@ -72,14 +72,14 @@ server:
   ## ref: http://readme.drone.io/admin/installation-reference
   ##
   env:
-    DRONE_DEBUG: "false"
+    DRONE_DEBUG: "true"
     DRONE_PRIVATE_MODE: "false"
     DRONE_SERVER_PROTO: "http"
     DRONE_RUNNER_CAPACITY: "2"
     DRONE_TLS_AUTOCERT: "false"
-    DRONE_GOGS_SERVER: "http://gogs-svc.default:3000"
+    DRONE_GOGS_URL: "http://gogs-svc"
     DRONE_DATABASE_DRIVER: "postgres"
-    DRONE_DATABASE_DATASOURCE: "postgres://drone:drone@db-postgresql:5432/drone?sslmode=disable"
+    DRONE_DATABASE_DATASOURCE: "postgres://drone:drone@postgresql-svc-headless:5432/drone?sslmode=disable"
     DRONE_USER_CREATE: "username:gitadmin,machine:true,admin:true,token:deadbeefdeadbeefdeadbeefdeadbeef"
     DRONE_CRON_DISABLED: "false"
     DRONE_PROVIDER: "gogs"

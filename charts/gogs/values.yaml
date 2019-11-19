@@ -27,7 +27,7 @@ service:
   ## HTTP listen port on Kubernetes node.
   ## ref: https://gogs.io/docs/advanced/configuration_cheat_sheet
   ##
-  httpNodePort:
+  #httpNodePort:
 
   ## SSH listen port.
   ##
