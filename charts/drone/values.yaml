@@ -86,6 +86,7 @@ server:
     DRONE_GOGS: "true"
     DRONE_OPEN: "true"
     DRONE_ADMIN: "gitadmin"
+    DRONE_HOST: "http://drone-svc"
     ## Drone requires some environment variables to bootstrap the
     ## git service or it won't start up.
     ## Uncomment this and add your own custom configuration.
@@ -152,7 +153,7 @@ agent:
   ## ref: http://readme.drone.io/admin/installation-reference
   ##
   env:
-    DRONE_DEBUG: "false"
+    DRONE_DEBUG: "true"
 
   ## Number of drone agent replicas
   replicas: 3

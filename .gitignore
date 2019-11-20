@@ -3,3 +3,4 @@ examples/.psql_initialized
 *.log
 .vagrant
 kube-desktop
+get_helm.sh

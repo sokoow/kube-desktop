@@ -149,11 +149,11 @@ service:
 
     ## Enable this to use captcha validation for registration.
     ##
-    serverDomain: git.mykube.awesome
+    serverDomain: gogs-svc
 
     ## Full public URL of Gogs server.
     ##
-    serverRootUrl: http://git.mykube.awesome/
+    serverRootUrl: http://gogs-svc/
 
     ## Landing page for non-logged users, can be "home" or "explore"
     ##

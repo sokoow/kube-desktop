@@ -48,7 +48,7 @@ spec:
           protocol: TCP
         env:
           - name: DRONE_SERVER
-            value: {{ template "drone.fullname" . }}:9000
+            value: drone-svc:9000
           - name: DRONE_SECRET
             valueFrom:
               secretKeyRef:
