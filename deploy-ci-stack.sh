@@ -19,7 +19,10 @@ pushd .
 cd charts/docker-registry/files
 
 openssl req -newkey rsa:4096 -nodes -sha256 -keyout tls.key -x509 -days 365 -out tls.crt -config openssl.conf -new -subj /C=EU
+mkdir -p /etc/docker/certs.d/registry-svc:5000
+cp ./tls.crt /etc/docker/certs.d/registry-svc:5000/ca.crt
 kubectl create secret generic registry-tls-cert --from-file=./tls.key --from-file=./tls.crt
+
 popd
 helm install charts/docker-registry --generate-name
 
