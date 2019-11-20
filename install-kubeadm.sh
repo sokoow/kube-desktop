@@ -14,11 +14,11 @@ fi
 # add kube repo
 if [ ! -f /etc/apt/sources.list.d/kubernetes.list ]
 then
-  sudo apt-get update && sudo apt-get install -y apt-transport-https curl jq
+  sudo apt-get update && DEBIAN_FRONTEND=noninteractive sudo apt-get install -y apt-transport-https curl jq
   curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
   echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
   sudo apt-get update
-  sudo apt-get install -y kubelet=1.16.3-00 kubeadm=1.16.3-00 kubectl=1.16.3-00
+  DEBIAN_FRONTEND=noninteractive sudo apt-get install -y kubelet=1.16.3-00 kubeadm=1.16.3-00 kubectl=1.16.3-00
 fi
 
 # not needed yet
@@ -93,8 +93,6 @@ kubectl apply -f addons/rook-ceph/storageclass.yaml
 
 # deploy ingresses we want
 ./deploy-ingresses.sh
-
-mkdir -p ~/.kube-volumes
 
 echo -e "\n ALL DONE! Cluster should be coming up, wait a moment and then you can run deploy-ci-stack.sh. HAVE FUN!\n"
 echo -e "\nWORK NOT HARD BUT SMART, HAVE FUN, DON'T DESTROY HISTORY! :D\n"
