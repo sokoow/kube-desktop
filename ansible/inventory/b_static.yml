@@ -1,0 +1,13 @@
+---
+
+scaleway:
+  vars:
+    ansible_user: root
+    ansible_ssh_private_key_file: "{{ lookup('env','SSH_KEY') }}"
+  children:
+    node:
+      vars:
+        ansible_ssh_common_args: '-o ControlMaster=auto -o ControlPersist=60s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o IdentitiesOnly=yes'
+    router:
+      vars:
+        ansible_ssh_common_args: '-o ControlMaster=auto -o ControlPersist=60s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o IdentitiesOnly=yes'

@@ -18,6 +18,8 @@ echo "Installing docker-registry"
 pushd .
 cd charts/docker-registry/files
 
+make
+
 # openssl genrsa -out rootCA.key 4096
 # openssl req -x509 -new -nodes -key rootCA.key -sha256 -days 1024 -out rootCA.crt -extfile openssl2.conf -extensions req_ext
 # openssl req -new -sha256 \

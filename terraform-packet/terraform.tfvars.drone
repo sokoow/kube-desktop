@@ -1,0 +1,8 @@
+#
+# Setting used for the drone.io CI gates
+#
+public_key_filename = "./drone-id_rsa.pub"
+private_key_filename = "./drone-id_rsa"
+
+# track hosts with a tag of the build number to help clean up after errant CI runs
+extra_tags = "${format("drone-build-%d", var.drone_build_number)}"
