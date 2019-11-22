@@ -90,9 +90,14 @@ spec:
         securityContext:
           privileged: true
         volumeMounts:
-          - mountPath: /var/run/docker.sock
-            name: docker-socket
+        - mountPath: /etc/docker
+          name: docker-etc
+        - mountPath: /var/run/docker.sock
+          name: docker-socket
       volumes:
+        - name: docker-etc
+          hostPath:
+            path: /etc/docker
         - name: docker-socket
           hostPath:
             path: /var/run/docker.sock
@@ -118,9 +123,16 @@ spec:
         resources:
 {{ toYaml .Values.dind.resources | indent 10 }}
         volumeMounts:
-          - name: docker-graph-storage
-            mountPath: /var/lib/docker
+        - mountPath: /etc/docker
+          name: docker-etc
+        - name: docker-graph-storage
+          mountPath: /var/lib/docker
       volumes:
       - name: docker-graph-storage
         emptyDir: {}
+      - name: docker-etc
+        hostPath:
+          path: /etc/docker
+
 {{- end }}
+

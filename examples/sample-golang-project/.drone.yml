@@ -1,0 +1,43 @@
+workspace:
+  base: /go/src
+  path: git.mykube.awesome/gitadmin/example-golang-app
+
+pipeline:
+  backend:
+    image: golang:1.11.1
+    commands:
+      - go get -v
+      - GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build
+      - sed -i "s/RELEASE/${DRONE_BUILD_NUMBER}/" ./example-deployment/example-deployment.yaml
+
+  publish_docker:
+     image: plugins/docker
+     insecure: true
+     repo: registry-svc:5000/gitadmin/example-golang-app
+     registry: registry-svc:5000
+     tags: [ "${DRONE_BUILD_NUMBER}", latest ]
+
+  get_pods:
+    image: sokoow/drone-kubectl-helm-clientcert
+    secrets: [ kubernetes_server, kubernetes_ca_cert, kubernetes_client_cert, kubernetes_client_key ]
+    kubectl: "get pods"
+
+  deploy_example:
+    image: sokoow/drone-kubectl-helm-clientcert
+    secrets: [ kubernetes_server, kubernetes_ca_cert, kubernetes_client_cert, kubernetes_client_key ]
+    kubectl: "apply -f example-deployment/example-deployment.yaml"
+
+  deploy_service:
+    image: sokoow/drone-kubectl-helm-clientcert
+    secrets: [ kubernetes_server, kubernetes_ca_cert, kubernetes_client_cert, kubernetes_client_key ]
+    kubectl: "apply -f example-deployment/example-service.yaml"
+
+  deploy_ingress:
+    image: sokoow/drone-kubectl-helm-clientcert
+    secrets: [ kubernetes_server, kubernetes_ca_cert, kubernetes_client_cert, kubernetes_client_key ]
+    kubectl: "apply -f example-deployment/example-ingress.yaml"
+
+  get_pods:
+    image: sokoow/drone-kubectl-helm-clientcert
+    secrets: [ kubernetes_server, kubernetes_ca_cert, kubernetes_client_cert, kubernetes_client_key ]
+    kubectl: "get pods"
