@@ -1,36 +1,33 @@
 # kube-desktop
 
+An attempt to run full CI-CD stack on a single kube node, on any infrastructure.
+
+Also a good lesson on how to integrate Terraform, Ansible and Helm together into an appliance.
+
 ## WHY?
 
-Couple of reasons:
-
-- firstly, inspired by Jess Frazelle's desktop apps on kube ( @github/jessfraz https://github.com/jessfraz/dockerfiles), I thought to myself 'Why not put this all on Kube also ? How hard might that be ?'
-
-- secondly, being iritated on how heavy minikube on amd64 is, I decided to rely only on a single node kubeadm cluster containers - this environment should give you enough kubernetes to start a cool project on your own
-
-- thirdly - it's just also a super easy way to stand up a full CI/CD stack in less than 20 minutes
+Well, mostly so anybody can start developing and have subdomains
 
 ## What's included:
 
-- [x] kubeadm single node cluster on your desktop
+- [x] kubeadm single node cluster
 - [x] kubernetes dashboard
-- [x] canal overlay networking. other ones commented out in script
-- [x] working helm + tiller (I know , sec...)
-- [x] traefik
-- [x] secrets store (Vault)
+- [x] calico overlay networking. other ones commented out in script
+- [x] working helm 3.0
+- [x] traefik 1.x
 - [x] some form of CI/CD : Drone
 - [x] a DB/storage (Postgres)
 - [x] minio endpoint
 - [x] self-contained docker image registry
+- [x] rook-ceph setup for PV's to work (helm charts should work out of the box)
 
 ## Prerequisites/Requirements
 
 - 4GB of memory
 - 3 cores
-- 6 GB of disk space
-- Ubuntu Xenial
+- 12+ GB of disk space
+- Ubuntu Bionic
 - sudo password
-- docker installed
 - no fancy network setup
 - (optional) Vagrant installed
 
@@ -42,23 +39,16 @@ If you're a happy owner of a Xenial derivative of a Linux distro, clone the repo
 
 To install full CI stack, fire up ```./deploy-ci-stack.sh``` afterwards and then do ```cat /etc/hosts``` to see what apps are available. For more details go to each app dir.
 
-To launch semi-working version of Firefox on kube, go to apps directory.
-
 #### Running example deployment on localhost (golang demo)
 
-Go to the `examples` directory, launch the `create-examples.sh` script, it will create the `gitadmin` user (password: `gitadmin`). When asked, go to [http://drone.mykube.awesome](http://drone.mykube.awesome), grab an API token and paste it in the terminal. The script will then build the example, push it to the internal registry, deploy it and create an ingress with the address [http://example-golang-app.mykube.awesome](http://example-golang-app.mykube.awesome) in a few minutes.
-
+Go to the `examples` directory, have a look around there.
+s
 ### Running on Vagrant
 
 Should be as simple as:
 - Running ```vagrant up```, assuming you've latest Vagrant installed
-- Running ```deploy-localhost-ingresses.sh``` to add /etc/host aliases to localhost
 
 To connect to the VM, run ```vagrant ssh```, there should be kubectl already configured for you. To connect to any app with localhost web browser, check ```/etc/hosts``` file for alias name, and then open ```http://ALIAS:1080``` (as vagrant redirects port 80 VM -> port 1080 localhost for treafik ingress controller)
-
-#### Running example deployment on Vagrant (golang demo)
-
-The process is mostly identical to localhost, except the commands should be ran in a `vagrant ssh` session, and the URLs have `:1080` at the end of the hostname: [http://drone.mykube.awesome:1080](http://drone.mykube.awesome:1080) and [http://example-golang-app.mykube.awesome:1080](http://example-golang-app.mykube.awesome:1080).
 
 ## How do I ..
 
@@ -66,40 +56,36 @@ The process is mostly identical to localhost, except the commands should be ran 
 
 Traefik reverse proxy listens on a NodePort 30000/TCP in non-tls fashion, and ingress is being created to it at the script start (see **ingress** directory), so if all installed correctly, you just need to open up: ```http://dashboard.mykube.awesome/```
 
-### Traefik dashboard ?
-
-NodePort 30001/TCP non-tls, or: ```http://traefik.mykube.awesome/```
-
 ### Deploy my own app ?
 
-Look into **deploy* and **ingress** directories for examples, then ```kubectl -f apply ...``` them. Send me a PR if you dockerize a cool app.
+Look into included examples dir. Send me a PR if you dockerize a cool app.
 
 ## FAQ - aka can I get this ported to X (before you raise an issue) ?
 
 - **Mac OSX** - well you may try, I accept PRs, but probably it'll be easier to just use minikube on Docker Edge channel and strip up extras to be deployed on top of it
 - **Windows** - NO
-- **Armhf/Arm64 (Raspberry/Odroid/100s others)** - is kubeadm/helm/traefik available there yet ? Let's talk if you need that.
+- **Armhf/Arm64 (Raspberry/Odroid/100s others)** - is kubeadm/helm/traefik available there yet ? Let's talk if you need that. Maybe k3sup someone?
 
 ## Wishlist
 
 Next things that would be handy to run on this:
 
-- [ ] ark backups
+- [ ] backups
 - [ ] more desktop apps
 - [ ] self-signed TLS
-- [ ] bash code cleanup
 - [ ] templatize the whole lot using golang templates (https://github.com/VirtusLab/render, https://medium.com/virtuslab/helm-alternative-d6568aa9d40b)
-- [ ] some auth servers for development (dex, keycloak)
+- [ ] some auth servers for development (ldap + dex, keycloak)
 - [ ] more storage support (druid, ES, cockroach, TiDB)
 - [ ] bigdata/ML demos?
 - [ ] example projects in various languages
 - [ ] tracing/logging
+- [ ] service mesh
 - [ ] whatever else
 
 ### What might be problematic ?
 
-- Running helm charts that use PV/PVCs - I'm using only hostpaths here so far
-- Running services that want loadbalancers
+- Running helm charts that use PV/PVCs - **fixed** when using rook-ceph
+- Running services that want loadbalancers - **not needed** when using traefik
 
 ### What's next ?
 

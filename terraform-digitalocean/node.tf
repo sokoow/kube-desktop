@@ -7,6 +7,7 @@ resource "digitalocean_droplet" "node" {
     region = "${var.do_region}"
     private_networking = true
     size = "${var.node_size}"
+    ssh_keys = ["${split(",", var.ssh_fingerprint)}"]
 
     tags             = ["kube"]
 

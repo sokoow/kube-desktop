@@ -4,6 +4,8 @@ variable "do_region" {
     default = "fra1"
 }
 
+variable "ssh_fingerprint" {}
+
 variable "private_key" {
     default = "~/.ssh/id_rsa"
 }
