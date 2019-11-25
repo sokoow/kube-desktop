@@ -12,6 +12,10 @@ For x86_64, choose from:
 EOT
 }
 
+variable "hostname" {
+  default = "kube"
+}
+
 variable "arch" {
   default     = "x86_64"
   description = "Values: arm arm64 x86_64"

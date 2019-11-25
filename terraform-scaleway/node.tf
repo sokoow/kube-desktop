@@ -2,8 +2,9 @@ resource "scaleway_ip" "node_ip" {
   count = "${var.nodes}"
 }
 
-variable "hostname" {
-  default = "kube"
+data "scaleway_image" "ubuntu" {
+  architecture = "${var.arch}"
+  name         = "${var.ubuntu_version}"
 }
 
 resource "scaleway_server" "node" {
@@ -19,29 +20,5 @@ resource "scaleway_server" "node" {
     user        = "root"
     private_key = "${file(var.private_key)}"
     timeout  = "2m"
-  }
-
-  provisioner "file" {
-    source = "../scripts/"
-    destination = "/tmp"
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "chmod +x /tmp/bootstrap.sh",
-      "/tmp/bootstrap.sh"
-    ]
-  }
-
-  provisioner "local-exec" {
-    command = "../bin/deploy_kube.sh"
-    on_failure = "continue"
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "chmod +x /tmp/kube-provisioner.sh",
-      "/tmp/kube-provisioner.sh"
-    ]
   }
 }
