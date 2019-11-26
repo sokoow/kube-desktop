@@ -61,7 +61,8 @@ MINIO_IP=$(kubectl get svc -l app=minio -o 'jsonpath={..spec.clusterIP}')
 MINIO_ACCESSKEY=$(kubectl get secret -l app=minio -o 'jsonpath={..data.accesskey}' | base64 -d)
 MINIO_SECRETKEY=$(kubectl get secret -l app=minio -o 'jsonpath={..data.secretkey}' | base64 -d)
 minio-mc config host add minio "http://$MINIO_IP:$MINIO_PORT" "$MINIO_ACCESSKEY" "$MINIO_SECRETKEY"
-minio-mc mb secrets
-minio-mc cp /root/.kube/config secrets/kubeconfig
+minio-mc mb minio/secrets
+minio-mc policy set public minio/secrets
+minio-mc cp /root/.kube/config minio/secrets/kubeconfig
 
 echo -e "\nDONE! CI stack is deploying, at the moment you see anything at http://git.mykube.awesome/ you should be ready to use some examples. Have Fun!\n"
