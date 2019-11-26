@@ -18,6 +18,6 @@ spec:
       containers:
       - name: example-golang-app
         imagePullPolicy: Always
-        image: registry.mykube.awesome:30040/gitadmin/example-golang-app:RELEASE
+        image: registry-svc:5000/gitadmin/example-golang-app
         ports:
         - containerPort: 5000

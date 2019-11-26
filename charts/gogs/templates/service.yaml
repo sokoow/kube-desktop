@@ -4,6 +4,7 @@ metadata:
   name: gogs-svc
   labels:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    app: "{{ template "gogs.name" .}}"
 {{- if .Values.service.annotations }}
   annotations:
 {{ toYaml .Values.service.annotations | indent 4 }}

@@ -52,4 +52,16 @@ helm install charts/gogs --generate-name
 echo "Installing drone"
 helm install charts/drone --generate-name
 
+echo "Waiting for minio pod to be ready"
+while [[ $(kubectl get pods -l app=minio -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]; do echo "waiting for minio pod" && sleep 1; done
+
+echo "Uploading kubeconfig to minio for CI/CD purposes (kubeconfig_url var in drone later on)"
+MINIO_PORT=$(kubectl get svc -l app=minio -o 'jsonpath={..spec.ports..port}')
+MINIO_IP=$(kubectl get svc -l app=minio -o 'jsonpath={..spec.clusterIP}')
+MINIO_ACCESSKEY=$(kubectl get secret -l app=minio -o 'jsonpath={..data.accesskey}' | base64 -d)
+MINIO_SECRETKEY=$(kubectl get secret -l app=minio -o 'jsonpath={..data.secretkey}' | base64 -d)
+minio-mc config host add minio "http://$MINIO_IP:$MINIO_PORT" "$MINIO_ACCESSKEY" "$MINIO_SECRETKEY"
+minio-mc mb secrets
+minio-mc cp /root/.kube/config secrets/kubeconfig
+
 echo -e "\nDONE! CI stack is deploying, at the moment you see anything at http://git.mykube.awesome/ you should be ready to use some examples. Have Fun!\n"

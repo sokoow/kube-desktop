@@ -19,25 +19,25 @@ pipeline:
 
   get_pods:
     image: sokoow/drone-kubectl-helm-clientcert
-    secrets: [ kubernetes_server, kubernetes_ca_cert, kubernetes_client_cert, kubernetes_client_key ]
+    secrets: [ kubeconfig_url ]
     kubectl: "get pods"
 
   deploy_example:
     image: sokoow/drone-kubectl-helm-clientcert
-    secrets: [ kubernetes_server, kubernetes_ca_cert, kubernetes_client_cert, kubernetes_client_key ]
+    secrets: [ kubeconfig_url ]
     kubectl: "apply -f example-deployment/example-deployment.yaml"
 
   deploy_service:
     image: sokoow/drone-kubectl-helm-clientcert
-    secrets: [ kubernetes_server, kubernetes_ca_cert, kubernetes_client_cert, kubernetes_client_key ]
+    secrets: [ kubeconfig_url ]
     kubectl: "apply -f example-deployment/example-service.yaml"
 
   deploy_ingress:
     image: sokoow/drone-kubectl-helm-clientcert
-    secrets: [ kubernetes_server, kubernetes_ca_cert, kubernetes_client_cert, kubernetes_client_key ]
+    secrets: [ kubeconfig_url ]
     kubectl: "apply -f example-deployment/example-ingress.yaml"
 
-  get_pods:
+  get_pods_again:
     image: sokoow/drone-kubectl-helm-clientcert
-    secrets: [ kubernetes_server, kubernetes_ca_cert, kubernetes_client_cert, kubernetes_client_key ]
+    secrets: [ kubeconfig_url ]
     kubectl: "get pods"
