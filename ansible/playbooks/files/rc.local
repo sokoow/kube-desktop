@@ -10,3 +10,5 @@ if [ "$CURRENT" != "$CONFIGURED" ]; then
 else
   echo "Already configured"
 fi
+
+sed -i "1inameserver $DNS" /etc/resolv.conf
