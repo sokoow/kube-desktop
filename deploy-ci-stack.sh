@@ -67,6 +67,11 @@ minio-mc mb minio/secrets
 minio-mc policy set public minio/secrets
 minio-mc cp /root/.kube/config minio/secrets/kubeconfig
 
+echo "Installing linkerd2"
+curl -sL https://run.linkerd.io/install | sh
+cp ~/.linkerd2/bin/linkerd /usr/bin
+linkerd install | kubectl apply -f -
+
 echo "Applying localhost dns resolver for kube"
 /etc/rc.local
 systemctl daemon-reload
