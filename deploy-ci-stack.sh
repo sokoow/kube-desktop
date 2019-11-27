@@ -71,4 +71,8 @@ systemctl daemon-reload
 systemctl restart systemd-resolved
 systemctl enable systemd-resolved
 
+echo "Configure git"
+git config --global user.email "developer@mykube.awesome"
+git config --global user.name "developer"
+
 echo -e "\nDONE! CI stack is deploying, at the moment you see anything at http://git.mykube.awesome/ you should be ready to use some examples. Have Fun!\n"
