@@ -1,0 +1,12 @@
+#!/bin/bash
+
+DNS=$(kubectl get service/kube-dns --namespace kube-system --template '{{.spec.clusterIP}}')
+CONFIGURED=$(echo -e "[Resolve]\nDNS=$DNS" | base64)
+CURRENT=$(cat /etc/systemd/resolved.conf | base64 | tr -d "\r")
+if [ "$CURRENT" != "$CONFIGURED" ]; then
+  echo $CONFIGURED | base64 --decode | sudo tee /etc/systemd/resolved.conf
+  sudo systemctl restart systemd-resolved --wait
+  echo "Configured and restarted"
+else
+  echo "Already configured"
+fi

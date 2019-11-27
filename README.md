@@ -42,7 +42,7 @@ To install full CI stack, fire up ```./deploy-ci-stack.sh``` afterwards and then
 #### Running example deployment on localhost (golang demo)
 
 Go to the `examples` directory, have a look around there.
-s
+
 ### Running on Vagrant
 
 Should be as simple as:
@@ -80,6 +80,7 @@ Next things that would be handy to run on this:
 - [ ] example projects in various languages
 - [ ] tracing/logging
 - [ ] service mesh
+- [ ] trove docker registry https://blog.container-solutions.com/installing-a-registry-on-kubernetes-quickstart
 - [ ] whatever else
 
 ### What might be problematic ?

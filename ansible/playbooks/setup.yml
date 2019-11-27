@@ -9,3 +9,29 @@
     name: vagrant
     groups: docker
     append: true
+
+- name: Copy rc.local
+  copy:
+    src: files/rc.local
+    dest: /etc/rc.local
+    mode: "0755"
+
+- name: Copy nsswitch.conf
+  copy:
+    src: files/nsswitch.conf
+    dest: /etc/nsswitch.conf
+
+- name: Reload service systemd-resolved
+  service:
+    name: systemd-resolved
+    state: reloaded
+
+- name: Restart service systemd-resolved
+  service:
+    name: systemd-resolved
+    state: restarted
+
+- name: Enable service systemd-resolved
+  service:
+    name: systemd-resolved
+    enabled: yes

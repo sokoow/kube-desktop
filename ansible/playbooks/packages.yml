@@ -15,6 +15,7 @@
     - python-pip
     - postgresql-client
     - screen
+    - dnsutils
 
 - name: Install Docker Python library.
   pip: name={{ item }} state=present

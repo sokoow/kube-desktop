@@ -65,4 +65,10 @@ minio-mc mb minio/secrets
 minio-mc policy set public minio/secrets
 minio-mc cp /root/.kube/config minio/secrets/kubeconfig
 
+echo "Applying localhost dns resolver for kube"
+/etc/rc.local
+systemctl daemon-reload
+systemctl restart systemd-resolved
+systemctl enable systemd-resolved
+
 echo -e "\nDONE! CI stack is deploying, at the moment you see anything at http://git.mykube.awesome/ you should be ready to use some examples. Have Fun!\n"
