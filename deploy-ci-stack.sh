@@ -72,6 +72,10 @@ curl -sL https://run.linkerd.io/install | sh
 cp ~/.linkerd2/bin/linkerd /usr/bin
 linkerd install | kubectl apply -f -
 
+echo "Installing telepresence"
+curl -s https://packagecloud.io/install/repositories/datawireio/telepresence/script.deb.sh | sudo bash
+sudo apt install --no-install-recommends telepresence
+
 echo "Applying localhost dns resolver for kube"
 /etc/rc.local
 systemctl daemon-reload
