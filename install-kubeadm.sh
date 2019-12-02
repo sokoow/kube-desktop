@@ -95,6 +95,9 @@ kubectl apply -f addons/rook-ceph/toolbox.yaml
 kubectl apply -f addons/rook-ceph/sample-cluster.yaml
 kubectl apply -f addons/rook-ceph/storageclass.yaml
 
+echo "Installing NFS provisioner"
+helm install charts/nfs-server-provisioner --generate-name
+
 # deploy ingresses we want
 ./deploy-ingresses.sh
 

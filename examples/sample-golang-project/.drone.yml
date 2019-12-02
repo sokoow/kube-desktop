@@ -41,3 +41,17 @@ pipeline:
     image: sokoow/drone-kubectl-helm-clientcert
     secrets: [ kubeconfig_url ]
     kubectl: "get pods"
+
+  write_to_irc:
+    image: plugins/irc
+    prefix: build
+    nick: builder
+    channel: kube-desktop
+    host: chat.freenode.net
+    port: 6667
+    template: >
+      {{#success build.status}}
+        Build success: {{build.link}}, commit:{{build.commit}}
+      {{else}}
+        Build failure: {{build.link}}, commit:{{build.commit}}
+      {{/success}}
