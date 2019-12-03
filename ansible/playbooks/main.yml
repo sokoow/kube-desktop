@@ -6,9 +6,9 @@
 
   pre_tasks:
 # Check for unattended-upgrades
-    - name: Wait for automatic system updates to complete
-      shell: while pgrep unattended; do sleep 10; done;
-      
+#    - name: Wait for automatic system updates to complete
+#      shell: while pgrep unattended; do sleep 10; done;
+
     - name: Update apt cache if needed.
       apt: update_cache=yes cache_valid_time=3600
 
