@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 set -eu
 set -o pipefail
-set -x
 
 CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 TERRAFORM_INVENTORY=`which terraform-inventory`
