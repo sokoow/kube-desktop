@@ -5,14 +5,10 @@
   gather_facts: false
 
   pre_tasks:
-    - name: Wait for /var/lib/apt/lists/lock
-      become: yes
-      shell:  while sudo fuser /var/lib/apt/lists/lock >/dev/null 2>&1; do sleep 5; done;
-
-    - name: Wait for /var/lib/dpkg/lock
-      become: yes
-      shell:  while sudo fuser /var/lib/dpkg/lock >/dev/null 2>&1; do sleep 5; done;
-
+# Check for unattended-upgrades
+    - name: Wait for automatic system updates to complete
+      shell: while pgrep unattended; do sleep 10; done;
+      
     - name: Update apt cache if needed.
       apt: update_cache=yes cache_valid_time=3600
 
