@@ -21,9 +21,11 @@
     src: files/nsswitch.conf
     dest: /etc/nsswitch.conf
 
-- name: Reload services
+- name: Reload services, restart systemd-resolved
   service:
-    state: reloaded
+    name: systemd-resolved
+    state: restarted
+    daemon_reload: yes
 
 - name: Restart service systemd-resolved
   service:
