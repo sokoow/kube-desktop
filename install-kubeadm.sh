@@ -77,7 +77,7 @@ bash get_helm.sh
 
 # install minio client
 sudo wget https://dl.min.io/client/mc/release/linux-amd64/mc -O /usr/bin/minio-mc
-chmod +x /usr/bin/minio-mc
+sudo chmod +x /usr/bin/minio-mc
 
 # Add helm repos
 helm repo add incubator https://kubernetes-charts-incubator.storage.googleapis.com/
