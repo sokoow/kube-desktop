@@ -19,7 +19,7 @@ resource "null_resource" "ansible-bootstrap" {
     }
 
     provisioner "local-exec" {
-      command = "sleep 5; ../bin/deploy_kube.sh"
+      command = "sleep 5; ../bin/deploy_kube.sh; touch /tmp/ansible_done"
       on_failure = "fail"
     }
 }
@@ -55,6 +55,7 @@ resource "null_resource" "kube-bootstrap" {
     provisioner "remote-exec" {
       inline = [
         "while [ ! -f /tmp/bootstrap_done ]; do sleep 2; done",
+        "while [ ! -f /tmp/ansible_done ]; do sleep 2; done",
         "chmod +x /tmp/kube-provisioner.sh",
         "sudo /tmp/kube-provisioner.sh"
       ]
