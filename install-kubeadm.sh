@@ -76,7 +76,7 @@ curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 > get
 bash get_helm.sh
 
 # install minio client
-wget https://dl.min.io/client/mc/release/linux-amd64/mc -O /usr/bin/minio-mc
+sudo wget https://dl.min.io/client/mc/release/linux-amd64/mc -O /usr/bin/minio-mc
 chmod +x /usr/bin/minio-mc
 
 # Add helm repos
