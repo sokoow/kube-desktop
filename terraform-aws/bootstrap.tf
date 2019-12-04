@@ -19,7 +19,7 @@ resource "null_resource" "ansible-bootstrap" {
     }
 
     provisioner "local-exec" {
-      command = "sleep 5; ../bin/deploy_kube.sh; touch /tmp/ansible_done"
+      command = "sleep 5; ../bin/deploy_kube.sh"
       on_failure = "fail"
     }
 }
