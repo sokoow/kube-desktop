@@ -37,10 +37,10 @@ make
 #
 # openssl req -newkey rsa:4096 -nodes -sha256 -keyout tls.key -x509 -days 365 -out tls.crt -config openssl.conf -new -subj /C=EU
 
-mkdir -p /etc/docker/certs.d/registry-svc:5000
-cp ./rootCA.crt /etc/docker/certs.d/registry-svc:5000/ca.crt
-mkdir -p /etc/docker/certs.d/registry-svc.default.svc.cluster.local:5000
-cp ./rootCA.crt /etc/docker/certs.d/registry-svc.default.svc.cluster.local:5000/ca.crt
+sudo mkdir -p /etc/docker/certs.d/registry-svc:5000
+sudo cp ./rootCA.crt /etc/docker/certs.d/registry-svc:5000/ca.crt
+sudo mkdir -p /etc/docker/certs.d/registry-svc.default.svc.cluster.local:5000
+sudo cp ./rootCA.crt /etc/docker/certs.d/registry-svc.default.svc.cluster.local:5000/ca.crt
 cp registry-svc.key tls.key
 cp registry-svc.crt tls.crt
 kubectl create secret generic registry-tls-cert --from-file=./tls.key --from-file=./tls.crt
