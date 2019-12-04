@@ -69,7 +69,7 @@ minio-mc cp /root/.kube/config minio/secrets/kubeconfig
 
 echo "Installing linkerd2"
 curl -sL https://run.linkerd.io/install | sh
-cp ~/.linkerd2/bin/linkerd /usr/bin
+sudo cp ~/.linkerd2/bin/linkerd /usr/bin
 linkerd install | kubectl apply -f -
 
 echo "Installing telepresence"
@@ -77,7 +77,7 @@ curl -s https://packagecloud.io/install/repositories/datawireio/telepresence/scr
 sudo apt install --no-install-recommends -y telepresence
 
 echo "Applying localhost dns resolver for kube"
-/etc/rc.local
+sudo /etc/rc.local
 systemctl daemon-reload
 systemctl restart systemd-resolved
 systemctl enable systemd-resolved
