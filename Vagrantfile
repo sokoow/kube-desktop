@@ -27,7 +27,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.provision "ansible" do |ansible|
     ansible.compatibility_mode = "2.0"
-    ansible.playbook = "ansible/main.yml"
+    ansible.playbook = "ansible/playbooks/main.yml"
   end
 
   #config.vm.synced_folder ".", "/vagrant"
@@ -39,7 +39,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     kube1.vm.network "forwarded_port", guest: 80, host: 1080
     kube1.vm.network "forwarded_port", guest: 6443, host: 6443
 
-    kube1.vm.provision :shell, path: "kube-provisioner.sh", privileged: false
+    kube1.vm.provision :shell, path: "scripts/kube-provisioner.sh", privileged: false
     kube1.vm.provision :shell, inline: "mkdir -p /home/vagrant/.kube && cp /etc/kubernetes/admin.conf /home/vagrant/.kube/config && chown -R vagrant: /home/vagrant"
   end
 end
