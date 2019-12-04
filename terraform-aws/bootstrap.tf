@@ -11,13 +11,18 @@ resource "null_resource" "ansible-bootstrap" {
         agent = false
     }
 
-    provisioner "local-exec" {
-      command = "../bin/deploy_kube.sh"
-      on_failure = "fail"
+    provisioner "remote-exec" {
+      inline = [
+      "while [ ! -f /tmp/userdata_done ]; do sleep 2; done",
+      "while [ ! -f /tmp/bootstrap_done ]; do sleep 2; done",
+      ]
     }
 
+    provisioner "local-exec" {
+      command = "sleep 5; ../bin/deploy_kube.sh"
+      on_failure = "fail"
+    }
 }
-
 
 resource "null_resource" "kube-bootstrap" {
 
@@ -40,6 +45,8 @@ resource "null_resource" "kube-bootstrap" {
 
     provisioner "remote-exec" {
       inline = [
+        "sleep 10",
+        "while [ ! -f /tmp/userdata_done ]; do sleep 2; done",
         "chmod +x /tmp/bootstrap.sh",
         "sudo /tmp/bootstrap.sh"
       ]
@@ -47,6 +54,7 @@ resource "null_resource" "kube-bootstrap" {
 
     provisioner "remote-exec" {
       inline = [
+        "while [ ! -f /tmp/bootstrap_done ]; do sleep 2; done",
         "chmod +x /tmp/kube-provisioner.sh",
         "sudo /tmp/kube-provisioner.sh"
       ]

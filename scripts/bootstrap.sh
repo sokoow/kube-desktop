@@ -10,3 +10,5 @@ echo "Installing docker CE"
 wget https://get.docker.com -qO /tmp/get-docker.sh
 chmod +x /tmp/get-docker.sh
 /tmp/get-docker.sh
+
+touch /tmp/bootstrap_done

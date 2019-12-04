@@ -8,3 +8,5 @@ sudo systemctl mask unattended-upgrades.service
 sudo systemctl stop unattended-upgrades.service
 
 while systemctl is-active --quiet unattended-upgrades.service; do sleep 1; done
+
+touch /tmp/userdata_done
