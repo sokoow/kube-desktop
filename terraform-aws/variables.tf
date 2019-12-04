@@ -12,7 +12,7 @@ variable "public_key" {
 
 variable "instance_count" {
   description = "Count of instances"
-  default     = 1
+  default     = 3
 }
 
 variable "vpc_override" {
