@@ -65,7 +65,7 @@ MINIO_SECRETKEY=$(kubectl get secret -l app=minio -o 'jsonpath={..data.secretkey
 minio-mc config host add minio "http://$MINIO_IP:$MINIO_PORT" "$MINIO_ACCESSKEY" "$MINIO_SECRETKEY"
 minio-mc mb minio/secrets
 minio-mc policy set public minio/secrets
-minio-mc cp /root/.kube/config minio/secrets/kubeconfig
+sudo minio-mc cp /root/.kube/config minio/secrets/kubeconfig
 
 echo "Installing linkerd2"
 curl -sL https://run.linkerd.io/install | sh
@@ -78,9 +78,9 @@ sudo apt install --no-install-recommends -y telepresence
 
 echo "Applying localhost dns resolver for kube"
 sudo /etc/rc.local
-systemctl daemon-reload
-systemctl restart systemd-resolved
-systemctl enable systemd-resolved
+sudo systemctl daemon-reload
+sudo systemctl restart systemd-resolved
+sudo systemctl enable systemd-resolved
 
 echo "Configure git"
 git config --global user.email "developer@mykube.awesome"
