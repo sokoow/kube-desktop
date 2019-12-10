@@ -1,0 +1,15 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: grafana
+  namespace: loki
+spec:
+  rules:
+  - host: loki.mykube.awesome
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: grafana-svc
+          servicePort: 80

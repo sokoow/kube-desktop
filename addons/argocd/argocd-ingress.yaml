@@ -1,0 +1,15 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: argocd-server
+  namespace: argocd
+spec:
+  rules:
+  - host: argocd.mykube.awesome
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: argocd-server
+          servicePort: 80
