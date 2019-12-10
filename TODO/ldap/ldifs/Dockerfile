@@ -16,7 +16,7 @@
 ## Contributors:
 ##     Frantz FISCHER <ffischer@nuxeo.com>
 
-FROM osixia/openldap:1.1.10
+FROM osixia/openldap:1.2.4
 
 LABEL maintainer="Nuxeo Packagers <packagers+docker-openldap@nuxeo.com>"
 LABEL version="1.0.3"

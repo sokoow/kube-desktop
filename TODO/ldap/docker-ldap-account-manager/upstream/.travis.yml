@@ -1,0 +1,15 @@
+language: php
+addons:
+  sonarcloud:
+    organization: "ldap-account-manager"
+php:
+  - '5.6'
+
+cache:
+  directories:
+    - '$HOME/.sonar/cache'
+
+script:
+  - phpunit
+  - ls -l code-coverage/*
+  - sonar-scanner

@@ -1,0 +1,5 @@
+<Files *>
+  Options +FollowSymLinks
+  Require all granted
+  DirectoryIndex index.html
+</Files>

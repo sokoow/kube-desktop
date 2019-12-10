@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<book>
+  <title>LDAP Account Manager - Manual</title>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="overview.xml"/>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="chapter-bigPicture.xml"/>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="chapter-installation.xml"/>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="chapter-configuration.xml"/>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="chapter-modules.xml"/>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="chapter-tools.xml"/>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="chapter-accessLevel.xml"/>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="chapter-selfService.xml"/>
+
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="appendix-schema.xml"/>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="appendix-security.xml"/>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="appendix-ldapConfig.xml"/>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="appendix-email.xml"/>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="appendix-lamdaemon.xml"/>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="appendix-selfResetSchema.xml"/>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="appendix-design.xml"/>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="appendix-cluster.xml"/>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="appendix-troubleshooting.xml"/>
+
+</book>

@@ -1,0 +1,41 @@
+version: '3.7'
+
+services:
+  #
+  # build
+  #
+  ldap-account-manager-build:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: build
+    image: takumi/ldap-account-manager:build
+    hostname: ldap-account-manager-build
+    container_name: ldap-account-manager-build
+    command: /bin/true
+    networks:
+      - ldap-account-manager
+
+  #
+  # service
+  #
+  ldap-account-manager:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: prod
+    image: takumi/ldap-account-manager:latest
+    hostname: ldap-account-manager
+    container_name: ldap-account-manager
+    restart: always
+    networks:
+      - ldap-account-manager
+    ports:
+      - 8000:80
+      - 8443:443
+    environment:
+      - "PHP_FPM_UID=${PHP_FPM_UID:-1000}"
+      - "PHP_FPM_GID=${PHP_FPM_GID:-1000}"
+
+networks:
+  ldap-account-manager:

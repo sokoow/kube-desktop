@@ -1,0 +1,829 @@
+/*
+
+  This code is part of LDAP Account Manager (http://www.ldap-account-manager.org/)
+  Copyright (C) 2003  Leonhard Walchshaeusl
+  Copyright (C) 2005 - 2019  Roland Gruber
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more detaexils.
+
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+*/
+
+/* CSS layout for LAM */
+
+
+/**
+ * global page layout
+ *
+ */
+
+h1,h2,h3,h4,p,ul,ol,li,div,td,th,address,blockquote,b,i {
+  font-family:Arial,Tahoma,Verdana,sans-serif;
+}
+
+h1,h2,h3 { color:black; }
+
+body {
+  background-color:#F5F5F5;
+}
+
+body.selfservice {
+  padding: 10px;
+  background: #fffde2;
+}
+
+body.admin {
+  padding: 0px 10px 10px 10px;
+}
+
+body.lam-selfservice {
+  padding: 10px;
+}
+
+.defaultBackground {
+  background: #F5F5F5 !important;
+}
+
+/* links */
+a {
+color: #222222;
+text-decoration: none;
+}
+
+a:link {
+color: #222222;
+text-decoration: none;
+}
+
+a:visited {
+color: #222222;
+text-decoration: none;
+}
+
+a:hover {
+	color: red;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+a:active {
+color: red;
+text-decoration: none;
+}
+
+a img {
+	border: 0px;
+}
+
+a.classicBold {
+	color: blue;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+fieldset {
+  border:1px solid black;
+  padding:10px;
+}
+
+div.filled {
+background-color:#fff3c8;
+border:1px solid #af8800;
+padding:10px;
+}
+
+legend {
+color:black;
+}
+
+input.listPageInput {
+	width: 3em;
+	text-align: center;
+}
+
+input.max-width-10 {
+	max-width: 10rem;
+}
+
+select {
+	background:#F5F5F5 none repeat-x scroll 50% 50%;
+	border:1px solid #AAAAAA;
+	color:#222222;
+	margin: 3px;
+}
+
+input {
+	margin: 3px;
+}
+
+textarea {
+	margin: 3px;
+}
+
+.margin2 {
+	margin: 2px;
+}
+
+.margin3 {
+	margin: 3px;
+}
+
+.margin5 {
+	margin: 5px;
+}
+
+.margin10 {
+	margin: 10px;
+}
+
+.margin20 {
+	margin: 20px;
+}
+
+.margin-left5 {
+	margin-left: 5px;
+}
+
+.margin-right5 {
+	margin-right: 5px;
+}
+
+.noMarginTop {
+	margin-top: 0px;
+}
+
+.noMarginSides {
+	margin-right: 0px;
+	margin-left: 0px;
+}
+
+.padding0 {
+	padding: 0em !important;
+}
+
+.padding-right05 {
+	padding-right: 0.5rem !important;
+}
+
+.padding-left-right05 {
+	padding-left: 0.5rem !important;
+	padding-right: 0.5rem !important;
+}
+
+.padding05 {
+	padding: 0.5em;
+}
+
+.padding1 {
+	padding: 1em;
+}
+
+.spacing5 {
+	border-spacing: 5px;
+	border-collapse: separate;
+}
+
+.float-left {
+	float: left;
+}
+
+.hoverHighlight {
+	border: 1px solid transparent;
+}
+
+.hoverHighlight:hover {
+	border: 1px solid grey;
+	border-radius: 5px;
+	box-shadow: 0 0 10px #a0a0a4;
+}
+
+.black {
+	color: black;
+}
+
+.align-middle {
+	vertical-align: middle;
+}
+
+.align-top {
+	vertical-align: top;
+}
+
+.align-unset-img img {
+	vertical-align: unset;
+}
+
+table.lamHeader {
+  background-image: url(lam-images/headerLine.png);
+  padding: 0px;
+  height: 35px;
+  margin-bottom: 0.5rem;
+}
+
+table.lamTop {
+  background-image: url(lam-images/headerLine.png);
+  padding: 0px;
+  height: 35px;
+  width: 100%;
+  border-width: 0px;
+}
+
+table.lamTop td {
+  padding: 1px;
+  vertical-align: "bottom";
+}
+
+/* table preferences */
+table.accountlist {
+  border-width:1px;
+  border-style:solid;
+}
+
+table.accountlist input[type='text'] {
+	width: 99%;
+	min-width: 7rem;
+}
+
+.lam-listtools {
+	white-space: nowrap;
+	width: 125px;
+}
+
+.lam-list-buttons {
+	padding-bottom: 0.5rem;
+}
+
+.lam-listouselection-height {
+	height: 27px;
+}
+
+table.collapse {
+	border-collapse:collapse;
+}
+
+.tablepadding05 td,th {
+	padding: 0.5em;
+}
+
+
+.rightToLeftText {
+	text-align: right;
+}
+
+.text-left {
+	text-align: left;
+}
+
+.text-right {
+	text-align: right;
+}
+
+.text-center {
+	text-align: center;
+}
+
+.div-center {
+	margin: 0 auto;
+}
+
+.bold {
+	font-weight: bold;
+}
+
+/** buttons */
+.saveButton {
+	background-image: url(../graphics/save.png) !important;
+	background-position: 0px 0px !important;
+}
+
+.cancelButton {
+	background-image: url(../graphics/cancel.png) !important;
+	background-position: 0px 0px !important;
+}
+
+.logoutButton {
+	background-image: url(../graphics/exit.png) !important;
+	background-position: 0px 0px !important;
+}
+
+.undoButton {
+	background-image: url(../graphics/undo.png) !important;
+	background-position: 0px 0px !important;
+}
+
+.passwordButton {
+	background-image: url(../graphics/key.png) !important;
+	background-position: 0px 0px !important;
+}
+
+.loadProfileButton {
+	background-image: url(../graphics/loadProfile.png) !important;
+	background-position: 0px 0px !important;
+}
+
+.deleteButton {
+	background-image: url(../graphics/del.png) !important;
+	background-position: 0px 0px !important;
+}
+
+.createButton {
+	background-image: url(../graphics/add.png) !important;
+	background-position: 0px 0px !important;
+}
+
+.editButton {
+	background-image: url(../graphics/edit.png) !important;
+	background-position: 0px 0px !important;
+}
+
+.settingsButton {
+	background-image: url(../graphics/tools.png) !important;
+	background-position: 0px 0px !important;
+}
+
+.upButton {
+	background-image: url(../graphics/up.gif) !important;
+	background-position: 0px 0px !important;
+}
+
+.downButton {
+	background-image: url(../graphics/down.gif) !important;
+	background-position: 0px 0px !important;
+}
+
+.backButton {
+	background-image: url(../graphics/back.gif) !important;
+	background-position: 0px 0px !important;
+}
+
+.pdfButton {
+	background-image: url(../graphics/pdf.png) !important;
+	background-position: 0px 0px !important;
+}
+
+.dryRunButton {
+	background-image: url(../graphics/info_small.png) !important;
+	background-position: 0px 0px !important;
+}
+
+.trashButton {
+	background-image: url(../graphics/trash.png) !important;
+	background-position: 0px 0px !important;
+}
+
+.refreshButton {
+	background-image: url(../graphics/refresh.png) !important;
+	background-position: 0px 0px !important;
+}
+
+.testButton {
+	background-image: url(../graphics/tests.png) !important;
+	background-position: 0px 0px !important;
+}
+
+.infoButton {
+	background-image: url(../graphics/info_small.png) !important;
+	background-size: 16px 16px;
+	background-position: 0px 0px !important;
+}
+
+.unixButton {
+	background-image: url(../graphics/tux.png) !important;
+	background-size: 16px 16px;
+	background-position: 0px 0px !important;
+}
+
+.groupButton {
+	background-image: url(../graphics/group.png) !important;
+	background-size: 16px 16px;
+	background-position: 0px 0px !important;
+}
+
+.sambaButton {
+	background-image: url(../graphics/samba.png) !important;
+	background-size: 16px 16px;
+	background-position: 0px 0px !important;
+}
+
+.okButton {
+	background-image: url(../graphics/pass.png) !important;
+	background-size: 16px 16px;
+	background-position: 0px 0px !important;
+}
+
+.smallPadding span {
+	padding: 0.1em 0.4em !important;
+}
+
+.smallPaddingContent {
+	padding: 0.5em;
+	padding-bottom: 1rem;
+}
+
+/** titles */
+.titleText {
+	color: black;
+	text-align: left;
+}
+
+/** subtitles */
+.subTitle {
+	margin: 20px 0px 15px 0px;
+	border-bottom: 1px dotted black;
+}
+
+.subTitleText {
+	margin: 0px 0px 0px 10px;
+	color: black;
+	text-align: left;
+}
+
+.hidden {
+	display: none;
+}
+
+.nowrap {
+	white-space: nowrap;
+}
+
+hr.dotted {
+	border-bottom: 1px dotted black;
+	border-top: none;
+	border-right: none;
+	border-left: none;
+}
+
+div.ui-progressbar-value {
+	background-image: url(images/pbar-ani.gif);
+}
+
+div.jobList {
+	overflow: scroll;
+	max-height: 50rem;
+}
+
+div.smallScroll {
+	overflow: scroll;
+	max-height: 10rem;
+	overflow-x: hidden;
+}
+
+.fullwidth {
+	width: 100%;
+}
+
+.halfwidth {
+	width: 50%;
+}
+
+td.loginLogo {
+	background-image: url(../graphics/lam.png);
+	background-repeat:no-repeat;
+	background-position: center;
+	margin: 5px;
+	height: 303px;
+	width: 63px;
+}
+
+td.loginRightBox {
+	margin: 5px;
+	width: 63px;
+}
+
+.roundedShadowBox {
+	border: 2px solid #a0a0a4;
+	border-radius: 5px;
+	box-shadow: 2px 2px 5px #a0a0a4;
+	display: inline-block;
+	background-color: white;
+	padding: 30px;
+}
+
+.limitWidth {
+	max-width: 580px;
+}
+
+div.centeredTable {
+	display: table;
+	width: 100%;
+	text-align: center;
+}
+
+a.lamLogo {
+	background-image: url(../graphics/logo24.png);
+	background-repeat: no-repeat;
+	background-position: left;
+	line-height: 24px;
+	display: block;
+	text-indent:32px;
+	vertical-align: middle;
+	white-space: nowrap;
+	margin-left: 5px;
+}
+
+input.markFail {
+	background-color: #ffc4ba;
+}
+input.markOk {
+	background-color: #abebaa;
+}
+
+.sortableList { list-style-type: none; margin: 0; padding: 0; }
+.sortableList li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; }
+.sortableList li span { position: absolute; margin-left: -1.3em; }
+
+.strike-through {
+	text-decoration: line-through;
+}
+
+
+/**
+ * table style for delete.php
+ *
+ */
+
+/* table preferences */
+table.account {
+  border-width:0px;
+  border-style:solid;
+  border-color:#000000;
+}
+
+/* color of entry rows */
+tr.account {
+  background-color:#FFFFEE;
+}
+
+/* --- workaround for vertical tabs --- */
+
+#lamVerticalTabs {
+	background: none;
+}
+
+#lamVerticalTabs .ui-tabs-nav li {
+	margin: 0 -1px .2em 1 !important;
+	clear: left;
+	width: 100%;
+	border-right-width: 0 !important;
+	border-bottom: 1px solid #AAAAAA !important;
+}
+
+#lamVerticalTabs .ui-tabs-nav li.ui-tabs-selected {
+	padding-bottom: 0;
+	padding-right: .1em;
+	border: 1px solid #c5c5c5
+}
+
+#lamVerticalTabs .ui-tabs-nav {
+	float: left;
+	padding: .2em 0em .2em .2em !IMPORTANT;
+	border-right: 0px;
+}
+
+#lamVerticalTabs .ui-tabs-panel {
+	padding: 0em 1em 1em 1em;
+	float: left;
+}
+
+#lamVerticalTabs .ui-widget-header {
+	background: #CCCCCC url(images/ui-bg_highlight-soft_75_cccccc_1x150-vertical.png) repeat-y;
+}
+
+#lamVerticalTabs .ui-tabs-nav li button  {
+	width: 100%;
+	text-align: left;
+	display:block;
+	color: #555555;
+}
+
+button.lam-account-type {
+	background-color:transparent;
+	border:0px solid;
+}
+
+button.lam-account-type img {
+	width: 32px;
+	height: 32px;
+	min-width: 32px;
+	min-height: 32px;
+}
+
+/* --- end of workaround for vertical tabs --- */
+
+/* title bar */
+.titleBar {
+	background-image: linear-gradient(#fdfdfd, #cccccc);
+	border-top: 1px solid #AAAAAA;
+	border-left: 1px solid #AAAAAA;
+	border-right: 1px solid #AAAAAA;
+}
+
+.titleBarTitle {
+	font: bold 1em Arial,Tahoma,Verdana,sans-serif;
+}
+
+.titleBarSubtitle {
+	padding: 0px 5px 0px 10px;
+}
+
+/**
+ * Color and font definitions for templates/status.php
+ *
+ */
+
+/* Background olor for the different Status Messages */
+div.statusInfo {
+  background-color:#a8c3ff;
+  border: 1px solid blue;
+}
+
+div.statusWarn {
+  background-color:#fff2a3;
+  border: 1px solid #f59d00;
+}
+
+div.statusError {
+  background-color:#ffc4ba;
+  border: 1px solid red;
+}
+
+/* H2 (MessageHeadline) font size, family, color, and some more settings for the different Status Messages */
+div.statusTitle {
+	font-weight: bold;
+	margin: 3px 3px 3px 15px;
+}
+
+/* P (MessageText) font size, family, color, and some more settings for the different Status Messages */
+p.statusText {
+  margin: 3px 3px 3px 25px;
+}
+
+input.smallImageButton {
+  background-position: center center;
+  background-repeat: no-repeat;
+  height:24px;
+  border: 0px;
+  background-color: transparent;
+  cursor:pointer;
+}
+
+.lam-input-error {
+	border: 1px solid red;
+	border-radius: 3px;
+}
+
+.size16 {
+	height: 16px !important;
+	width: 16px !important;
+	max-width: 16px;
+}
+
+/* help tooltip */
+th.help {
+	text-align: left;
+	padding-bottom: 10px;
+	font-size: 85%;
+}
+td.help {
+	font-size: 85%;
+}
+
+img.help-icon {
+	width: 16px;
+	height: 16px;
+	min-width: 16px;
+	min-height: 16px;
+}
+
+img.photo {
+	max-width: 200px;
+	max-height: 400px;
+}
+
+img.thumbnail {
+	max-width: 64px;
+	max-height: 64px;
+}
+
+div.confModList {
+	max-height: 300px;
+	overflow-y: auto;
+}
+
+.font-big {
+	font-size: 130%;
+}
+
+/** colors for account types */
+
+.alias-border { border-color:#af8800; }
+.alias-bright { background:#fff3c8 !important; }
+.alias-dark { background-color:#ffe27f !important; }
+
+.asteriskExt-border { border-color:#af8800; }
+.asteriskExt-bright { background:#fff3c8 !important; }
+.asteriskExt-dark { background-color:#ffe27f !important; }
+
+.automountType-border { border-color:#7167bf; }
+.automountType-bright { background:#d6e3ff !important; }
+.automountType-dark { background-color:#a8c3ff !important; }
+
+.dhcp-border { border-color:#527510; }
+.dhcp-bright { background:#d4f19b !important; }
+.dhcp-dark { background-color:#9fc653 !important; }
+
+.gon-border { border-color:#7167bf; }
+.gon-bright { background:#d6e3ff !important; }
+.gon-dark { background-color:#a8c3ff !important; }
+
+.group-border { border-color:#7167bf; }
+.group-bright { background:#d6e3ff !important; }
+.group-dark { background-color:#a8c3ff !important; }
+
+.host-border { border-color:#911a1a; }
+.host-bright { background:#ffe2dd !important; }
+.host-dark { background-color:#ffc4ba !important; }
+
+.mailAlias-border { border-color:#af8800; }
+.mailAlias-bright { background:#fff3c8 !important; }
+.mailAlias-dark { background-color:#ffe27f !important; }
+
+.netgroup-border { border-color:#7167bf; }
+.netgroup-bright { background:#d6e3ff !important; }
+.netgroup-dark { background-color:#a8c3ff !important; }
+
+.nisObjectType-border { border-color:#7167bf; }
+.nisObjectType-bright { background:#d6e3ff !important; }
+.nisObjectType-dark { background-color:#a8c3ff !important; }
+
+.ppolicyType-border { border-color:#af8800; }
+.ppolicyType-bright { background:#fff3c8 !important; }
+.ppolicyType-dark { background-color:#ffe27f !important; }
+
+.smbDomain-border { border-color:#1d993e; }
+.smbDomain-bright { background:#c9ddd2 !important; }
+.smbDomain-dark { background-color:#a8ddbf !important; }
+
+.sudo-border { border-color:#9b8523; }
+.sudo-bright { background:#fffde2 !important; }
+.sudo-dark { background-color:#fff2a3 !important; }
+
+.user-border { border-color:#9b8523; }
+.user-bright { background: #fffde2 !important; }
+.user-dark { background-color:#fff2a3 !important; }
+
+.kopanoAddressListType-border { border-color:#7167bf; }
+.kopanoAddressListType-bright { background:#d6e3ff !important; }
+.kopanoAddressListType-dark { background-color:#a8c3ff !important; }
+
+.zarafaAddressListType-border { border-color:#7167bf; }
+.zarafaAddressListType-bright { background:#d6e3ff !important; }
+.zarafaAddressListType-dark { background-color:#a8c3ff !important; }
+
+.kopanoDynamicGroupType-border { border-color:#7167bf; }
+.kopanoDynamicGroupType-bright { background:#d6e3ff !important; }
+.kopanoDynamicGroupType-dark { background-color:#a8c3ff !important; }
+
+.zarafaDynamicGroupType-border { border-color:#7167bf; }
+.zarafaDynamicGroupType-bright { background:#d6e3ff !important; }
+.zarafaDynamicGroupType-dark { background-color:#a8c3ff !important; }
+
+.pykotaPrinterType-border { border-color:#911a1a; }
+.pykotaPrinterType-bright { background:#ffe2dd !important; }
+.pykotaPrinterType-dark { background-color:#ffc4ba !important; }
+
+.pykotaBillingCodeType-border { border-color:#527510; }
+.pykotaBillingCodeType-bright { background:#d4f19b !important; }
+.pykotaBillingCodeType-dark { background-color:#9fc653 !important; }
+
+.bind-border { border-color:#32768b; }
+.bind-bright { background:#b6eeff !important; }
+.bind-dark { background-color:#80e0e1 !important; }
+
+.kolabSharedFolderType-border { border-color:#32768b; }
+.kolabSharedFolderType-bright { background:#b6eeff !important; }
+.kolabSharedFolderType-dark { background-color:#80e0e1 !important; }
+
+.oracleContextType-border { border-color:#32768b; }
+.oracleContextType-bright { background:#b6eeff !important; }
+.oracleContextType-dark { background-color:#80e0e1 !important; }
+
+.nsviewType-border { border-color:#af8800; }
+.nsviewType-bright { background:#fff3c8 !important; }
+.nsviewType-dark { background-color:#ffe27f !important; }
+
+.customType-border { border-color:#b87500; }
+.customType-bright { background:#ffe3b1 !important; }
+.customType-dark { background-color:#e1b974 !important; }
+

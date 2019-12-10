@@ -1,0 +1,24 @@
+#!/bin/bash
+
+set -e
+outFile=templates/lib/100_lam.${SOURCE_DATE_EPOCH}.min.js
+if [ ! -e $outFile ]; then
+	files=`ls templates/lib/*.js`
+	jsFiles=""
+	for file in $files; do
+		jsFiles="$jsFiles $file"
+	done
+	uglifyjs -o $outFile $jsFiles
+	rm $files
+	# add final new line to supress Debian warnings
+	echo "" >> $outFile
+fi
+
+files=`ls style/*.css`
+outFile=style/100_lam.${SOURCE_DATE_EPOCH}.min.css
+if [ ! -e $outFile ]; then
+	cat $files | cleancss --skip-rebase -o ${outFile}
+	rm $files
+	# add final new line to supress Debian warnings
+	echo "" >> $outFile
+fi

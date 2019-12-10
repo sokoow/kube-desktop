@@ -1,0 +1,258 @@
+/*
+
+  This code is part of LDAP Account Manager (http://www.ldap-account-manager.org/)
+  Copyright (C) 2017 - 2019  Roland Gruber
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more detaexils.
+
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+*/
+
+/** responsive styles */
+.row {
+	margin-top: 5px;
+}
+
+.row textarea {
+	width: 100%;
+}
+
+.row input {
+	width: 100%;
+}
+
+.row input[type="submit"] {
+	width: auto;
+}
+
+.row input[type="file"] {
+	width: auto;
+}
+
+.row input[type="checkbox"] {
+	width: auto;
+}
+
+.row input[type="radio"] {
+	width: auto;
+}
+
+input.auto-width {
+	width: auto;
+}
+
+input.maxwidth10 {
+	max-width: 10rem;
+}
+
+input.maxwidth20 {
+	max-width: 20rem;
+}
+
+img.max16 {
+	max-width: 16px;
+}
+
+div.dialog-page {
+	float: left;
+	width: 100%;
+}
+
+div.lam-dialog-msg {
+	margin: 10px;
+}
+
+div.dialog-content {
+	overflow: visible !important;
+	margin: 2rem;
+}
+
+table.padding5 td {
+	padding: 0.5rem;
+}
+
+.maxrow {
+	max-width: none !important;
+}
+
+.module-content-row>.row {
+	max-width: 80rem;
+	display: inline-block;
+}
+
+select.auto-width {
+	width: auto;
+}
+
+table.responsive-table {
+	margin-top: 1rem;
+	width: 100%;
+	border-collapse: collapse;
+}
+
+table.responsive-table th {
+	text-align: left;
+	padding-bottom: 0.4rem;
+	padding-top: 0.4rem;
+	padding-right: 0.3rem;
+	padding-left: 0.3rem;
+	white-space: nowrap;
+}
+
+table.responsive-table td {
+	overflow: hidden;
+	vertical-align: middle;
+	padding-bottom: 0.1rem;
+	padding-top: 0.1rem;
+	padding-right: 0.3rem;
+	padding-left: 0.3rem;
+	word-break: break-all;
+}
+
+/* mobile */
+@media only screen and (max-width: 40.0625em) {
+
+	.responsiveLabel {
+		text-align: left;
+	}
+
+	.hide-on-mobile {
+		display: none !important;
+	}
+
+	table.responsive-table thead {
+		border: none;
+		height: 1px;
+		margin: -1px;
+		overflow: hidden;
+		padding: 0;
+		position: absolute;
+		width: 1px;
+	}
+
+	table.responsive-table tr {
+		border-bottom: 3px solid #f1f1f1;
+		display: block;
+		margin-bottom: .6rem;
+	}
+
+	table.responsive-table td {
+		border-bottom: 1px solid #f1f1f1;
+		display: block;
+		text-align: right;
+	}
+
+	table.responsive-table td:before {
+		content: attr(data-label);
+		float: left;
+		font-weight: bold;
+		margin-right: 5px;
+	}
+
+	table.responsive-table td:last-child {
+		border-bottom: 0;
+	}
+
+	table.responsive-table tr:last-child {
+		border-bottom: 0;
+	}
+
+	.margin-right5-mobile-only {
+		margin-right: 5px;
+	}
+
+	.bold-mobile-only {
+		font-weight: bold;
+	}
+
+	.fullwidth-mobile-only {
+		width: 100%;
+	}
+
+	.header-user-label {
+		max-width: 100px;
+		overflow: hidden;
+	}
+
+	button.lam-account-type {
+		min-width: 20px;
+	}
+
+	.titleBar {
+		padding: 5px 5px 5px 5px;
+	}
+
+}
+
+/* tablet */
+@media only screen and (min-width: 40.0625em) and (max-width: 64.0625em) {
+
+	.responsiveLabel {
+		text-align: right;
+	}
+
+	.responsiveField {
+		text-align: left;
+	}
+
+	.hide-on-tablet {
+		display: none !important;
+	}
+
+	table.alternating-color tbody tr:nth-child(odd) {
+		background-color:rgba(0, 0, 0, 0.05);
+	}
+
+	button.lam-account-type {
+		min-width: 200px;
+	}
+
+	.titleBar {
+		padding: 5px 20px 5px 20px;
+	}
+
+}
+
+/* desktop */
+@media only screen and (min-width: 64.0625em) {
+
+	.responsiveLabel {
+		text-align: right;
+	}
+
+	.responsiveField {
+		text-align: left;
+	}
+
+	.hide-on-tablet {
+		display: none !important;
+	}
+
+	.hide-on-desktop {
+		display: none !important;
+	}
+
+	table.alternating-color tbody tr:nth-child(odd) {
+		background-color:rgba(0, 0, 0, 0.05);
+	}
+
+	button.lam-account-type {
+		min-width: 200px;
+	}
+
+	.titleBar {
+		padding: 5px 20px 5px 20px;
+	}
+
+}

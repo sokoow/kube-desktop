@@ -1,0 +1,15 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: lam
+  namespace: default
+spec:
+  rules:
+  - host: lam.mykube.awesome
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: lam-svc
+          servicePort: 80
