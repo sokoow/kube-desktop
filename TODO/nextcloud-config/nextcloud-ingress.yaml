@@ -1,0 +1,15 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: nextcloud
+  namespace: nextcloud
+spec:
+  rules:
+  - host: next.mykube.awesome
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: nextcloud-svc
+          servicePort: 8080
