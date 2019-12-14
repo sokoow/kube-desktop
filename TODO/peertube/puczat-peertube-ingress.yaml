@@ -1,0 +1,36 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: peertube-redis-svc
+spec:
+  selector:
+    app: peertube-redis
+  ports:
+  - name: redis
+    port: 6379
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: peertube-svc
+spec:
+  selector:
+    app: peertube
+  ports:
+  - name: svc2pod
+    port: 9000
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: peertube
+spec:
+  rules:
+  - host: peertube.mykube.awesomee
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: peertube-svc
+          servicePort: 9000

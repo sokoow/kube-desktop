@@ -1,0 +1,93 @@
+listen:
+  port: 9000
+
+# Correspond to your reverse proxy "listen" configuration
+webserver:
+  https: true
+  hostname: 'peertube.mykube.awesome'
+  port: 443
+
+# Your database name will be "peertube"+database.suffix
+database:
+  hostname: 'postgres-svc'
+  port: 5432
+  suffix: ''
+  username: 'peertube'
+  password: 'peertube123'
+
+# From the project root directory
+storage:
+  certs: 'certs/'
+  videos: 'videos/'
+  logs: 'logs/'
+  previews: 'previews/'
+  thumbnails: 'thumbnails/'
+  torrents: 'torrents/'
+
+redis:
+  hostname: 'peertube-redis-svc'
+  port: 6379
+  auth: null
+  db: 0
+  
+admin:
+  email: 'admin@mypeertube.com'
+
+signup:
+  enabled: false
+
+
+search:
+  # Add ability to fetch remote videos/actors by their URI, that may not be federated with your instance
+  # If enabled, the associated group will be able to "escape" from the instance follows
+  # That means they will be able to follow channels, watch videos, list videos of non followed instances
+  remote_uri:
+    users: true
+    anonymous: false
+
+trending:
+  videos:
+    interval_days: 7 # Compute trending videos for the last x days
+
+tracker:
+  # If you disable the tracker, you disable the P2P aspect of PeerTube
+  enabled: true
+  # Only handle requests on your videos.
+  # If you set this to false it means you have a public tracker.
+  # Then, it is possible that clients overload your instance with external torrents
+  private: true
+  # Reject peers that do a lot of announces (could improve privacy of TCP/UDP peers)
+  reject_too_many_announces: false
+
+
+# If enabled, the video will be transcoded to mp4 (x264) with "faststart" flag
+# In addition, if some resolutions are enabled the mp4 video file will be transcoded to these new resolutions.
+# Please, do not disable transcoding since many uploaded videos will not work
+transcoding:
+  enabled: true
+  # Allow your users to upload .mkv, .mov, .avi, .flv videos
+  allow_additional_extensions: true
+  threads: 1
+  resolutions: # Only created if the original video has a higher resolution, uses more storage!
+    240p: false
+    360p: false
+    480p: false
+    720p: false
+    1080p: false
+  # /!\ EXPERIMENTAL /!\
+  # /!\ Requires ffmpeg >= 4
+  # Generate HLS playlists and fragmented MP4 files. Better playback than with WebTorrent:
+  #     * Resolution change is smoother
+  #     * Faster playback in particular with long videos
+  #     * More stable playback (less bugs/infinite loading)
+  # /!\ Multiply videos storage by 2 /!\
+  hls:
+    enabled: false
+
+import:
+  # Add ability for your users to import remote videos (from YouTube, torrent...)
+  videos:
+    http: # Classic HTTP or all sites supported by youtube-dl https://rg3.github.io/youtube-dl/supportedsites.html
+      enabled: true
+    torrent: # Magnet URI or torrent file (use classic TCP/UDP/WebSeed to download the file)
+      enabled: true

@@ -1,0 +1,27 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  peertube-redis
+  labels:
+    app: peertube-redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: peertube-redis
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: peertube-redis
+    spec:
+      containers:
+      - name: redis
+        image: "library/redis"
+        imagePullPolicy: Always
+        ports:
+          - name: redis
+            containerPort: 6379
+            protocol: TCP

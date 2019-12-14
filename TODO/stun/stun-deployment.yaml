@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stun
+spec:
+  selector:
+    matchLabels:
+      app: stun
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: stun
+    spec:
+      containers:
+      - name: stun
+        image: mongooseim/mongooseice
+        ports:
+        - containerPort: 3478
+        env:
+        - name: "MONGOOSEICE_STUN_SECRET"
+          value: "test123"
+

@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: stun-svc
+spec:
+  selector:
+    app: stun
+  ports:
+  - name: web
+    port: 3478
+    nodePort: 30008
+    protocol: UDP
+  type: NodePort
+

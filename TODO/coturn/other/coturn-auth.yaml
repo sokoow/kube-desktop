@@ -1,0 +1,51 @@
+---
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: coturn-auth
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: coturn
+  replicas: 1 # tells deployment to run 1 pods matching the template
+  template: # create pods using pod definition in this template
+    metadata:
+      labels:
+        app: coturn
+    spec:
+      hostNetwork: true
+      containers:
+      - name: coturn-auth
+        image: kurento/coturn-auth
+        env:
+        - name: "LISTENING_PORT"
+          value: "3478"
+        - name: "REALM"
+          value: "mykube.awesome"
+        - name: "USER"
+          value: "nordri"
+        - name: "PASSWORD"
+          value: "mykube"
+        - name: "DEBUG"
+          value: "1"
+        ports:
+        - containerPort: 3478
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: coturn-auth
+  labels:
+    app: coturn
+spec:
+  ports:
+    - port: 3478
+      targetPort: 3478
+      nodePort: 30007
+      protocol: TCP
+      name: coturn-port
+  selector:
+    app: coturn
+  type: NodePort

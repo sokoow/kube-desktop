@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: coturn
+spec:
+  selector:
+    matchLabels:
+      app: coturn
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: coturn
+    spec:
+      containers:
+      - name: coturn
+        image: sokoow/turn:test3
+        ports:
+        - containerPort: 3478

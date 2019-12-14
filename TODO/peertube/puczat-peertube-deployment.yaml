@@ -1,0 +1,76 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  peertube
+  labels:
+    app: peertube
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: peertube
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: peertube
+    spec:
+      containers:
+      - name: peertube
+        image: "chocobozzz/peertube:production-stretch"
+        imagePullPolicy: Always
+        env:
+        - name: PEERTUBE_DB_HOSTNAME
+          value: "postgres-svc"
+        - name: PEERTUBE_DB_USERNAME
+          value: peertube
+        - name: PEERTUBE_DB_PASSWORD
+          value: peertube123
+        - name: PEERTUBE_REDIS_HOSTNAME
+          value: peertube-redis-svc
+        - name: PEERTUBE_SMTP_HOSTNAME
+          value: smtp.server.my
+        - name: PEERTUBE_SMTP_USERNAME
+          value: no-reply@smtp.my
+        - name: PEERTUBE_SMTP_PASSWORD
+          value: smtp123
+        - name: PEERTUBE_SMTP_PORT
+          value: "487"
+        - name: PEERTUBE_SMTP_FROM
+          value: admins@smtp.my
+        - name: PEERTUBE_SMTP_TLS
+          value: "true"
+        - name: PEERTUBE_ADMIN_EMAIL
+          value: admins@smtp.my
+        - name: PEERTUBE_WEBSERVER_HOSTNAME
+          value: peertube.mykube.awesome
+        - name: PEERTUBE_WEBSERVER_PORT
+          value: "443"
+        - name: PEERTUBE_WEBSERVER_HTTPS
+          value: "true"
+        ports:
+          - name: svc2pod
+            containerPort: 9000
+            protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /
+            port: svc2pod
+        readinessProbe:
+          httpGet:
+            path: /
+            port: svc2pod
+        volumeMounts:
+        - name: data
+          mountPath: /data
+        - name: config
+          mountPath: /config
+      volumes:
+       - name: data
+         hostPath:
+          path: /data/peertube
+       - name: config
+         hostPath:
+          path: /data/peertube-config
