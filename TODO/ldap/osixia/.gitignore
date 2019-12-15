@@ -1,0 +1,6 @@
+# ignore build harness
+*build-harness
+
+/.*
+!/.git*
+/VOLUMES

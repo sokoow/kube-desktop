@@ -1,0 +1,36 @@
+dn: uid=developer,ou=gitadmins,ou=people,dc=mykube,dc=awesome
+uid: developer
+sn: developer
+cn: developer
+objectClass: top
+objectClass: posixAccount
+objectClass: inetOrgPerson
+objectClass: shadowAccount
+givenName: Developer
+displayName: Developer
+shadowExpire: -1
+shadowFlag: 0
+shadowWarning: 7
+shadowMin: 0
+shadowMax: 99999
+shadowLastChange: 16086
+loginShell: /bin/bash
+homeDirectory: /home/developer
+uidNumber: 14583102
+gidNumber: 14564100
+userPassword: {SSHA}xkTYuygXqjUOWiszRrRKdNNJ6QEhcAXE
+mail: developer@mykube.awesome
+gecos: Developer
+
+dn: cn=developer,ou=group,dc=mykube,dc=awesome
+objectClass: top
+objectClass: posixGroup
+cn: developer
+gidNumber: 14564100
+
+dn: cn=gitadmins,ou=gitadmins,ou=people,dc=mykube,dc=awesome
+objectClass: top
+objectclass: groupOfNames
+cn: gitadmins
+description: Group of developers
+member: uid=developer,ou=gitadmins,ou=people,dc=mykube,dc=awesome

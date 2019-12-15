@@ -16,6 +16,7 @@
     - postgresql-client
     - screen
     - dnsutils
+    - sssd
 
 - name: Install Docker Python library.
   pip: name={{ item }} state=present

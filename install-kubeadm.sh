@@ -68,6 +68,8 @@ then
   cd /vagrant
 fi
 
+mkdir -p /data
+
 # delete old helm configs
 rm -rf $HOME/.helm
 
@@ -95,8 +97,14 @@ kubectl apply -f addons/rook-ceph/toolbox.yaml
 kubectl apply -f addons/rook-ceph/sample-cluster.yaml
 kubectl apply -f addons/rook-ceph/storageclass.yaml
 
+echo "Installing OpenLDAP"
+kubectl apply -f addons/openldap/ldap-nontls-deployment.yaml
+kubectl apply -f addons/openldap/ldap-service.yaml
+
 echo "Installing NFS provisioner"
 helm install charts/nfs-server-provisioner --generate-name
+
+kubectl create namespace loki
 
 # deploy ingresses we want
 ./deploy-ingresses.sh

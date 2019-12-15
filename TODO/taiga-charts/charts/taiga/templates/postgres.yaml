@@ -1,0 +1,19 @@
+{{- if .Values.postgresql.enabled -}}
+{{- $fullName := include "taiga.fullname" . -}}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ $fullName }}-secret
+  labels:
+{{ include "taiga.labels" . | indent 4 }}
+  {{- with .Values.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+type: Opaque
+data:
+  taiga-db-password: {{ .Values.postgresql.postgresqlPassword | b64enc | quote }}
+  taiga-db-username: {{ .Values.postgresql.postgresqlUsername | b64enc | quote }}
+  taiga-db-database: {{ .Values.postgresql.postgresqlDatabase | b64enc | quote }}
+  taiga-db-hostname: {{ printf "%s-%s" .Release.Name "postgresql" | b64enc | quote }}
+{{- end }}

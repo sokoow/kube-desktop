@@ -1,0 +1,116 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "taiga.fullname" . }}
+  labels:
+{{ include "taiga.labels" . | indent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "taiga.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "taiga.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          env:
+            - name: TAIGA_HOSTNAME
+              value: {{default "localhost" .Values.hostname | quote}}
+            - name: TAIGA_SSL
+              value: {{default "False" .Values.ssl.enabled | quote}}
+            - name: TAIGA_SSL_BY_REVERSE_PROXY
+              value: {{default "True" .Values.ssl.reverseProxy | quote}}
+            - name: TAIGA_ENABLE_EMAIL
+              value: {{default "True" .Values.email.enabled | quote}}
+            - name: TAIGA_EMAIL_FROM
+              value: {{default "no-reply@taiga.mycompany.net" .Values.email.from}}
+            - name: TAIGA_EMAIL_USE_TLS
+              value: {{default "True" .Values.email.useTls | quote}}
+            - name: TAIGA_EMAIL_HOST
+              value: {{default "smtp.mycompany.net" .Values.email.host}}
+            - name: TAIGA_EMAIL_PORT
+              value: {{default "587" .Values.email.port | quote}}
+            - name: TAIGA_EMAIL_USER
+              value: {{default "me@gmail.com" .Values.email.username}}
+            - name: TAIGA_EMAIL_PASS
+              value: {{default "super-secure-pass phrase thing!" .Values.email.password}}
+            {{- if .Values.postgresql.enabled }}
+            - name: TAIGA_DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "taiga.fullname" . }}-secret
+                  key: taiga-db-database
+            - name: TAIGA_DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "taiga.fullname" . }}-secret
+                  key: taiga-db-hostname
+            - name: TAIGA_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "taiga.fullname" . }}-secret
+                  key: taiga-db-username
+            - name: TAIGA_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "taiga.fullname" . }}-secret
+                  key: taiga-db-password
+            {{- else }}
+            - name: TAIGA_DB_NAME
+              value: {{default "postgres" .Values.database.name}}
+            - name: TAIGA_DB_HOST
+              value: {{default "postgres" .Values.database.host}}
+            - name: TAIGA_DB_USER
+              value: {{default "postgres" .Values.database.username}}
+            - name: TAIGA_DB_PASSWORD
+              value: {{default "postgres" .Values.database.password}}
+            {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: data
+              mountPath: {{default "/usr/src/taiga-back/media" .Values.persistence.mountPath}}
+              subPath: {{default "" .Values.persistence.subPath}}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      volumes:
+      - name: data
+      {{- if .Values.persistence.enabled }}
+        persistentVolumeClaim:
+          claimName: {{ .Values.persistence.existingClaim | default (include "taiga.fullname" .) }}
+      {{- else }}
+        emptyDir: {}
+      {{- end }}
