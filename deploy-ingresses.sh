@@ -1,4 +1,5 @@
 #!/bin/bash
+set -x
 
 CURRENT_HOMEDIR=$(pwd)
 
@@ -9,7 +10,7 @@ then
 fi
 
 # deploy ingress manifests
-for manifest in $(find ./traefik-ingresses -iname *-ingress.yaml); do
+for manifest in $(find ./traefik-ingresses -iname "*-ingress.yaml"); do
   echo "Adding ingress manifest $INGRESS_HOST to kube"
   kubectl apply -f $manifest
 done
