@@ -4,6 +4,12 @@ objectClass: organizationalUnit
 ou: people
 description: Users are in this subtree
 
+dn: ou=gitadmins,ou=people,dc=mykube,dc=awesome
+objectClass: top
+objectClass: organizationalUnit
+ou: gitadmins
+description: Sales users are in this subtree
+
 dn: ou=sales,ou=people,dc=mykube,dc=awesome
 objectClass: top
 objectClass: organizationalUnit
@@ -70,31 +76,31 @@ objectClass: organizationalUnit
 ou: financial
 description: Financial users are in this subtree
 
-dn: ou=groups,dc=mykube,dc=awesome
+dn: ou=group,dc=mykube,dc=awesome
 objectClass: top
 objectClass: organizationalUnit
 ou: groups
 description: Groups are in this subtree
 
-dn: ou=static,ou=groups,dc=mykube,dc=awesome
+dn: ou=static,ou=group,dc=mykube,dc=awesome
 objectClass: top
 objectClass: organizationalUnit
 ou: static
 description: Static groups are in this unit
 
-dn: ou=gou,ou=static,ou=groups,dc=mykube,dc=awesome
+dn: ou=gou,ou=static,ou=group,dc=mykube,dc=awesome
 objectClass: top
 objectClass: organizationalUnit
 ou: gou
 description: Static groups of unique names in this unit
 
-dn: ou=gon,ou=static,ou=groups,dc=mykube,dc=awesome
+dn: ou=gon,ou=static,ou=group,dc=mykube,dc=awesome
 objectClass: top
 objectClass: organizationalUnit
 ou: gon
 description: Static groups of names in this unit
 
-dn: ou=dynamic,ou=groups,dc=mykube,dc=awesome
+dn: ou=dynamic,ou=group,dc=mykube,dc=awesome
 objectClass: top
 objectClass: organizationalUnit
 ou: dynamic

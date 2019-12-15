@@ -1,0 +1,7 @@
+dn: cn=developers,ou=static,ou=group,dc=mykube,dc=awesome
+objectClass: top
+objectclass: posixGroup
+cn: developers
+description: Group of developers
+gidNumber: 14564101
+memberUid: developer

@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: ldap
-          image: sokoow/ldap:test1
+          image: sokoow/ldap:prod1
           volumeMounts:
             - name: ldap-data
               mountPath: /var/lib/ldap
