@@ -1,4 +1,5 @@
 #!/bin/bash
+set -x
 
 CURRENT_HOMEDIR=$(pwd)
 
