@@ -15,6 +15,7 @@
   tasks:
     - import_tasks: setup.yml
     - import_tasks: packages.yml
-
+    - import_tasks: ldap-host.yml
+    
     - name: Mark completion of a playbook
       shell: touch /tmp/ansible_done

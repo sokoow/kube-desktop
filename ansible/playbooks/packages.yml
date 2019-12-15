@@ -17,6 +17,10 @@
     - screen
     - dnsutils
     - sssd
+    - libpam-ldap
+    - sssd-ldap
+    - libpam-ccreds
+    - libpam-cap
 
 - name: Install Docker Python library.
   pip: name={{ item }} state=present

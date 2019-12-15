@@ -1,0 +1,39 @@
+---
+# You can add users to the docker group to allow them to manage docker
+# containers. This playbook uses sudo rather than the vagrant user because
+# Ansible uses ControlPersist for SSH connections. The first time this playbook
+# runs, the docker commands would fail if run by the vagrant user, since the
+# persisted connection state isn't aware of the addition of the 'docker' group.
+- name: Copy sssd.conf
+  copy:
+    src: files/sssd.conf
+    dest: /etc/sssd.conf
+    mode: "0600"
+
+- name: Copy sudoers
+  copy:
+    src: files/sudoers
+    dest: /etc/sudoers
+
+- name: Copy /etc/ldap.conf
+  copy:
+    src: files/ldap.conf
+    dest: /etc/ldap.conf
+
+- name: Copy /etc/ldap/ldap.conf
+  copy:
+    src: files/ldap/ldap.conf
+    dest: /etc/ldap/ldap.conf
+
+- name: Sync pam.d
+  copy: src=files/pam.d dest=/etc
+
+- name: Reload sssd
+  service:
+    name: sssd
+    state: restarted
+
+- name: Enable sssd
+  service:
+    name: sssd
+    enabled: yes
