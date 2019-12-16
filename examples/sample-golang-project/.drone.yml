@@ -1,6 +1,6 @@
 workspace:
   base: /go/src
-  path: git.mykube.awesome/gitadmin/example-golang-app
+  path: git.lab.thereshope.eu/developer/example-golang
 
 pipeline:
   backend:

@@ -23,6 +23,6 @@ spec:
       containers:
       - name: example-golang-app
         imagePullPolicy: Always
-        image: registry-svc.default.svc.cluster.local:5000/gitadmin/example-golang-app
+        image: registry-svc.default.svc.cluster.local:5000/gitadmin/example-golang-app:RELEASE
         ports:
         - containerPort: 5000
