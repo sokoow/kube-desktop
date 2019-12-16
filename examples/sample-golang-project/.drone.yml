@@ -8,7 +8,7 @@ pipeline:
     commands:
       - go get -v
       - go get -u github.com/jteeuwen/go-bindata/...
-      - /go/bin/go-bindata static/ -o ./assets/bindata.go
+      - /go/bin/go-bindata -o assets/bindata.go static/
       - GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build
       - sed -i "s/RELEASE/${DRONE_BUILD_NUMBER}/" ./example-deployment/example-deployment.yaml
 
@@ -43,17 +43,3 @@ pipeline:
     image: sokoow/drone-kubectl-helm-clientcert
     secrets: [ kubeconfig_url ]
     kubectl: "get pods"
-
-  write_to_irc:
-    image: plugins/irc
-    prefix: build
-    nick: builder
-    channel: kube-desktop
-    host: chat.freenode.net
-    port: 6667
-    template: >
-      {{#success build.status}}
-        Build success: {{build.link}}, commit:{{build.commit}}
-      {{else}}
-        Build failure: {{build.link}}, commit:{{build.commit}}
-      {{/success}}
