@@ -324,7 +324,7 @@ service:
 persistence:
   ## Enable persistence using Persistent Volume Claims.
   ##
-  enabled: true
+  enabled: false
 
   ## If defined, PVC must be created manually before volume will be bound
   ##
