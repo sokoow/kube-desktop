@@ -68,7 +68,7 @@ then
   cd /vagrant
 fi
 
-mkdir -p /data
+sudo mkdir -p /data
 
 # delete old helm configs
 rm -rf $HOME/.helm
