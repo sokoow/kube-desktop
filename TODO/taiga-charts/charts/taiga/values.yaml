@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: sokoow/taiga
-  tag: prod1
+  tag: prod3
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
