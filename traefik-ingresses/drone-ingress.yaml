@@ -6,7 +6,7 @@ metadata:
   namespace: default
 spec:
   rules:
-  - host: drone.mykube.awesome
+  - host: drone.lab.thereshope.eu
     http:
       paths:
       - path: /

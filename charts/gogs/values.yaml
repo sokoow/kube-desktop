@@ -149,11 +149,11 @@ service:
 
     ## Enable this to use captcha validation for registration.
     ##
-    serverDomain: gogs-svc
+    serverDomain: git.lab.thereshope.eu
 
     ## Full public URL of Gogs server.
     ##
-    serverRootUrl: http://gogs-svc/
+    serverRootUrl: http://git.lab.thereshope.eu/
 
     ## Landing page for non-logged users, can be "home" or "explore"
     ##

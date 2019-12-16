@@ -6,7 +6,7 @@ metadata:
   namespace: loki
 spec:
   rules:
-  - host: loki.mykube.awesome
+  - host: loki.lab.thereshope.eu
     http:
       paths:
       - path: /

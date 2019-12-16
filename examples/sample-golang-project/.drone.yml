@@ -8,7 +8,7 @@ pipeline:
     commands:
       - go get -v
       - go get -u github.com/jteeuwen/go-bindata/...
-      - /go/bin/go-bindata static/ assets/bindata.go
+      - /go/bin/go-bindata static/ -o ./assets/bindata.go
       - GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build
       - sed -i "s/RELEASE/${DRONE_BUILD_NUMBER}/" ./example-deployment/example-deployment.yaml
 

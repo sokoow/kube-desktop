@@ -5,7 +5,7 @@ metadata:
   name: example-golang-app
 spec:
   rules:
-  - host: example-golang-app.mykube.awesome
+  - host: golang-sample.mykube.awesome
     http:
       paths:
       - path: /
