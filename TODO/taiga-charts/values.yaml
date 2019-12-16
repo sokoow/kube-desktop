@@ -5,19 +5,19 @@
 taiga:
   hostname: localhost
   postgresql:
-    enabled: true
+    enabled: false
     postgresqlDatabase: taiga
     postgresqlPassword: changeme
 
   database:
     name: taiga
-    host: localhost
+    host: 192.168.0.11
     username: taiga
-    password: secret
+    password: taiga123
 
   ssl:
     enabled: "False"
-    reverseProxy: "False"
+    reverseProxy: "True"
 
   email:
     enabled: "False"

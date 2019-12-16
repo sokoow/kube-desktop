@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "taiga.fullname" . }}
+  name: taiga-svc
   labels:
 {{ include "taiga.labels" . | indent 4 }}
 spec:

@@ -1,0 +1,15 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: taiga
+  namespace: default
+spec:
+  rules:
+  - host: taiga.mykube.awesome
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: taiga-svc
+          servicePort: 80

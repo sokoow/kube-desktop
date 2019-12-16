@@ -5,8 +5,8 @@
 replicaCount: 1
 
 image:
-  repository: benhutchins/taiga
-  tag: latest
+  repository: sokoow/taiga
+  tag: prod1
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
@@ -81,7 +81,7 @@ affinity: {}
 ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
 ##
 persistence:
-  enabled: true
+  enabled: false
 
   ## A manually managed Persistent Volume and Claim
   ## Requires persistence.enabled: true
@@ -105,6 +105,6 @@ persistence:
   ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
   ##   GKE, AWS & OpenStack)
   ##
-  # storageClass: "-"
+  storageClass: "rook-ceph-block"
   accessMode: ReadWriteOnce
   size: 1Gi
