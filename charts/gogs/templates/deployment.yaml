@@ -82,6 +82,6 @@ spec:
             claimName: {{ template "gogs.fullname" . }}
             {{- end -}}
       {{- else }}
-         hostPath:
-          path: /data/gogs
+          hostPath:
+            path: /data/gogs
       {{- end -}}
