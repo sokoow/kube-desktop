@@ -17,6 +17,8 @@ spec:
       maxUnavailable: 1
   template:
     metadata:
+      annotations:
+        linkerd.io/inject: enabled
       labels:
         app: example-golang-app
     spec:

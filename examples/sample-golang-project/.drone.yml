@@ -4,11 +4,11 @@ workspace:
 
 pipeline:
   backend:
-    image: golang:1.11.1
+    image: golang:1.11
     commands:
       - go get -v
       - go get -u github.com/jteeuwen/go-bindata/...
-      - /go/bin/go-bindata -o assets/bindata.go static/
+      - /go/bin/go-bindata -o assets/bindata.go -pkg assets ./static/ ./templates/
       - GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build
       - sed -i "s/RELEASE/${DRONE_BUILD_NUMBER}/" ./example-deployment/example-deployment.yaml
 
