@@ -1,0 +1,15 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: concourse-web
+  namespace: default
+spec:
+  rules:
+  - host: concourse-web.lab.thereshope.eu
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: concourse-svc
+          servicePort: 8080
