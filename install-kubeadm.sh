@@ -105,6 +105,7 @@ echo "Installing NFS provisioner"
 helm install charts/nfs-server-provisioner --generate-name
 
 kubectl create namespace loki
+kubectl create namespace linkerd
 
 # deploy ingresses we want
 ./deploy-ingresses.sh
