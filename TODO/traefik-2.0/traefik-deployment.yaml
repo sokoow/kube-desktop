@@ -18,22 +18,25 @@ spec:
     spec:
       serviceAccountName: traefik-ingress-controller
       hostNetwork: true
+      volumes:
+        - name: traefik-ingress-configmap
+          configMap:
+            name: traefik-ingress-configmap
       containers:
         - name: traefik
           image: traefik:v2.0
           args:
-            - --api
-            - --accesslog
-            - --entrypoints.web.Address=:80
-            - --entrypoints.web.forwardedheaders.insecure=true
-            - --providers.kubernetescrd
-            - --ping
-            - --accesslog=true
-            - --log=true
+            - --configfile=/config/traefik.toml
           ports:
             - name: web
               containerPort: 80
               hostPort: 80
+            - name: ssl
+              containerPort: 443
+              hostPort: 443
             - name: admin
               containerPort: 8080
               hostPort: 8080
+          volumeMounts:
+           - mountPath: /config
+             name: traefik-ingress-configmap

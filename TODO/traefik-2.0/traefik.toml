@@ -1,0 +1,34 @@
+# traefik.toml
+defaultEntryPoints = ["http","https"]
+
+[web]
+address = ":8080"
+  [web.auth.basic]
+  users = ["miles:$apr1$otQzZEMb$rOnY30zWCWU3EbsVPOr9T1"]
+
+[traefikLog]
+  format   = "json"
+
+[accessLog]
+  format   = "json"
+
+[entryPoints]
+  [entryPoints.http]
+  address = ":80"
+  [entryPoints.http.redirect]
+  entryPoint = "https"
+  [entryPoints.https]
+  address = ":443"
+  [entryPoints.https.tls]
+  [entryPoints.https.forwardedHeaders]
+    trustedIPs = ["0.0.0.0/0"]
+[acme]
+email = "info@holaaa.net"
+storageFile = "/acme/acme.json"
+entryPoint = "https"
+onDemand = true
+onHostRule = true
+caServer = "https://acme-v02.api.letsencrypt.org/directory"
+[acme.httpChallenge]
+entryPoint = "http"
+

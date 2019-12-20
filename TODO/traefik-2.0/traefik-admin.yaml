@@ -17,12 +17,14 @@ metadata:
   name: traefik-admin
 spec:
   entryPoints:
-    - web
+    - http
+    - https
   routes:
-  - match: Host(`myhost.test`) && PathPrefix(`/`)
+  - match: Host(`traefik.lab.holaaa.net`) && PathPrefix(`/`)
     kind: Rule
     priority: 1
     services:
     - name: traefik-admin
       port: 8080
-
+  tls:
+    certResolver: LetsEncrypt

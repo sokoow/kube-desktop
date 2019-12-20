@@ -1,0 +1,27 @@
+[global]
+
+[entryPoints]
+  [entryPoints.http]
+    address = ":80"
+  [entryPoints.https]
+    address = ":443"
+    [entryPoints.https.forwardedHeaders]
+      trustedIPs = ["0.0.0.0/0"]
+
+[providers]
+  providersThrottleDuration = "2s"
+
+[log]
+  format = "json"
+
+[accessLog]
+  format = "json"
+  bufferingSize = 0
+
+[certificatesResolvers]
+  [certificatesResolvers.default]
+    [certificatesResolvers.default.acme]
+      email = "info@holaaa.net"
+      caServer = "https://acme-v02.api.letsencrypt.org/directory"
+      [certificatesResolvers.default.acme.httpChallenge]
+        entryPoint = "http"

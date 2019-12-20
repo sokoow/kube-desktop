@@ -1,0 +1,22 @@
+global: {}
+entryPoints:
+  http:
+    address: :80
+  https:
+    address: :443
+    forwardedHeaders:
+      trustedIPs:
+      - 0.0.0.0/0
+providers:
+  providersThrottleDuration: 2s
+log:
+  format: json
+accessLog:
+  format: json
+certificatesResolvers:
+  default:
+    acme:
+      email: info@holaaa.net
+      caServer: https://acme-v02.api.letsencrypt.org/directory
+      httpChallenge:
+        entryPoint: http

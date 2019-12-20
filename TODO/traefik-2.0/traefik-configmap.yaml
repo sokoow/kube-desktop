@@ -1,0 +1,70 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: traefik-ingress-configmap
+  namespace: default
+data:
+  traefik.toml: |
+    [Global]
+    sendAnonymousUsage = false
+
+    [entryPoints]
+      [entryPoints.http]
+        address = ":80"
+      [entryPoints.https]
+        address = ":443"
+        [entryPoints.https.forwardedHeaders]
+          trustedIPs = ["0.0.0.0/0"]
+      [entryPoints.traefik]
+        address = ":8080"
+
+    [ping]
+      entryPoint = "http"
+
+    [metrics]
+      [metrics.prometheus]
+        entryPoint = "traefik"
+
+    [providers]
+      providersThrottleDuration = "2s"
+      [providers.kubernetesCRD]
+        throttleDuration = "0s"
+
+    [api]
+      insecure = true
+      dashboard = true
+
+    [http.routers]
+        [http.routers.api]
+          rule = "Host(`traefik.lab.holaaa.net`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
+          entrypoints = ["traefik"]
+          service = "api@internal"
+          middlewares = ["myAuth"]
+          [http.routers.api.tls]
+        [http.routers.web]
+          rule = "HostSNI(`*`)"
+          entrypoints = ["http"]
+          middlewares = ["redirect"]
+      [http.middlewares]
+        [http.middlewares.myAuth.basicAuth]
+          users = [
+            "test:$apr1$H6uskkkW$IgXLP6ewTrSuBkTrqE8wj/"
+          ]
+        [http.middlewares.redirect.redirectScheme]
+          scheme = "https"
+
+    [log]
+      format = "json"
+
+    [accessLog]
+      format = "json"
+      bufferingSize = 0
+
+    [certificatesResolvers]
+      [certificatesResolvers.default]
+        [certificatesResolvers.default.acme]
+          email = "info@holaaa.net"
+          caServer = "https://acme-v02.api.letsencrypt.org/directory"
+          [certificatesResolvers.default.acme.httpChallenge]
+            entryPoint = "http"
+
