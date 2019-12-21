@@ -17,8 +17,6 @@ data:
           trustedIPs = ["0.0.0.0/0"]
       [entryPoints.traefik]
         address = ":8080"
-      [entryPoints.postgres]
-        address = ":5432"
 
     [ping]
       entryPoint = "http"
@@ -27,25 +25,19 @@ data:
       [metrics.prometheus]
         entryPoint = "traefik"
 
-    [providers.kubernetesIngress]
-    
     [providers]
       providersThrottleDuration = "2s"
       [providers.kubernetesCRD]
         throttleDuration = "0s"
-
+    
     [serversTransport]
       insecureSkipVerify = true
 
-    [tcp.routers]
-      [tcp.routers.main]
-       entrypoints = ["postgres"]
-       [tcp.routers.main.tls]
-         certResolver = "default"
-         options = "default"
+    [api]
+      insecure = true
+      dashboard = true
 
-    [http]
-      [http.routers]
+    [http.routers]
         [http.routers.api]
           rule = "Host(`traefik.lab.holaaa.net`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
           entrypoints = ["traefik"]
@@ -64,10 +56,6 @@ data:
         [http.middlewares.redirect.redirectScheme]
           scheme = "https"
 
-    [api]
-      insecure = true
-      dashboard = true
-
     [log]
       format = "json"
 
@@ -78,10 +66,9 @@ data:
     [certificatesResolvers]
       [certificatesResolvers.default]
         [certificatesResolvers.default.acme]
-          email = "info@holaaa.com"
-          storage = "/acme/acme.json"
-          tlschallenge = true
-          caServer = "https://acme-v01.api.letsencrypt.org/directory"
+          email = "info@holaaa.net"
+          storage = "acme.json"
+          caServer = "https://acme-v02.api.letsencrypt.org/directory"
           [certificatesResolvers.default.acme.httpChallenge]
-            entryPoint = "http"
+            entryPoint = "https"
 

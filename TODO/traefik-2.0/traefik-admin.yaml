@@ -27,4 +27,5 @@ spec:
     - name: traefik-admin
       port: 8080
   tls:
-    certResolver: LetsEncrypt
+    certResolver: default
+    options: {}

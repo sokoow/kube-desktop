@@ -1,0 +1,12 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRouteTCP
+metadata:
+  name: postgres
+spec:
+  entryPoints:
+  - postgres
+  routes:
+  - match: HostSNI(`postgres.lab.holaaa.net`)
+    services:
+    - name: postgresql-svc
+      port: 5432

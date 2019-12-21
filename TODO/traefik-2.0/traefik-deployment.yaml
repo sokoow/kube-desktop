@@ -22,6 +22,9 @@ spec:
         - name: traefik-ingress-configmap
           configMap:
             name: traefik-ingress-configmap
+        - name: acme
+          hostPath:
+            path: /data/traefik/acme
       containers:
         - name: traefik
           image: traefik:v2.0
@@ -37,6 +40,11 @@ spec:
             - name: admin
               containerPort: 8080
               hostPort: 8080
+            - name: postgres
+              containerPort: 5432
+              hostPort: 5432
           volumeMounts:
            - mountPath: /config
              name: traefik-ingress-configmap
+           - mountPath: /acme
+             name: acme
