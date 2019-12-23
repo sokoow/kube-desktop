@@ -1,0 +1,57 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: front
+  labels:
+    app.kubernetes.io/name: {{ include "mailu.name" . }}
+    helm.sh/chart: {{ include "mailu.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/component: front
+  {{- if .Values.configureExternalDns }}
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: {{ .Values.mailu.hostname | quote }}
+  {{- end }}
+spec:
+  type: {{ .Values.front.serviceType }}
+  ports:
+    - name: pop3
+      targetPort: pop3
+      port: 110
+      protocol: TCP
+    - name: pop3s
+      targetPort: pop3s
+      port: 995
+      protocol: TCP
+    - name: imap
+      targetPort: imap
+      port: 143
+      protocol: TCP
+    - name: imaps
+      targetPort: imaps
+      port: 993
+      protocol: TCP
+    - name: smtp
+      targetPort: smtp
+      port: 25
+      protocol: TCP
+    - name: smtps
+      targetPort: smtps
+      port: 465
+      protocol: TCP
+    - name: smtpd
+      targetPort: smtpd
+      port: 587
+      protocol: TCP
+    - name: smtp-auth
+      targetPort: smtp-auth
+      port: 10025
+      protocol: TCP
+    - name: imap-auth
+      targetPort: imap-auth
+      port: 10143
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: {{ include "mailu.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/component: front

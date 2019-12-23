@@ -1,0 +1,16 @@
+
+1. Remember to expose the mail ports. If using ingress-nginx, this can be
+   achieved with a config map for the controller. The `data` should look
+   something like:
+   ```
+   data:
+     "110": {{ .Release.Namespace }}/front:pop3
+     "995": {{ .Release.Namespace }}/front:pop3s
+     "143": {{ .Release.Namespace }}/front:imap
+     "993": {{ .Release.Namespace }}/front:imaps
+     "25": {{ .Release.Namespace }}/front:smtp
+     "465": {{ .Release.Namespace }}/front:smtps
+     "587": {{ .Release.Namespace }}/front:smtpd
+     "10025": {{ .Release.Namespace }}/front:smtp-auth
+     "10143": {{ .Release.Namespace }}/front:imap-auth
+   ```

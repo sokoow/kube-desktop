@@ -1,0 +1,90 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "mailu.fullname" . }}-security
+  labels:
+    app.kubernetes.io/name: {{ include "mailu.name" . }}
+    helm.sh/chart: {{ include "mailu.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/component: security
+spec:
+  replicas: {{ .Values.security.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "mailu.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+      app.kubernetes.io/component: security
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "mailu.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        app.kubernetes.io/component: security
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}-antispam
+          image: "{{ .Values.security.antispam.image.repository }}:{{ .Values.images.tag }}"
+          imagePullPolicy: {{ .Values.security.antispam.image.pullPolicy }}
+          envFrom:
+            - configMapRef:
+                name: {{ template "mailu.fullname" . }}-env-config
+            - secretRef:
+                name: {{ template "mailu.fullname" . }}-env-secret
+          ports:
+            - name: antispam
+              containerPort: 11332
+              protocol: TCP
+            - name: antispam-http
+              containerPort: 11334
+              protocol: TCP
+          volumeMounts:
+            - name: maildata
+              subPath: filter
+              mountPath: /var/lib/rspamd
+            - name: maildata
+              mountPath: /dkim
+              subPath: dkim
+            - name: maildata
+              mountPath: /etc/rspamd/override.d
+              subPath: rspamd-overrides
+          resources:
+            {{- toYaml .Values.security.antispam.resources | nindent 12 }}
+        - name: {{ .Chart.Name }}-antivirus
+          image: "{{ .Values.security.antivirus.image.repository }}:{{ .Values.images.tag }}"
+          imagePullPolicy: {{ .Values.security.antivirus.image.pullPolicy }}
+          envFrom:
+            - configMapRef:
+                name: {{ template "mailu.fullname" . }}-env-config
+            - secretRef:
+                name: {{ template "mailu.fullname" . }}-env-secret
+          ports:
+            - name: antivirus
+              containerPort: 3310
+              protocol: TCP
+          volumeMounts:
+            - name: maildata
+              subPath: filter
+              mountPath: /data
+          resources:
+            {{- toYaml .Values.security.antivirus.resources | nindent 12 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      volumes:
+      - name: maildata
+        {{- if .Values.persistence.enabled }}
+        persistentVolumeClaim:
+          claimName: {{ .Values.persistence.existingClaim | default (include "mailu.fullname" .) }}
+        {{- else }}
+        emptyDir: {}
+        {{- end }}

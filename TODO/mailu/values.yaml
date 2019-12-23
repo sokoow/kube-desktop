@@ -1,0 +1,281 @@
+nameOverride: ""
+fullnameOverride: ""
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+images:
+  tag: "1.6"
+
+certificateSecretName: mailu-certificates-all
+uiCertificateSecretName: mailui-tls
+
+configureExternalDns: true
+
+certificate:
+  enabled: true
+  acme:
+    config:
+    - dns01:
+        provider: cert-manager-provider
+      domains:
+      - mail.example.com
+  issuerRef:
+    kind: Issuer
+    name: issuer-name
+
+mailu:
+  # Mount path of volumes
+  root: "/mailu"
+
+  # SECRET_KEY - 16 characters unique to each setup. Generated if not set.
+  #secretKey: "MySup3rS3cr3tPas"
+
+  # Addresses where listening ports should bind
+  bindAddress4: "127.0.0.1"
+  bindAddress6: "::1"
+
+  # Main mail domain
+  domain: example.com
+
+  # Public hostname for this server - although Mailu supports multiple hostnames this chart expects a single value
+  # Used for `front` LoadBalancer service
+  hostname: mail.example.com
+
+  # Used for UI ingresses
+  uiHostname: mailui.example.com
+
+  # Postmaster local part (will append the main mail domain)
+  postmaster: "admin"
+
+  # Choose how secure connections will behave (value: letsencrypt, cert, notls, mail, mail-letsencrypt) -
+  # Default "cert" will be managed by cert-manager
+  tlsFlavour: "cert"
+
+  # Authentication rate limit (per source IP address)
+  authRatelimit: "10/minute;1000/hour"
+
+  # Opt-out of statistics, replace with "False" to opt in
+  disableStatistics: "True"
+
+  # Use Kubernetes Ingress Controller to handle all actions on port 80 and 443
+  # This way we can make use of the advantages of the cert-manager deployment
+  kubernetesIngress: "true"
+
+  # POD_ADDRESS_RANGE is normally provided by default with Kubernetes
+  # Only use this value when you are using Flannel, Calico or a special kind of CNI
+  # Provide the IPs of your network interface or bridge which is used for VXLAN network traffic
+  #podAddressRange:
+  #  - "10.2.0.0/16"
+  #  - "10.1.6.0/24"
+
+  # Expose the admin interface (value: true, false)
+  admin: "true"
+  # Run the admin interface in debug mode
+  debug: "False"
+  # Choose which webmail to run if any (values: roundcube, rainloop, none) - WARNING: other values than "roundcube"/"none" are not supported
+  webmail: "roundcube"
+  # Dav server implementation (value: radicale, none)
+  webdav: "radicale"
+  # Antivirus solution (value: clamav, none)
+  antivirus: "clamav"
+
+  # Message size limit in bytes. Default: accept messages up to 50MB
+  messageSizeLimit: "50000000"
+  # Will relay all outgoing mails if configured
+  #relayHost:
+  # Fetchmail delay
+  fetchmailDelay: "600"
+  # Recipient delimiter, character used to delimiter localpart from custom address part, e.g. localpart+custom@domain;tld
+  recipientDelimiter: "+"
+  # DMARC rua and ruf email
+  dmarcRua: "root"
+  dmarcRuf: "root"
+  # Welcome email, enable and set a topic and body if you wish to send welcome
+  # emails to all users.
+  welcome: "false"
+  welcomeSubject: "Welcome to your new email account"
+  welcomeBody: "Welcome to your new email account, if you can read this, then it is configured properly!"
+
+  # Path to the admin interface if enabled. Affects WEB_ADMIN mailu config var, and all ingresses
+  webAdmin: "/admin"
+  # Path to the webmail if enabled
+  webWebmail: "/webmail"
+  # Website name
+  webSitename: "Mailu"
+  # Linked Website URL
+  webSiteurl: "https://example.com"
+
+  # Domain registration. Disabled by default.
+  #domainRegistration: "true"
+  # Registration reCaptcha settings (warning, this has some privacy impact)
+  #recaptchaPublicKey:
+  #recaptchaPrivateKey:
+
+  # Default password scheme used for newly created accounts and changed passwords (value: SHA512-CRYPT, SHA256-CRYPT, MD5-CRYPT, CRYPT)
+  passwordScheme: "SHA512-CRYPT"
+
+  # Header to take the real ip from
+  #realIpHeader:
+  # IPs for nginx set_real_ip_from (CIDR list separated by commas)
+  #realIpFrom:
+
+front:
+  image:
+    repository: mailu/nginx
+    pullPolicy: IfNotPresent
+  replicaCount: 1
+  resources:
+    requests:
+      memory: 100Mi
+      cpu: 100m
+    limits:
+      memory: 200Mi
+      cpu: 200m
+  serviceType: LoadBalancer
+
+webmail:
+  image:
+    # repository: constructed as "mailu/{{ .Values.mailu.webmail }}"
+    pullPolicy: IfNotPresent
+  replicaCount: 1
+  resources:
+    requests:
+      memory: 100Mi
+      cpu: 100m
+    limits:
+      memory: 200Mi
+      cpu: 200m
+  serviceType: ClusterIP
+
+imap:
+  image:
+    repository: mailu/dovecot
+    pullPolicy: IfNotPresent
+  replicaCount: 1
+  resources:
+    requests:
+      memory: 1Gi
+      cpu: 1000m
+    limits:
+      memory: 1Gi
+      cpu: 1000m
+  serviceType: ClusterIP
+
+security:
+  antispam:
+    image:
+      repository: mailu/rspamd
+      pullPolicy: IfNotPresent
+    resources:
+      requests:
+        memory: 100Mi
+        cpu: 100m
+      limits:
+        memory: 200Mi
+        cpu: 200m
+    serviceType: ClusterIP
+    service:
+      port: 11332
+  antivirus:
+    image:
+      repository: mailu/clamav
+      pullPolicy: IfNotPresent
+    resources:
+      requests:
+        memory: 1Gi
+        cpu: 1000m
+      limits:
+        memory: 1Gi
+        cpu: 1000m
+    serviceType: ClusterIP
+  replicaCount: 1
+
+smtp:
+  image:
+    repository: mailu/postfix
+    pullPolicy: IfNotPresent
+  replicaCount: 1
+  resources:
+    requests:
+      memory: 2Gi
+      cpu: 500m
+    limits:
+      memory: 2Gi
+      cpu: 500m
+  serviceType: ClusterIP
+
+fetchmail:
+  image:
+    repository: mailu/fetchmail
+    pullPolicy: IfNotPresent
+  replicaCount: 1
+  resources:
+    requests:
+      memory: 100Mi
+      cpu: 100m
+    limits:
+      memory: 100Mi
+      cpu: 100m
+  serviceType: ClusterIP
+
+admin:
+  image:
+    repository: mailu/admin
+    pullPolicy: IfNotPresent
+  replicaCount: 1
+  resources:
+    requests:
+      memory: 500Mi
+      cpu: 500m
+    limits:
+      memory: 500Mi
+      cpu: 500m
+  serviceType: ClusterIP
+
+webdav:
+  image:
+    repository: mailu/radicale
+    pullPolicy: IfNotPresent
+  replicaCount: 1
+  resources:
+    requests:
+      memory: 500Mi
+      cpu: 500m
+    limits:
+      memory: 500Mi
+      cpu: 500m
+  serviceType: ClusterIP
+  service:
+    port: 5232
+
+# WARNING: persistence=false is untested and unlikely to work
+# WARNING: This claim must be mounted by several pods, so the storageClass should support ReadWriteMany!
+persistence:
+  enabled: true
+  ## A manually managed Persistent Volume and Claim
+  ## Requires persistence.enabled: true
+  ## If defined, PVC must be created manually before volume will be bound
+  # existingClaim:
+  # storageClass: "-"
+  annotations: {}
+  accessMode: ReadWriteOnce
+  size: 10Gi
+
+redis:
+  cluster:
+    enabled: false
+  usePassword: false
+  master:
+    service:
+      port: 6379
+    persistence:
+      enabled: true
+      size: 1Gi
+    resources:
+      requests:
+        memory: 128Mi
+        cpu: 100m

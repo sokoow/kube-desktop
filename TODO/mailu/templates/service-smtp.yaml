@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: smtp
+  labels:
+    app.kubernetes.io/name: {{ include "mailu.name" . }}
+    helm.sh/chart: {{ include "mailu.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/component: smtp
+spec:
+  type: {{ .Values.smtp.serviceType }}
+  ports:
+    - name: smtp
+      targetPort: smtp
+      port: 25
+      protocol: TCP
+    - name: smtp-ssl
+      targetPort: smtp-ssl
+      port: 465
+      protocol: TCP
+    - name: smtp-starttls
+      targetPort: smtp-starttls
+      port: 587
+      protocol: TCP
+    - name: smtp-auth
+      targetPort: smtp-auth
+      port: 10025
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: {{ include "mailu.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/component: smtp

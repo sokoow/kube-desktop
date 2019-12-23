@@ -1,0 +1,104 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: {{ template "mailu.fullname" . }}-env-config
+    labels:
+        app: {{ template "mailu.name" . }}
+        chart: {{ template "mailu.chart" . }}
+        release: {{ .Release.Name | quote }}
+        heritage: {{ .Release.Service | quote }}
+data:
+    ROOT: {{ .Values.mailu.root | quote }}
+    VERSION: {{ .Values.images.tag | quote }}
+    BIND_ADDRESS4: {{ .Values.mailu.bindAddress4 | quote }}
+    DOMAIN: {{ .Values.mailu.domain | quote }}
+    HOSTNAMES: {{ .Values.mailu.hostname | quote }}
+    POSTMASTER: {{ .Values.mailu.postmaster | quote }}
+    TLS_FLAVOR: {{ .Values.mailu.tlsFlavour | quote }}
+    AUTH_RATELIMIT: {{ .Values.mailu.authRatelimit | quote }}
+    DISABLE_STATISTICS: {{ .Values.mailu.disableStatistics | quote }}
+
+    ###################################
+    # Kubernetes configuration
+    ###################################
+    KUBERNETES_INGRESS: {{ .Values.mailu.kubernetesIngress | quote }}
+    {{- if .Values.mailu.podAddressRange }}
+    POD_ADDRESS_RANGE: {{ join "," .Values.mailu.podAddressRange | quote }}
+    {{- end }}
+
+    ###################################
+    # Optional features
+    ###################################
+    ADMIN: {{ .Values.mailu.admin | quote }}
+    DEBUG: {{ .Values.mailu.debug | quote }}
+    WEBMAIL: {{ .Values.mailu.webmail | default "none" | quote }}
+    WEBDAV: {{ .Values.mailu.webdav | default "none" | quote }}
+    ANTIVIRUS: {{ .Values.mailu.antivirus | default "none" | quote }}
+
+    ###################################
+    # Mail settings
+    ###################################
+    MESSAGE_SIZE_LIMIT: {{ .Values.mailu.messageSizeLimit | quote }}
+    FETCHMAIL_DELAY: {{ .Values.mailu.fetchmailDelay | quote }}
+    RECIPIENT_DELIMITER: {{ .Values.mailu.recipientDelimiter | quote }}
+    DMARC_RUA: {{ .Values.mailu.dmarcRua | quote }}
+    DMARC_RUF: {{ .Values.mailu.dmarcRuf | quote }}
+    WELCOME: {{ .Values.mailu.welcome | quote }}
+    WELCOME_SUBJECT: {{ .Values.mailu.welcomeSubject | quote }}
+    WELCOME_BODY: {{ .Values.mailu.welcomeBody | quote }}
+
+    {{- if .Values.mailu.relayHost }}
+    RELAYHOST: {{ .Values.mailu.relayHost | quote }}
+    {{- end }}
+
+    # This part is needed for the XCLIENT login for postfix. This should be the POD ADDRESS range
+    FRONT_ADDRESS: "front.{{ .Release.Namespace }}.svc.cluster.local"
+    # This value  is needed by the webmail to find the correct imap backend
+    IMAP_ADDRESS: "imap.{{ .Release.Namespace }}.svc.cluster.local"
+    # This value is used by Dovecot to find the Redis server in the cluster
+    REDIS_ADDRESS: "redis.{{ .Release.Namespace }}.svc.cluster.local"
+    # This value is used by Dovecot to find the webmail server in the cluster
+    WEBMAIL_ADDRESS: "webmail.{{ .Release.Namespace }}.svc.cluster.local"
+
+    ###################################
+    # Web settings
+    ###################################
+    WEB_ADMIN: {{ .Values.mailu.webAdmin | quote }}
+    WEB_WEBMAIL: {{ .Values.mailu.webWebmail | quote }}
+    SITENAME: {{ .Values.mailu.webSitename | quote }}
+    WEBSITE: {{ .Values.mailu.webSiteurl | quote }}
+
+    # Domain registration, uncomment to enable
+    {{- if .Values.mailu.domainRegistration }}
+    DOMAIN_REGISTRATION: {{ .Values.mailu.domainRegistration | quote }}
+    {{- end }}
+    {{- if and .Values.mailu.recaptchaPublicKey .Values.mailu.recaptchaPrivateKey }}
+    RECAPTCHA_PUBLIC_KEY: {{ .Values.mailu.recaptchaPublicKey | quote }}
+    RECAPTCHA_PRIVATE_KEY: {{ .Values.mailu.recaptchaPrivateKey | quote }}
+    {{- end }}
+
+    ###################################
+    # Advanced settings
+    ###################################
+    # Project name, this will prepended to containers names.
+    COMPOSE_PROJECT_NAME: {{ .Release.Name | quote }}
+    PASSWORD_SCHEME: {{ .Values.mailu.passwordScheme | quote }}
+
+    {{- if .Values.mailu.realIpHeader }}
+    REAL_IP_HEADER: {{ .Values.mailu.realIpHeader | quote }}
+    {{- end }}
+    {{- if .Values.mailu.realIpFrom }}
+    REAL_IP_FROM: {{ .Values.mailu.realIpFrom| quote }}
+    {{- end }}
+
+    # Host settings
+    HOST_IMAP: "imap.{{ .Release.Namespace }}.svc.cluster.local"
+    HOST_LMTP: "imap.{{ .Release.Namespace }}.svc.cluster.local:2525"
+    HOST_POP3: "imap.{{ .Release.Namespace }}.svc.cluster.local"
+    HOST_SMTP: "smtp.{{ .Release.Namespace }}.svc.cluster.local"
+    HOST_AUTHSMTP: "smtp.{{ .Release.Namespace }}.svc.cluster.local"
+    HOST_WEBMAIL: "webmail.{{ .Release.Namespace }}.svc.cluster.local"
+    HOST_ADMIN: "admin.{{ .Release.Namespace }}.svc.cluster.local"
+    HOST_WEBDAV: "webdav.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.webdav.service.port }}"
+    HOST_ANTISPAM: "antispam.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.security.antispam.service.port }}"
+    HOST_REDIS: "redis.{{ .Release.Namespace }}.svc.cluster.local"

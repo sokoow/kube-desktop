@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "mailu.fullname" . }}-imap
+  labels:
+    app.kubernetes.io/name: {{ include "mailu.name" . }}
+    helm.sh/chart: {{ include "mailu.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/component: imap
+spec:
+  replicas: {{ .Values.imap.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "mailu.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+      app.kubernetes.io/component: imap
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "mailu.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        app.kubernetes.io/component: imap
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}-imap
+          image: "{{ .Values.imap.image.repository }}:{{ .Values.images.tag }}"
+          imagePullPolicy: {{ .Values.imap.image.pullPolicy }}
+          envFrom:
+            - configMapRef:
+                name: {{ template "mailu.fullname" . }}-env-config
+            - secretRef:
+                name: {{ template "mailu.fullname" . }}-env-secret
+          ports:
+            - name: imap-auth
+              containerPort: 2102
+              protocol: TCP
+            - name: imap-transport
+              containerPort: 2525
+              protocol: TCP
+            - name: imap-default
+              containerPort: 143
+              protocol: TCP
+            - name: imap-ssl
+              containerPort: 993
+              protocol: TCP
+            - name: sieve
+              containerPort: 4190
+              protocol: TCP
+          volumeMounts:
+            - name: maildata
+              mountPath: /data
+              subPath: maildata
+            - name: maildata
+              mountPath: /mail
+              subPath: mailstate
+            - name: maildata
+              mountPath: /overrides
+              subPath: overrides
+          resources:
+            {{- toYaml .Values.imap.resources | nindent 12 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      volumes:
+      - name: maildata
+        {{- if .Values.persistence.enabled }}
+        persistentVolumeClaim:
+          claimName: {{ .Values.persistence.existingClaim | default (include "mailu.fullname" .) }}
+        {{- else }}
+        emptyDir: {}
+        {{- end }}

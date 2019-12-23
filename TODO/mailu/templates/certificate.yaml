@@ -1,0 +1,24 @@
+{{- if .Values.certificate.enabled -}}
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Certificate
+metadata:
+  name: {{ include "mailu.fullname" . }}-{{ .Values.certificateSecretName }}
+  labels:
+    app.kubernetes.io/name: {{ include "mailu.name" . }}
+    helm.sh/chart: {{ include "mailu.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/component: certificate
+spec:
+  dnsNames:
+  - {{ .Values.mailu.hostname | quote }}
+{{- with .Values.certificate.acme }}
+  acme:
+  {{ toYaml . | indent 4 }}
+{{- end }}
+{{- with .Values.certificate.issuerRef }}
+  issuerRef:
+  {{ toYaml . | indent 4 }}
+{{- end }}
+  secretName: {{ .Values.certificateSecretName }}
+{{- end -}}

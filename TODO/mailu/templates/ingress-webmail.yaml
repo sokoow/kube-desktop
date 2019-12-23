@@ -1,0 +1,26 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ include "mailu.fullname" . }}-webmail
+  labels:
+    app.kubernetes.io/name: {{ include "mailu.name" . }}
+    helm.sh/chart: {{ include "mailu.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/component: webmail
+  annotations:
+    kubernetes.io/tls-acme: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+spec:
+  tls:
+  - hosts:
+    - {{ .Values.mailu.uiHostname  }}
+    secretName: {{ .Values.uiCertificateSecretName }}
+  rules:
+  - host: {{ .Values.mailu.uiHostname  }}
+    http:
+      paths:
+      - path: "/"
+        backend:
+          serviceName: webmail
+          servicePort: http

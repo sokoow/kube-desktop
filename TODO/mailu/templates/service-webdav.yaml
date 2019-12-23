@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: webdav
+  labels:
+    app.kubernetes.io/name: {{ include "mailu.name" . }}
+    helm.sh/chart: {{ include "mailu.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/component: webdav
+spec:
+  type: {{ .Values.webdav.serviceType }}
+  ports:
+    - name: http
+      targetPort: http
+      port: 80
+      protocol: TCP
+    - name: http-ui
+      targetPort: http-ui
+      port: 5232
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: {{ include "mailu.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/component: webdav
