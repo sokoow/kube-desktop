@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ template "dex.fullname" . }}
+  name: dex-svc
   labels:
     app: {{ template "dex.name" . }}
     env: {{ default "dev" .Values.global.deployEnv }}

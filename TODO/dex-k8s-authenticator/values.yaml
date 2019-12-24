@@ -19,14 +19,14 @@ dexK8sAuthenticator:
   #tlsCert: /path/to/dex-client.crt
   #tlsKey: /path/to/dex-client.key
   clusters:
-  - name: my-cluster
-    short_description: "My Cluster"
+  - name: dexkube
+    short_description: "Dex Kube"
     description: "Example Cluster Long Description..."
-    client_secret: pUBnBOY80SnXgjibTYM9ZWNzY2xreNGQok
-    issuer: https://dex.example.com
-    k8s_master_uri: https://my-cluster.example.com
-    client_id: my-cluster
-    redirect_uri: https://login.example.com/callback/my-cluster
+    client_secret: bazinga
+    issuer: https://dex.lab.holaaa.net
+    k8s_master_uri: https://51.15.142.242:6443
+    client_id: dexkube
+    redirect_uri: https://dex-kube.lab.holaaa.net/callback
     k8s_ca_uri: https://url-to-your-ca.crt
 
 service:
