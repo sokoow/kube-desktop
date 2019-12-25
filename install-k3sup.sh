@@ -8,7 +8,7 @@ sudo install k3sup /usr/local/bin/
 
 k3sup install --local --k3s-extra-args '--no-deploy=servicelb --no-deploy=traefik'
 mkdir -p ~/.kube
-cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
+sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
 
 ./install-kube-components.sh
 ./deploy-ingresses.sh
