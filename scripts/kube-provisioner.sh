@@ -18,5 +18,5 @@ fi
 echo "Cloning kube-desktop git repository"
 git clone https://github.com/sokoow/kube-desktop
 cd kube-desktop
-./install-kubeadm.sh
+./install-k3sup.sh
 ./deploy-ci-stack.sh
