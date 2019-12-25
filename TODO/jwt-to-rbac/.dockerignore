@@ -1,0 +1,13 @@
+*
+
+!.git/
+!.gen/
+!*.go
+!build/
+!cmd/
+!Gopkg.*
+!internal/
+!pkg/
+!Makefile
+!go.mod
+!go.sum

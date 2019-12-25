@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: jwt-to-rbac
+  namespace: default
+data:
+  config.yaml: |-
+    app:
+      addr: ":5555" 
+    log:
+      level: "4"
+      format: "json"
+      noColor: true
+    tokenhandler:
+      dex:
+        clientID: dexkube
+        issuerURL: "https://dex.lab.holaaa.net"
+    rbachandler:
+      kubeConfig: ""
+      customGroups:
+      - groupName: developers
+        customRules:
+        - verbs: [ "get", "list" ]
+          resources: [ "deployments", "replicasets", "pods" ]
+          apiGroups: [ "", "extensions", "apps" ]

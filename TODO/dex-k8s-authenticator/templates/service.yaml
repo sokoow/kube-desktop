@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ template "dex-k8s-authenticator.fullname" . }}
+  name: dex-kube
   labels:
     app: {{ template "dex-k8s-authenticator.name" . }}
     env: {{ default "dev" .Values.global.deployEnv }}
